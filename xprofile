@@ -1,0 +1,8 @@
+# There are sometimes leftover redshift processes from previous sessions which messes the contrast.
+# http://askubuntu.com/a/157787
+if pgrep "redshift" > /dev/null
+then
+  killall redshift
+fi
+
+redshift-gtk &
