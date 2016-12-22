@@ -403,7 +403,7 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>171 -13 599 502 0 0 1440 878 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>-86 1217 796 473 -240 900 1920 1058 </string>
+	<string>-86 1243 1018 447 -240 900 1920 1058 </string>
 	<key>NSWindow Frame com.apple.typography_panel_Monaco</key>
 	<string>246 504 260 56 0 0 1440 878 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
@@ -1196,6 +1196,8 @@
 	</dict>
 	<key>PrefsCustomFolder</key>
 	<string>~/dotfiles</string>
+	<key>QuitWhenAllWindowsClosed</key>
+	<true/>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedAlternateAppNameKey</key>
@@ -1208,6 +1210,8 @@
 	<date>2016-12-22T14:26:11Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
+	<key>TabStyle</key>
+	<integer>1</integer>
 	<key>iTerm Version</key>
 	<string>3.0.12</string>
 </dict>
