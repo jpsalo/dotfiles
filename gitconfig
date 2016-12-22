@@ -1,5 +1,5 @@
 [user]
-	name = jp
+	name = jpsalo
 	email = jpsalo@zoho.com
 [filter "lfs"]
 	clean = git-lfs clean %f
