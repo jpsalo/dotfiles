@@ -80,4 +80,6 @@ let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_javascript_checkers = ['eslint']
 
 
-colorscheme OceanicNext
+" colorscheme OceanicNext
+colorscheme gruvbox
+set background=dark
