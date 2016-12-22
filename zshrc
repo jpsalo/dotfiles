@@ -23,3 +23,6 @@ BASE16_SHELL=$HOME/.config/base16-shell/
 
 typeset -U path path=(~/scripts $path)
 
+# Adjust Vim gruvbox color scheme colors
+# https://github.com/morhetz/gruvbox/wiki/Terminal-specific#a-256-color-gruvbox-palette-shellscript
+source "$HOME/.config/nvim/plugged/gruvbox/gruvbox_256palette.sh"
