@@ -1,6 +1,6 @@
 export ZSH=~/.oh-my-zsh
 
-ZSH_THEME="sunaku"
+ZSH_THEME="robbyrussell"
 
 plugins=(git)
 
