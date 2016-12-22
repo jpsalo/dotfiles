@@ -6,4 +6,4 @@
 	smudge = git-lfs smudge %f
 	required = true
 [credential]
-	helper = gnome-keyring
+	helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
