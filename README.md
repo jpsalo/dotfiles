@@ -2,4 +2,5 @@
 `node`
 `npm`
 `python`
-`anaconda`
+`virtualenv`
+`virtualenvwrapper`
