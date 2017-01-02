@@ -44,6 +44,9 @@ Plug 'nvie/vim-flake8'
 " https://github.com/junegunn/vim-plug#post-update-hooks
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
 
+" Javascript indentation and syntax
+Plug 'pangloss/vim-javascript'
+
 " TypeSript syntax
 Plug 'leafgarland/typescript-vim'
 
