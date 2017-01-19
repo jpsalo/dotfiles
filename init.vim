@@ -40,6 +40,12 @@ au BufNewFile,BufRead *.py
 " https://github.com/junegunn/vim-plug
 call plug#begin('~/.config/nvim/plugged')
 
+" Fuzzy finder
+Plug 'ctrlpvim/ctrlp.vim'
+
+" Function navigator for CtrlP
+Plug 'tacahiroy/ctrlp-funky'
+
 " Git gutter
 Plug 'airblade/vim-gitgutter'
 
@@ -84,7 +90,15 @@ nnoremap <Leader>c :exec '!python' shellescape(@%, 1)<CR>
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
 
 
-" Python syntax checker
+" Invoke CtrlP in find buffer
+nnoremap <C-B> :CtrlPBuffer<CR>
+
+
+" Function navigator
+nnoremap <C-I> :CtrlPFunky<CR>
+
+
+" Python and JavaScript syntax checkers
 " https://github.com/vim-syntastic/syntastic#faqcheckers
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_javascript_checkers = ['eslint']
