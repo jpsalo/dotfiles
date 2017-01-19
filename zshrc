@@ -24,3 +24,11 @@ source "$HOME/.config/nvim/plugged/gruvbox/gruvbox_256palette.sh"
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/devel
 source /usr/local/bin/virtualenvwrapper.sh
+
+# Fastlane
+export PATH="$HOME/.fastlane/bin:$PATH"
+
+# Android home for React Native command line interface
+export ANDROID_HOME=~/Library/Android/sdk
+export PATH=${PATH}:${ANDROID_HOME}/tools
+export PATH=${PATH}:${ANDROID_HOME}/platform-tools
