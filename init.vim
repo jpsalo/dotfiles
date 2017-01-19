@@ -2,6 +2,15 @@
 set number
 
 
+" Case insensitive on lower case, case sensitive on upper case
+set ignorecase
+set smartcase
+
+
+" Ignores node_modules (in CtrlP)
+set wildignore+=**/node_modules/**
+
+
 " http://stackoverflow.com/a/1878984/7010222
 set tabstop=2       " The width of a TAB is set to 4.
                     " Still it is a \t. It is just that
