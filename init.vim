@@ -52,6 +52,9 @@ Plug 'airblade/vim-gitgutter'
 " Syntax checker
 Plug 'vim-syntastic/syntastic'
 
+" Prefer local repo install of eslint over global install with syntastic
+Plug 'mtscout6/syntastic-local-eslint.vim'
+
 " Syntax and style checker for Python
 Plug 'nvie/vim-flake8'
 
@@ -71,12 +74,15 @@ Plug 'morhetz/gruvbox'
 " Auto-close brackets
 Plug 'jiangmiao/auto-pairs'
 
-
 call plug#end()
 
 
 " Map the leader key to SPACE
 let mapleader="\<SPACE>"
+
+
+" Switch to current directory
+nnoremap <Leader>cd :cd %:p:h<CR>
 
 
 " Run Python code
