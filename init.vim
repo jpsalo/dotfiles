@@ -65,6 +65,9 @@ Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
 " Javascript indentation and syntax
 Plug 'pangloss/vim-javascript'
 
+" JSX syntax highlighting and indenting
+Plug 'mxw/vim-jsx'
+
 " TypeSript syntax
 Plug 'leafgarland/typescript-vim'
 
@@ -108,6 +111,14 @@ nnoremap <C-I> :CtrlPFunky<CR>
 " https://github.com/vim-syntastic/syntastic#faqcheckers
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_javascript_checkers = ['eslint']
+
+
+" Enable JSX syntax highlighting and indenting for .js files (vim-jsx)
+let g:jsx_ext_required = 0
+
+
+" Enables syntax highlighting for Flow (vim-javascript)
+let g:javascript_plugin_flow = 1
 
 
 colorscheme gruvbox
