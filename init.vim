@@ -40,6 +40,9 @@ au BufNewFile,BufRead *.py
 " https://github.com/junegunn/vim-plug
 call plug#begin('~/.config/nvim/plugged')
 
+" Status/tabline
+Plug 'vim-airline/vim-airline'
+
 " Fuzzy finder
 Plug 'ctrlpvim/ctrlp.vim'
 
@@ -84,6 +87,11 @@ call plug#end()
 let mapleader="\<SPACE>"
 
 
+" Next or previous buffer in the buffer list
+:nnoremap <Tab> :bnext<CR>
+:nnoremap <S-Tab> :bprevious<CR>
+
+
 " Switch to current directory
 nnoremap <Leader>cd :cd %:p:h<CR>
 
@@ -104,7 +112,14 @@ nnoremap <C-B> :CtrlPBuffer<CR>
 
 
 " Function navigator
-nnoremap <C-I> :CtrlPFunky<CR>
+nnoremap <Leader>fu :CtrlPFunky<Cr>
+
+
+" Tab line
+let g:airline#extensions#tabline#enabled = 1
+
+" Just show the filename (no path) in the tab
+let g:airline#extensions#tabline#fnamemod = ':t'
 
 
 " Python and JavaScript syntax checkers
