@@ -40,6 +40,9 @@ au BufNewFile,BufRead *.py
 " https://github.com/junegunn/vim-plug
 call plug#begin('~/.config/nvim/plugged')
 
+" EditorConfig
+Plug 'editorconfig/editorconfig-vim'
+
 " Status/tabline
 Plug 'vim-airline/vim-airline'
 
