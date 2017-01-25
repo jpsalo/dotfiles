@@ -68,6 +68,9 @@ Plug 'nvie/vim-flake8'
 " https://github.com/junegunn/vim-plug#post-update-hooks
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
 
+" Toggle the display of the quickfix list and the location-list
+Plug 'Valloric/ListToggle'
+
 " Javascript indentation and syntax
 Plug 'pangloss/vim-javascript'
 
@@ -118,6 +121,11 @@ nnoremap <leader>bu :CtrlPBuffer<CR>
 nnoremap <Leader>fu :CtrlPFunky<CR>
 
 
+" Key mappings for toggling locationlist and quickfix
+let g:lt_location_list_toggle_map = '<leader>l'
+let g:lt_quickfix_list_toggle_map = '<leader>q'
+
+
 " Find dotfiles
 let g:ctrlp_show_hidden = 1
 
@@ -127,6 +135,10 @@ let g:airline#extensions#tabline#enabled = 1
 
 " Just show the filename (no path) in the tab
 let g:airline#extensions#tabline#fnamemod = ':t'
+
+
+" Populate the location list
+let g:syntastic_always_populate_loc_list = 1
 
 
 " Python and JavaScript syntax checkers
