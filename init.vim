@@ -111,11 +111,15 @@ nnoremap <leader>jd :YcmCompleter GoTo<CR>
 
 
 " Invoke CtrlP in find buffer
-nnoremap <C-B> :CtrlPBuffer<CR>
+nnoremap <leader>bu :CtrlPBuffer<CR>
 
 
 " Function navigator
-nnoremap <Leader>fu :CtrlPFunky<Cr>
+nnoremap <Leader>fu :CtrlPFunky<CR>
+
+
+" Find dotfiles
+let g:ctrlp_show_hidden = 1
 
 
 " Tab line
