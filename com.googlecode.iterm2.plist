@@ -493,9 +493,9 @@
 	<key>NSTableView Supports v2 KeyBingingTable</key>
 	<true/>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>405 915 937 465 0 0 2560 1440 </string>
+	<string>299 326 796 473 0 0 1680 1050 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>402 0 1270 1413 0 0 2560 1440 </string>
+	<string>4 14 1675 1014 0 0 1680 1028 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>4 26 2548 1392 0 0 2560 1418 </string>
 	<key>NeverWarnAboutShortLivedSessions_866770FB-C074-4483-9CAD-DF7C2A1C92B6</key>
@@ -999,9 +999,16 @@
 				<key>0xf702-0x280000</key>
 				<dict>
 					<key>Action</key>
+					<integer>10</integer>
+					<key>Text</key>
+					<string>b</string>
+				</dict>
+				<key>0xf702-0x300000</key>
+				<dict>
+					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x1b 0x1b 0x5b 0x44</string>
+					<string>0x01</string>
 				</dict>
 				<key>0xf703-0x220000</key>
 				<dict>
@@ -1027,9 +1034,16 @@
 				<key>0xf703-0x280000</key>
 				<dict>
 					<key>Action</key>
+					<integer>10</integer>
+					<key>Text</key>
+					<string>f</string>
+				</dict>
+				<key>0xf703-0x300000</key>
+				<dict>
+					<key>Action</key>
 					<integer>11</integer>
 					<key>Text</key>
-					<string>0x1b 0x1b 0x5b 0x43</string>
+					<string>0x05</string>
 				</dict>
 				<key>0xf704-0x20000</key>
 				<dict>
@@ -1244,7 +1258,7 @@
 	<key>NoSyncInstallationId</key>
 	<string>994D5776-048A-4CFE-BB93-267FBDD5EEEF</string>
 	<key>NoSyncLastTipTime</key>
-	<real>506331446.93865103</real>
+	<real>507049213.79546201</real>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -1264,6 +1278,14 @@
 		<string>0005</string>
 		<string>0006</string>
 		<string>0007</string>
+		<string>0008</string>
+		<string>0009</string>
+		<string>0010</string>
+		<string>0011</string>
+		<string>0012</string>
+		<string>0013</string>
+		<string>0014</string>
+		<string>0015</string>
 	</array>
 	<key>PMPrintingExpandedStateForPrint2</key>
 	<false/>
@@ -1315,7 +1337,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-01-17T07:37:26Z</date>
+	<date>2017-01-25T15:00:13Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>TabStyle</key>
