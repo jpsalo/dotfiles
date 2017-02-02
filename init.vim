@@ -126,6 +126,10 @@ let g:lt_location_list_toggle_map = '<leader>l'
 let g:lt_quickfix_list_toggle_map = '<leader>q'
 
 
+" Hide information about the current completion candidate
+let g:ycm_autoclose_preview_window_after_completion = 1
+
+
 " Find dotfiles
 let g:ctrlp_show_hidden = 1
 
