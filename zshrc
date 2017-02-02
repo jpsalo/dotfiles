@@ -6,6 +6,8 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
+export EDITOR='nvim'
+
 if [ "$(uname)" = "Darwin" ]; then  # Mac
   export JAVA_HOME=$(/usr/libexec/java_home)
   export PATH=/usr/local/Cellar/maven/3.3.9/bin:$PATH
