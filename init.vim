@@ -82,6 +82,7 @@ Plug 'leafgarland/typescript-vim'
 
 " Color scheme
 Plug 'morhetz/gruvbox'
+Plug 'chriskempson/base16-vim'
 
 " Auto-close brackets
 Plug 'jiangmiao/auto-pairs'
@@ -159,5 +160,11 @@ let g:jsx_ext_required = 0
 let g:javascript_plugin_flow = 1
 
 
-colorscheme gruvbox
-set background=dark
+" 256 colorspace for base16
+" https://github.com/chriskempson/base16-shell#base16-vim-users
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
+
+colorscheme base16-eighties

@@ -16,9 +16,18 @@ alias python='python3'
 
 typeset -U path path=(~/scripts $path)
 
+
+# 256 COLORS
+
 # Adjust Vim gruvbox color scheme colors
 # https://github.com/morhetz/gruvbox/wiki/Terminal-specific#a-256-color-gruvbox-palette-shellscript
-source "$HOME/.config/nvim/plugged/gruvbox/gruvbox_256palette.sh"
+# source "$HOME/.config/nvim/plugged/gruvbox/gruvbox_256palette.sh"
+
+# Base16 256 colorspace
+# https://github.com/chriskempson/base16-shell#bashzsh
+BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+
 
 # Virtualenvwrapper
 export WORKON_HOME=$HOME/.virtualenvs
