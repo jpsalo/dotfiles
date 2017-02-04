@@ -45,6 +45,7 @@ Plug 'editorconfig/editorconfig-vim'
 
 " Status/tabline
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Fuzzy finder
 Plug 'ctrlpvim/ctrlp.vim'
@@ -168,3 +169,5 @@ if filereadable(expand("~/.vimrc_background"))
 endif
 
 colorscheme base16-eighties
+
+let g:airline_theme='base16_eighties'
