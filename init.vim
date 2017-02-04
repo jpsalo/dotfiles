@@ -128,6 +128,16 @@ let g:lt_location_list_toggle_map = '<leader>l'
 let g:lt_quickfix_list_toggle_map = '<leader>q'
 
 
+" Absolute width of netrw window
+let g:netrw_winsize = 25
+
+" Do not display info on the top of window
+let g:netrw_banner = 0
+
+" tree-view
+let g:netrw_liststyle = 3
+
+
 " Hide information about the current completion candidate
 let g:ycm_autoclose_preview_window_after_completion = 1
 
