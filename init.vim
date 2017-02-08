@@ -149,6 +149,10 @@ let g:airline#extensions#tabline#enabled = 1
 " Just show the filename (no path) in the tab
 let g:airline#extensions#tabline#fnamemod = ':t'
 
+" Use straight statusline
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+
 
 " Populate the location list
 let g:syntastic_always_populate_loc_list = 1
