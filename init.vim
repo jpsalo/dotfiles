@@ -50,9 +50,6 @@ Plug 'vim-airline/vim-airline-themes'
 " Fuzzy finder
 Plug 'ctrlpvim/ctrlp.vim'
 
-" Function navigator for CtrlP
-Plug 'tacahiroy/ctrlp-funky'
-
 " Git gutter
 Plug 'airblade/vim-gitgutter'
 
@@ -116,11 +113,11 @@ nnoremap <leader>jd :YcmCompleter GoTo<CR>
 
 
 " Invoke CtrlP in find buffer
-nnoremap <leader>bu :CtrlPBuffer<CR>
+nnoremap <leader>b :CtrlPBuffer<CR>
 
 
-" Function navigator
-nnoremap <Leader>fu :CtrlPFunky<CR>
+" Function navigator / jump to definiton
+nnoremap <Leader>r :CtrlPBufTag<CR>
 
 
 " Key mappings for toggling locationlist and quickfix
