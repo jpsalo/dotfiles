@@ -1,5 +1,6 @@
 [global_config]
   borderless = True
+  inactive_color_offset = 1.0
 [keybindings]
 [layouts]
   [[default]]
@@ -12,13 +13,13 @@
 [plugins]
 [profiles]
   [[default]]
-    background_color = "#1e1e1e"
+    background_color = "#2d2d2d"
     background_image = None
     cursor_blink = False
-    cursor_color = "#bbbbbb"
+    cursor_color = "#d3d0c8"
     font = Ubuntu Mono 15
-    foreground_color = "#e6d4a3"
-    palette = "#161819:#f73028:#aab01e:#f7b125:#719586:#c77089:#7db669:#faefbb:#7f7061:#be0f17:#868715:#cc881a:#377375:#a04b73:#578e57:#e6d4a3"
+    foreground_color = "#d3d0c8"
+    palette = "#2d2d2d:#f2777a:#99cc99:#ffcc66:#6699cc:#cc99cc:#66cccc:#d3d0c8:#747369:#f2777a:#99cc99:#ffcc66:#6699cc:#cc99cc:#66cccc:#f2f0ec"
     scrollbar_position = hidden
     show_titlebar = False
     use_system_font = False
