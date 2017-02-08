@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AlternateMouseScroll</key>
+	<true/>
 	<key>AppleAntiAliasingThreshold</key>
 	<integer>1</integer>
 	<key>AppleScrollAnimationEnabled</key>
@@ -3620,9 +3622,9 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>743 182 717 418 0 0 1680 1050 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>740 600 918 381 0 0 1680 1050 </string>
+	<string>469 438 918 495 0 0 1680 1050 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>4 12 1670 1016 0 0 1680 1028 </string>
+	<string>4 0 1670 1028 0 0 1680 1028 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>4 26 2548 1392 0 0 2560 1418 </string>
 	<key>NeverWarnAboutShortLivedSessions_866770FB-C074-4483-9CAD-DF7C2A1C92B6</key>
@@ -4341,7 +4343,7 @@
 	<key>NoSyncInstallationId</key>
 	<string>994D5776-048A-4CFE-BB93-267FBDD5EEEF</string>
 	<key>NoSyncLastTipTime</key>
-	<real>507622518.37712401</real>
+	<real>508171533.25704002</real>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -4374,6 +4376,12 @@
 		<string>0018</string>
 		<string>0019</string>
 		<string>0020</string>
+		<string>0021</string>
+		<string>0022</string>
+		<string>0023</string>
+		<string>0024</string>
+		<string>0025</string>
+		<string>0026</string>
 	</array>
 	<key>PMPrintingExpandedStateForPrint2</key>
 	<false/>
@@ -4411,7 +4419,7 @@
 		</dict>
 	</dict>
 	<key>PrefsCustomFolder</key>
-	<string>/Users/jp/dotfiles</string>
+	<string>~/dotfiles</string>
 	<key>Print In Black And White</key>
 	<true/>
 	<key>QuitWhenAllWindowsClosed</key>
@@ -4425,7 +4433,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-02-01T08:23:18Z</date>
+	<date>2017-02-07T06:26:48Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>TabStyle</key>
