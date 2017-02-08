@@ -7,3 +7,5 @@
 `virtualenv`
 `virtualenvwrapper`
 `flake8`
+`ctags`
+`jsctags`
