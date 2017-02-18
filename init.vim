@@ -2,13 +2,19 @@
 set number
 
 
+" Hide buffers instead of closing them
+" Works good with buffer tags and tabline
+set hidden
+
+
 " Case insensitive on lower case, case sensitive on upper case
 set ignorecase
 set smartcase
 
 
-" Ignores node_modules (in CtrlP)
+" Ignores (in CtrlP)
 set wildignore+=**/node_modules/**
+set wildignore+=**/build/**
 
 
 " http://stackoverflow.com/a/1878984/7010222
@@ -134,6 +140,9 @@ let g:netrw_banner = 0
 " tree-view
 let g:netrw_liststyle = 3
 
+
+" Improve syntax
+let g:ycm_seed_identifiers_with_syntax = 1
 
 " Hide information about the current completion candidate
 let g:ycm_autoclose_preview_window_after_completion = 1
