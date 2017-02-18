@@ -2,11 +2,14 @@ export ZSH=~/.oh-my-zsh
 
 ZSH_THEME="robbyrussell"
 
-plugins=(git)
+plugins=(git npm)
 
 source $ZSH/oh-my-zsh.sh
 
 export EDITOR='nvim'
+
+# https://www.sublimetext.com/docs/3/osx_command_line.html
+export REACT_EDITOR='subl -w'
 
 if [ "$(uname)" = "Darwin" ]; then  # Mac
   export JAVA_HOME=$(/usr/libexec/java_home)
