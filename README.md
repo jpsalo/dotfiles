@@ -9,3 +9,6 @@
 `flake8`
 `ctags`
 `jsctags`
+`sublime`
+
+`tvnamer`
