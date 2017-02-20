@@ -63,7 +63,10 @@ Plug 'airblade/vim-gitgutter'
 Plug 'vim-syntastic/syntastic'
 
 " Prefer local repo install of eslint over global install with syntastic
-Plug 'mtscout6/syntastic-local-eslint.vim'
+" Plug 'mtscout6/syntastic-local-eslint.vim'
+" NOTE: There is a bug in 82da4209970523933d1dd3991644396352f9e1f7 where the
+" directory is changed every time a new buffer is opened
+Plug 'mtscout6/syntastic-local-eslint.vim', { 'commit': '7a78b2f2b9c38ca7db9c47ce8d74f854432c165f' }
 
 " Syntax and style checker for Python
 Plug 'nvie/vim-flake8'
