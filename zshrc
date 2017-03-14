@@ -9,7 +9,7 @@ source $ZSH/oh-my-zsh.sh
 export EDITOR='nvim'
 
 # https://www.sublimetext.com/docs/3/osx_command_line.html
-export REACT_EDITOR='subl -w'
+export REACT_EDITOR='atom'
 
 if [ "$(uname)" = "Darwin" ]; then  # Mac
   export JAVA_HOME=$(/usr/libexec/java_home)
