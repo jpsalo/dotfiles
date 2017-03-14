@@ -7,6 +7,11 @@ set number
 set hidden
 
 
+" Use more natural splitting
+set splitbelow
+set splitright
+
+
 " Case insensitive on lower case, case sensitive on upper case
 set ignorecase
 set smartcase
@@ -45,6 +50,9 @@ au BufNewFile,BufRead *.py
 " Plugin manager
 " https://github.com/junegunn/vim-plug
 call plug#begin('~/.config/nvim/plugged')
+
+" Git wrapper
+Plug 'tpope/vim-fugitive'
 
 " EditorConfig
 Plug 'editorconfig/editorconfig-vim'
@@ -102,8 +110,13 @@ let mapleader="\<SPACE>"
 
 
 " Next or previous buffer in the buffer list
-:nnoremap <Tab> :bnext<CR>
-:nnoremap <S-Tab> :bprevious<CR>
+nnoremap <Tab> :bnext<CR>
+nnoremap <S-Tab> :bprevious<CR>
+
+
+" Exact search for visually selected text (without backslashes)
+" http://vim.wikia.com/wiki/Search_for_visually_selected_text#Simple
+vnoremap // y/\V<C-R>"<CR>
 
 
 " Switch to current directory
@@ -144,15 +157,36 @@ let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 
 
-" Improve syntax
-let g:ycm_seed_identifiers_with_syntax = 1
+" Improve syntax (for reference)
+let g:ycm_seed_identifiers_with_syntax = 0
 
 " Hide information about the current completion candidate
 let g:ycm_autoclose_preview_window_after_completion = 1
 
+let g:ycm_server_keep_logfiles = 1
+
+" For reference
+let g:ycm_server_python_interpreter = ''
+
 
 " Find dotfiles
 let g:ctrlp_show_hidden = 1
+
+" Ignore spaces when searching CtrlP
+" https://github.com/ctrlpvim/ctrlp.vim/issues/196#issuecomment-192541449
+let g:ctrlp_abbrev = {
+  \ 'gmode': 'i',
+  \ 'abbrevs': [
+    \ {
+      \ 'pattern': ' ',
+      \ 'expanded': '',
+      \ 'mode': 'pfrz',
+    \ },
+    \ ]
+  \ }
+
+" More results with the default window size
+let g:ctrlp_match_window = 'results:100'
 
 
 " Tab line
