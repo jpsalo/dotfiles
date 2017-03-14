@@ -8,6 +8,7 @@
 `virtualenvwrapper`
 `flake8`
 `ctags`
+`ramitos/tern-jsx`
 `jsctags`
 `sublime`
 
