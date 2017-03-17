@@ -1,6 +1,9 @@
 # prerequisites
+`zsh`
+`oh-my-zsh`
 `node`
 `npm`
+`nvm` (`zsh-nvm`)
 `eslint`
 `eslint-plugin-react`
 `python`

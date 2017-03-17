@@ -2,7 +2,10 @@ export ZSH=~/.oh-my-zsh
 
 ZSH_THEME="robbyrussell"
 
-plugins=(git npm)
+# Loading nvm is unacceptably slow
+export NVM_LAZY_LOAD=true
+
+plugins=(git zsh-nvm npm)
 
 source $ZSH/oh-my-zsh.sh
 
