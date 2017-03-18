@@ -2,8 +2,8 @@ export ZSH=~/.oh-my-zsh
 
 ZSH_THEME="robbyrussell"
 
-# Loading nvm is unacceptably slow
-export NVM_LAZY_LOAD=true
+# Loading nvm is unacceptably slow, but nvm is needed for vim
+export NVM_LAZY_LOAD=false
 
 plugins=(git zsh-nvm npm)
 
