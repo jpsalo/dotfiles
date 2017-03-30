@@ -1,6 +1,7 @@
 # prerequisites
 `zsh`
 `oh-my-zsh`
+`hub`
 `node`
 `npm`
 `nvm` (`zsh-nvm`)
