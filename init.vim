@@ -47,6 +47,12 @@ au BufNewFile,BufRead *.py
       \ set fileformat=unix |
 
 
+" Close quickfix and location-list when selecting file
+" http://stackoverflow.com/a/21326968/7010222
+" http://stackoverflow.com/a/10850835/7010222
+autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose <CR>:lclose<CR>
+
+
 " Plugin manager
 " https://github.com/junegunn/vim-plug
 call plug#begin('~/.config/nvim/plugged')
@@ -92,6 +98,9 @@ Plug 'pangloss/vim-javascript'
 " JSX syntax highlighting and indenting
 Plug 'mxw/vim-jsx'
 
+" Flow completion and type error checking
+Plug 'flowtype/vim-flow'
+
 " TypeSript syntax
 Plug 'leafgarland/typescript-vim'
 
@@ -129,9 +138,10 @@ nnoremap <Leader>cd :cd %:p:h<CR>
 nnoremap <Leader>c :exec '!python' shellescape(@%, 1)<CR>
 
 
-" GoTo
+" GoTo, general and Flow
 " https://github.com/Valloric/YouCompleteMe#ycmcompleter-subcommands
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
+nnoremap <leader>fd :FlowJumpToDef<CR>
 
 
 " Invoke CtrlP in find buffer
@@ -204,10 +214,12 @@ let g:airline_right_sep = ''
 let g:syntastic_always_populate_loc_list = 1
 
 
-" Python and JavaScript syntax checkers
+" Python and JavaScript (and Flow) syntax checkers
 " https://github.com/vim-syntastic/syntastic#faqcheckers
 let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_checkers = ['eslint', 'flow']
+" Not sure if this is needed
+let g:syntastic_javascript_flow_exe = 'flow'
 
 
 " Enable JSX syntax highlighting and indenting for .js files (vim-jsx)
