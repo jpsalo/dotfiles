@@ -67,6 +67,8 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+Plug 'scrooloose/nerdtree'
+
 " Fuzzy finder
 Plug 'ctrlpvim/ctrlp.vim'
 
@@ -114,13 +116,15 @@ Plug 'jiangmiao/auto-pairs'
 call plug#end()
 
 
-" Map the leader key to SPACE
-let mapleader="\<SPACE>"
+" Map the Leader key to SPACE
+let mapLeader="\<SPACE>"
 
 
 " Next or previous buffer in the buffer list
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
+autocmd FileType nerdtree nnoremap <buffer> <Tab> <NOP>
+autocmd FileType nerdtree nnoremap <buffer> <S-Tab> <NOP>
 
 
 " Exact search for visually selected text (without backslashes)
@@ -140,12 +144,12 @@ nnoremap <Leader>c :exec '!python' shellescape(@%, 1)<CR>
 
 " GoTo, general and Flow
 " https://github.com/Valloric/YouCompleteMe#ycmcompleter-subcommands
-nnoremap <leader>jd :YcmCompleter GoTo<CR>
-nnoremap <leader>fd :FlowJumpToDef<CR>
+nnoremap <Leader>jd :YcmCompleter GoTo<CR>
+nnoremap <Leader>fd :FlowJumpToDef<CR>
 
 
 " Invoke CtrlP in find buffer
-nnoremap <leader>b :CtrlPBuffer<CR>
+nnoremap <Leader>b :CtrlPBuffer<CR>
 
 
 " Function navigator / jump to definiton
@@ -153,8 +157,29 @@ nnoremap <Leader>r :CtrlPBufTag<CR>
 
 
 " Key mappings for toggling locationlist and quickfix
-let g:lt_location_list_toggle_map = '<leader>l'
-let g:lt_quickfix_list_toggle_map = '<leader>q'
+let g:lt_location_list_toggle_map = '<Leader>l'
+let g:lt_quickfix_list_toggle_map = '<Leader>q'
+
+
+" Toggle, reveal file in NERDTree
+map <Leader>m :NERDTreeToggle<CR>
+map <Leader>p :NERDTreeFind<CR>
+
+" Activate main window if NERDTree is active before opening ctrlp
+" http://vi.stackexchange.com/a/11300
+function! CtrlPCommand()
+  if exists("b:NERDTree")
+    exec 'wincmd w'
+  endif
+  exec 'CtrlP'
+endfunction
+let g:ctrlp_cmd = 'call CtrlPCommand()'
+
+" Delete buffer without losing the split window
+" This is needed with NERDTree / netrw
+" http://stackoverflow.com/a/4468491/7010222
+nnoremap <Leader>w :bp\|bd #<CR>
+autocmd FileType nerdtree nnoremap <buffer> <Leader>w <NOP>
 
 
 " Absolute width of netrw window
@@ -205,6 +230,9 @@ let g:airline#extensions#tabline#enabled = 1
 " Just show the filename (no path) in the tab
 let g:airline#extensions#tabline#fnamemod = ':t'
 
+" Uniquify buffers names with similar filename, suppressing common parts of paths
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+
 " Use straight statusline
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
@@ -229,6 +257,9 @@ let g:jsx_ext_required = 0
 " Enables syntax highlighting for Flow (vim-javascript)
 let g:javascript_plugin_flow = 1
 
+" Do not open quickfix when no errors
+let g:flow#autoclose = 1
+
 
 " 256 colorspace for base16
 " https://github.com/chriskempson/base16-shell#base16-vim-users
@@ -240,3 +271,11 @@ endif
 colorscheme base16-eighties
 
 let g:airline_theme='base16_eighties'
+
+
+" Change cursor shape between insert and normal mode in iTerm2.app
+" https://hamberg.no/erlend/posts/2014-03-09-change-vim-cursor-in-iterm.html
+if $TERM_PROGRAM =~ "iTerm"
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
+endif

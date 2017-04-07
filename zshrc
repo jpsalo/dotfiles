@@ -49,3 +49,8 @@ export PATH="$HOME/.fastlane/bin:$PATH"
 export ANDROID_HOME=~/Library/Android/sdk
 export PATH=${PATH}:${ANDROID_HOME}/tools
 export PATH=${PATH}:${ANDROID_HOME}/platform-tools
+
+
+# https://github.com/neovim/neovim/wiki/FAQ#how-can-i-change-the-cursor-shape-in-the-terminal
+# NOTE: This works differently on NeoVim >=0.2
+export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
