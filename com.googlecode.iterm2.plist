@@ -3479,6 +3479,12 @@
 	</dict>
 	<key>Default Bookmark Guid</key>
 	<string>866770FB-C074-4483-9CAD-DF7C2A1C92B6</string>
+	<key>DimInactiveSplitPanes</key>
+	<true/>
+	<key>DimOnlyText</key>
+	<true/>
+	<key>FocusFollowsMouse</key>
+	<false/>
 	<key>GlobalKeyMap</key>
 	<dict>
 		<key>0x19-0x60000</key>
@@ -3621,12 +3627,14 @@
 	<true/>
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>743 182 717 418 0 0 1680 1050 </string>
+	<key>NSWindow Frame SUUpdateAlert</key>
+	<string>492 425 700 461 0 0 1680 1028 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>469 438 918 495 0 0 1680 1050 </string>
+	<string>208 482 937 465 0 0 1680 1050 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>4 0 1670 1028 0 0 1680 1028 </string>
+	<string>4 426 810 602 0 0 1680 1028 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>4 26 2548 1392 0 0 2560 1418 </string>
+	<string>4 11 380 717 0 0 2560 1418 </string>
 	<key>NeverWarnAboutShortLivedSessions_866770FB-C074-4483-9CAD-DF7C2A1C92B6</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_866770FB-C074-4483-9CAD-DF7C2A1C92B6_selection</key>
@@ -3912,6 +3920,8 @@
 				<key>Red Component</key>
 				<real>0.17647058823529413</real>
 			</dict>
+			<key>Cursor Type</key>
+			<integer>2</integer>
 			<key>Custom Command</key>
 			<string>No</string>
 			<key>Custom Directory</key>
@@ -4343,7 +4353,7 @@
 	<key>NoSyncInstallationId</key>
 	<string>994D5776-048A-4CFE-BB93-267FBDD5EEEF</string>
 	<key>NoSyncLastTipTime</key>
-	<real>508171533.25704002</real>
+	<real>512159174.98357701</real>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -4382,6 +4392,45 @@
 		<string>0024</string>
 		<string>0025</string>
 		<string>0026</string>
+		<string>0027</string>
+		<string>0028</string>
+		<string>0029</string>
+		<string>0030</string>
+		<string>0031</string>
+		<string>0032</string>
+		<string>0033</string>
+		<string>0034</string>
+		<string>0035</string>
+		<string>0036</string>
+		<string>0037</string>
+		<string>0038</string>
+		<string>0039</string>
+		<string>0040</string>
+		<string>0041</string>
+		<string>0042</string>
+		<string>0043</string>
+		<string>0044</string>
+		<string>0045</string>
+		<string>0046</string>
+		<string>0047</string>
+		<string>0048</string>
+		<string>0049</string>
+		<string>0050</string>
+		<string>0051</string>
+		<string>0052</string>
+		<string>0053</string>
+		<string>0054</string>
+		<string>0055</string>
+		<string>0056</string>
+		<string>0057</string>
+		<string>0058</string>
+		<string>0059</string>
+		<string>0060</string>
+		<string>0061</string>
+		<string>0062</string>
+		<string>0063</string>
+		<string>0064</string>
+		<string>0065</string>
 	</array>
 	<key>PMPrintingExpandedStateForPrint2</key>
 	<false/>
@@ -4433,18 +4482,24 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-02-07T06:26:48Z</date>
+	<date>2017-04-05T13:19:24Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
+	<key>ShowPaneTitles</key>
+	<false/>
+	<key>SplitPaneDimmingAmount</key>
+	<real>0.59999999999999998</real>
 	<key>TabStyle</key>
 	<integer>1</integer>
 	<key>TabViewType</key>
 	<integer>1</integer>
+	<key>UseBorder</key>
+	<false/>
 	<key>findIgnoreCase_iTerm</key>
 	<true/>
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.13</string>
+	<string>3.0.15</string>
 </dict>
 </plist>
