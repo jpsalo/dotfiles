@@ -117,7 +117,7 @@ call plug#end()
 
 
 " Map the Leader key to SPACE
-let mapLeader="\<SPACE>"
+let mapleader="\<SPACE>"
 
 
 " Next or previous buffer in the buffer list
