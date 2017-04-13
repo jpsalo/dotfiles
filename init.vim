@@ -67,6 +67,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+" Tree explorer
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
@@ -107,12 +108,14 @@ Plug 'flowtype/vim-flow'
 " TypeSript syntax
 Plug 'leafgarland/typescript-vim'
 
+" Auto-close brackets
+Plug 'jiangmiao/auto-pairs'
+
+Plug 'ap/vim-css-color'
+
 " Color scheme
 Plug 'morhetz/gruvbox'
 Plug 'chriskempson/base16-vim'
-
-" Auto-close brackets
-Plug 'jiangmiao/auto-pairs'
 
 call plug#end()
 
@@ -181,6 +184,22 @@ let g:ctrlp_cmd = 'call CtrlPCommand()'
 " http://stackoverflow.com/a/4468491/7010222
 nnoremap <Leader>w :bp\|bd #<CR>
 autocmd FileType nerdtree nnoremap <buffer> <Leader>w <NOP>
+
+" Automatically open the location/quickfix window after :make, :grep, :lvimgrep and friends if there are valid locations/errors
+" http://stackoverflow.com/a/39010855/7010222
+augroup myvimrc
+  autocmd!
+  autocmd QuickFixCmdPost [^l]* cwindow
+  autocmd QuickFixCmdPost l*    lwindow
+augroup END
+
+" Map vimgrep command to avoid typing the file pattern
+" http://stackoverflow.com/a/33286148/7010222
+command! -nargs=1 Search vimgrep /<args>/j src/**/*.js
+nnoremap <Leader>7 :Search<space>
+" Search for current word in multiple files
+" http://stackoverflow.com/a/1855875/7010222
+map <Leader>fa :execute "noautocmd vimgrep /\\<" . expand("<cword>") . "\\>/j src/**/*." .  expand("%:e") <Bar> cw<CR>
 
 
 " Absolute width of netrw window
