@@ -6,6 +6,7 @@
 	smudge = git-lfs smudge %f
 	required = true
 [credential]
-	helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
+	helper = osxkeychain
+  helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
 [core]
 	excludesfile = /Users/jp/.gitignore_global
