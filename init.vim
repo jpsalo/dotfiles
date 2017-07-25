@@ -1,3 +1,7 @@
+" Enable mouse
+set mouse=a
+
+
 " Line numbers
 set number
 
@@ -57,6 +61,9 @@ autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose <CR>:lclose<CR>
 " https://github.com/junegunn/vim-plug
 call plug#begin('~/.config/nvim/plugged')
 
+" Close all buffers except current
+Plug 'vim-scripts/BufOnly.vim'
+
 " Git wrapper
 Plug 'tpope/vim-fugitive'
 
@@ -91,7 +98,8 @@ Plug 'nvie/vim-flake8'
 
 " Code completion (with JavaScript support)
 " https://github.com/junegunn/vim-plug#post-update-hooks
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
 
 " Toggle the display of the quickfix list and the location-list
 Plug 'Valloric/ListToggle'
@@ -116,6 +124,7 @@ Plug 'ap/vim-css-color'
 " Color scheme
 Plug 'morhetz/gruvbox'
 Plug 'chriskempson/base16-vim'
+Plug 'altercation/vim-colors-solarized'
 
 call plug#end()
 
@@ -283,14 +292,27 @@ let g:flow#autoclose = 1
 
 " 256 colorspace for base16
 " https://github.com/chriskempson/base16-shell#base16-vim-users
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
+" if filereadable(expand("~/.vimrc_background"))
+"   let base16colorspace=256
+"   source ~/.vimrc_background
+" endif
+
+" colorscheme base16-github
+"
+syntax enable
+
+" Change vim background and colorscheme based on iTerm profile
+" https://stackoverflow.com/a/38883860/7010222
+let iterm_profile = $ITERM_PROFILE
+if iterm_profile == "dark"
+    set background=dark
+else
+    set background=light
 endif
 
-colorscheme base16-eighties
+colorscheme solarized
 
-let g:airline_theme='base16_eighties'
+let g:airline_theme='solarized'
 
 
 " Change cursor shape between insert and normal mode in iTerm2.app
