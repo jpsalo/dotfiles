@@ -158,6 +158,11 @@ vnoremap // y/\V<C-R>"<CR>
 nnoremap <Leader>cd :cd %:p:h<CR>
 
 
+" Clear last search highlighting by hitting return
+" https://stackoverflow.com/a/662914/7010222
+noremap <CR> :noh<CR><CR>
+
+
 " Run Python code
 " http://stackoverflow.com/a/18948530/7010222b
 " not working with <buffer> when using netrw
