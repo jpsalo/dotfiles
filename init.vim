@@ -81,6 +81,8 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Fuzzy finder
 Plug 'ctrlpvim/ctrlp.vim'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 
 " Git gutter
 Plug 'airblade/vim-gitgutter'
