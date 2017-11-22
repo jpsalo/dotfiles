@@ -122,6 +122,9 @@ Plug 'leafgarland/typescript-vim'
 " CoffeeScript
 Plug 'kchmck/vim-coffee-script'
 
+" Pug (Jade) syntax highlighting
+Plug 'digitaltoad/vim-pug'
+
 " Auto-close brackets
 Plug 'jiangmiao/auto-pairs'
 
