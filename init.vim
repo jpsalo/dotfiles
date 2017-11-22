@@ -24,6 +24,7 @@ set smartcase
 " Ignores (in CtrlP)
 set wildignore+=**/node_modules/**
 set wildignore+=**/build/**
+set wildignore+=**/.build/**
 
 
 " http://stackoverflow.com/a/1878984/7010222
