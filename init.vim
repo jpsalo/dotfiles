@@ -289,6 +289,10 @@ let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 
+" Hide git branch from statusline
+" https://github.com/vim-airline/vim-airline/issues/605#issue-43567680
+let g:airline#extensions#branch#enabled = 0
+
 
 " Populate the location list
 let g:syntastic_always_populate_loc_list = 1
