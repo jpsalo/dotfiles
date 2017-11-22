@@ -219,9 +219,11 @@ augroup myvimrc
   autocmd QuickFixCmdPost l*    lwindow
 augroup END
 
-" Map vimgrep command to avoid typing the file pattern
-" http://stackoverflow.com/a/33286148/7010222
-command! -nargs=1 Search vimgrep /<args>/j src/**/*.js
+" Open the quickfix window instead of displaying grep results and prevent opening first matching file
+" https://stackoverflow.com/a/23668278/7010222
+" https://superuser.com/a/248739
+" https://stackoverflow.com/a/5723927/7010222
+command! -nargs=1 Search execute "silent grep! -iIr <args> src" | redraw! | cw
 nnoremap <Leader>7 :Search<space>
 " Search for current word in multiple files
 " http://stackoverflow.com/a/1855875/7010222
