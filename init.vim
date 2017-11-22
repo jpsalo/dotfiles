@@ -229,6 +229,10 @@ nnoremap <Leader>7 :Search<space>
 " http://stackoverflow.com/a/1855875/7010222
 map <Leader>fa :execute "noautocmd vimgrep /\\<" . expand("<cword>") . "\\>/j src/**/*." .  expand("%:e") <Bar> cw<CR>
 
+" Find in current file
+command! -nargs=1 Find execute "silent grep! -i <args> %" | redraw! | cw
+nnoremap <Leader>ff :Find<space>
+
 
 " Absolute width of netrw window
 let g:netrw_winsize = 25
