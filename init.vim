@@ -119,6 +119,9 @@ Plug 'flowtype/vim-flow'
 " TypeSript syntax
 Plug 'leafgarland/typescript-vim'
 
+" CoffeeScript
+Plug 'kchmck/vim-coffee-script'
+
 " Auto-close brackets
 Plug 'jiangmiao/auto-pairs'
 
