@@ -174,6 +174,9 @@ nnoremap <Leader>c :exec '!python' shellescape(@%, 1)<CR>
 nnoremap <Leader>jd :YcmCompleter GoTo<CR>
 nnoremap <Leader>fd :FlowJumpToDef<CR>
 
+nmap <Leader>gn <Plug>GitGutterNextHunk
+nmap <Leader>gp <Plug>GitGutterPrevHunk
+
 
 " Invoke CtrlP in find buffer
 nnoremap <Leader>b :CtrlPBuffer<CR>
