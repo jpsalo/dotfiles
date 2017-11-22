@@ -302,6 +302,7 @@ let g:syntastic_always_populate_loc_list = 1
 " https://github.com/vim-syntastic/syntastic#faqcheckers
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_javascript_checkers = ['eslint', 'flow']
+let g:syntastic_coffee_checkers = ['coffeelint']
 " Not sure if this is needed
 let g:syntastic_javascript_flow_exe = 'flow'
 
