@@ -62,6 +62,9 @@ autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose <CR>:lclose<CR>
 " https://github.com/junegunn/vim-plug
 call plug#begin('~/.config/nvim/plugged')
 
+" Automatically save changes to disk
+Plug '907th/vim-auto-save'
+
 " Close all buffers except current
 Plug 'vim-scripts/BufOnly.vim'
 
@@ -84,17 +87,21 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
+" Toggle, display and navigate marks
+Plug 'kshenoy/vim-signature'
+
 " Git gutter
 Plug 'airblade/vim-gitgutter'
 
 " Syntax checker
-Plug 'vim-syntastic/syntastic'
+" Plug 'vim-syntastic/syntastic'
+Plug 'w0rp/ale'
 
 " Prefer local repo install of eslint over global install with syntastic
 " Plug 'mtscout6/syntastic-local-eslint.vim'
 " NOTE: There is a bug in 82da4209970523933d1dd3991644396352f9e1f7 where the
 " directory is changed every time a new buffer is opened
-Plug 'mtscout6/syntastic-local-eslint.vim', { 'commit': '7a78b2f2b9c38ca7db9c47ce8d74f854432c165f' }
+" Plug 'mtscout6/syntastic-local-eslint.vim', { 'commit': '7a78b2f2b9c38ca7db9c47ce8d74f854432c165f' }
 
 " Syntax and style checker for Python
 Plug 'nvie/vim-flake8'
@@ -130,10 +137,19 @@ Plug 'jiangmiao/auto-pairs'
 
 Plug 'ap/vim-css-color'
 
+" Distraction-free writing
+Plug 'junegunn/goyo.vim'
+
+" Markdown
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+
 " Color scheme
 Plug 'morhetz/gruvbox'
 Plug 'chriskempson/base16-vim'
 Plug 'altercation/vim-colors-solarized'
+Plug 'kristijanhusak/vim-hybrid-material'
+Plug 'iCyMind/NeoSolarized'
 
 call plug#end()
 
@@ -179,7 +195,7 @@ nmap <Leader>gp <Plug>GitGutterPrevHunk
 
 
 " Invoke CtrlP in find buffer
-nnoremap <Leader>b :CtrlPBuffer<CR>
+nnoremap <Leader>b :Buffers<CR>
 
 
 " Function navigator / jump to definiton
@@ -293,18 +309,32 @@ let g:airline_right_sep = ''
 " https://github.com/vim-airline/vim-airline/issues/605#issue-43567680
 let g:airline#extensions#branch#enabled = 0
 
+" Show ALE errors or warnings in statusline
+let g:airline#extensions#ale#enabled = 1
+
 
 " Populate the location list
-let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_always_populate_loc_list = 1
 
 
 " Python and JavaScript (and Flow) syntax checkers
 " https://github.com/vim-syntastic/syntastic#faqcheckers
-let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_javascript_checkers = ['eslint', 'flow']
-let g:syntastic_coffee_checkers = ['coffeelint']
+" let g:syntastic_python_checkers = ['flake8']
+" let g:syntastic_javascript_checkers = ['eslint', 'flow']
+" let g:syntastic_coffee_checkers = ['coffeelint']
 " Not sure if this is needed
-let g:syntastic_javascript_flow_exe = 'flow'
+" let g:syntastic_javascript_flow_exe = 'flow'
+
+" After this is configured, :ALEFix will try and fix your JS code with ESLint.
+let g:ale_fixers = {
+\   'javascript': ['eslint'],
+\   'coffee': ['coffeelint'],
+\}
+
+
+" Set this setting in vimrc if you want to fix files automatically on save.
+" This is off by default.
+" let g:ale_fix_on_save = 1
 
 
 " Enable JSX syntax highlighting and indenting for .js files (vim-jsx)
@@ -338,9 +368,13 @@ else
     set background=light
 endif
 
-colorscheme solarized
+" colorscheme solarized
+" colorscheme NeoSolarized
 
-let g:airline_theme='solarized'
+colorscheme hybrid_material
+
+" let g:airline_theme='solarized'
+let g:airline_theme = "hybrid"
 
 
 " Change cursor shape between insert and normal mode in iTerm2.app
@@ -349,3 +383,19 @@ if $TERM_PROGRAM =~ "iTerm"
   let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
   let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
 endif
+
+function! GFilesFallback()
+  " https://github.com/junegunn/fzf.vim/issues/233#issuecomment-257158595
+  execute system('git rev-parse --is-inside-work-tree') =~ 'true' ? 'GFiles' : 'Files'
+endfunction
+
+" 1.  Don't open files in NERDtree from fzf
+" 2.  Use :GFiles when in a git repo, otherwise use :Files
+" https://github.com/junegunn/fzf.vim/issues/326#issuecomment-282936932
+" https://github.com/junegunn/fzf.vim/issues/431#issuecomment-323862501
+nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').": call GFilesFallback()\<cr>"
+
+set termguicolors
+
+" Disable folding
+let g:vim_markdown_folding_disabled = 1
