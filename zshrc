@@ -75,3 +75,7 @@ export PATH=${PATH}:${ANDROID_HOME}/platform-tools
 # https://stackoverflow.com/a/38883860/7010222
 # https://coderwall.com/p/s-2_nw/change-iterm2-color-profile-from-the-cli
 theme-switch () { echo -e "\033]50;SetProfile=$1\a"; export ITERM_PROFILE=$1; }
+
+
+# Fuzzy finder
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
