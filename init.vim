@@ -348,6 +348,10 @@ let g:javascript_plugin_flow = 1
 let g:flow#autoclose = 1
 
 
+" Enable syntax and keep color settings
+" https://stackoverflow.com/questions/11272501/enable-vim-syntax-highlighting-by-default#comment40203854_11272512
+syntax enable
+
 " Use true color
 " https://github.com/neovim/neovim/wiki/FAQ#how-can-i-use-true-color-in-the-terminal
 set termguicolors
@@ -360,8 +364,6 @@ set termguicolors
 " endif
 
 " colorscheme base16-github
-"
-syntax enable
 
 " Change vim background and colorscheme based on iTerm profile
 " https://stackoverflow.com/a/38883860/7010222
