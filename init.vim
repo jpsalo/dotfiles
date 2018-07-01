@@ -108,8 +108,7 @@ Plug 'nvie/vim-flake8'
 
 " Code completion (with JavaScript support)
 " https://github.com/junegunn/vim-plug#post-update-hooks
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
 
 " Toggle the display of the quickfix list and the location-list
 Plug 'Valloric/ListToggle'
