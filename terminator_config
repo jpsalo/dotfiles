@@ -1,7 +1,15 @@
 [global_config]
   borderless = True
   inactive_color_offset = 1.0
+  scroll_tabbar = True
+  tab_position = hidden
 [keybindings]
+  cycle_next = None
+  cycle_prev = None
+  move_tab_left = None
+  move_tab_right = None
+  next_tab = <Primary>Tab
+  prev_tab = <Primary><Shift>Tab
 [layouts]
   [[default]]
     [[[child1]]]
@@ -13,13 +21,12 @@
 [plugins]
 [profiles]
   [[default]]
-    background_color = "#2d2d2d"
-    background_image = None
+    background_color = "#002b36"
     cursor_blink = False
     cursor_color = "#d3d0c8"
     font = Ubuntu Mono 15
-    foreground_color = "#d3d0c8"
-    palette = "#2d2d2d:#f2777a:#99cc99:#ffcc66:#6699cc:#cc99cc:#66cccc:#d3d0c8:#747369:#f2777a:#99cc99:#ffcc66:#6699cc:#cc99cc:#66cccc:#f2f0ec"
+    foreground_color = "#839496"
+    palette = "#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"
     scrollbar_position = hidden
     show_titlebar = False
     use_system_font = False

@@ -7,7 +7,6 @@
 	process = git-lfs filter-process
 	required = true
 [credential]
-	helper = osxkeychain
   helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
 [core]
 	excludesfile = /Users/jp/.gitignore_global
