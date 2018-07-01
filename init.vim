@@ -387,7 +387,9 @@ let g:airline_theme = "hybrid"
 
 function! GFilesFallback()
   " https://github.com/junegunn/fzf.vim/issues/233#issuecomment-257158595
-  execute system('git rev-parse --is-inside-work-tree') =~ 'true' ? 'GFiles' : 'Files'
+  " Include untracked files
+  " https://github.com/junegunn/fzf.vim/issues/129#issuecomment-256431038
+  execute system('git rev-parse --is-inside-work-tree') =~ 'true' ? 'GFiles --exclude-standard --cached --others' : 'Files'
 endfunction
 
 " 1.  Don't open files in NERDtree from fzf
