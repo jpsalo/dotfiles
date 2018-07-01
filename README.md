@@ -1,9 +1,11 @@
 # prerequisites
+`neovim`
 `zsh`
 `oh-my-zsh`
 `hub`
 `node`
 `npm`
+`yarn`
 `nvm` (`zsh-nvm`)
 `eslint`
 `eslint-plugin-react`
