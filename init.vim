@@ -364,6 +364,12 @@ set termguicolors
 " endif
 
 " colorscheme base16-github
+" colorscheme solarized
+" colorscheme hybrid_material
+colorscheme NeoSolarized
+
+" let g:airline_theme='solarized'
+" let g:airline_theme = "hybrid"
 
 " Change vim background and colorscheme based on iTerm profile
 " https://stackoverflow.com/a/38883860/7010222
@@ -373,14 +379,6 @@ if iterm_profile == "dark"
 else
     set background=light
 endif
-
-" colorscheme solarized
-" colorscheme NeoSolarized
-
-colorscheme hybrid_material
-
-" let g:airline_theme='solarized'
-let g:airline_theme = "hybrid"
 
 
 " Change cursor shape between insert and normal mode in iTerm2.app
