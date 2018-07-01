@@ -348,6 +348,10 @@ let g:javascript_plugin_flow = 1
 let g:flow#autoclose = 1
 
 
+" Use true color
+" https://github.com/neovim/neovim/wiki/FAQ#how-can-i-use-true-color-in-the-terminal
+set termguicolors
+
 " 256 colorspace for base16
 " https://github.com/chriskempson/base16-shell#base16-vim-users
 " if filereadable(expand("~/.vimrc_background"))
@@ -398,7 +402,6 @@ endfunction
 " https://github.com/junegunn/fzf.vim/issues/431#issuecomment-323862501
 nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').": call GFilesFallback()\<cr>"
 
-set termguicolors
 
 " Disable folding
 let g:vim_markdown_folding_disabled = 1
