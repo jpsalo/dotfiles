@@ -149,6 +149,7 @@ Plug 'chriskempson/base16-vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'kristijanhusak/vim-hybrid-material'
 Plug 'iCyMind/NeoSolarized'
+Plug 'mhartington/oceanic-next'
 
 call plug#end()
 
