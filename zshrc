@@ -38,8 +38,19 @@ typeset -U path path=(~/scripts $path)
 
 # Base16 Shell
 # https://github.com/kristijanhusak/vim-hybrid-material/tree/master/base16-material#setup
-BASE16_SHELL="$HOME/.config/base16-shell/base16-material.dark.sh"
-[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+
+# if [[ -z "${ITERM_PROFILE}" ]]; then
+#   BASE16_SHELL="$HOME/.config/base16-shell/base16-material.dark.sh"
+# else
+#   if [ "$ITERM_PROFILE" = "light" ]; then
+#     BASE16_SHELL="$HOME/.config/base16-shell/base16-material.light.sh"
+#   else
+#     BASE16_SHELL="$HOME/.config/base16-shell/base16-material.dark.sh"
+#   fi
+# fi
+#
+# [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+
 
 # Virtualenvwrapper
 export WORKON_HOME=$HOME/.virtualenvs
