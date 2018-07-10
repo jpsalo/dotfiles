@@ -127,7 +127,7 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 
 # lock
-bindsym $mod+Shift+l exec cinnamon-screensaver-command --lock
+# bindsym $mod+Shift+l exec cinnamon-screensaver-command --lock
 
 # lock & suspend
 bindsym $mod+Shift+s exec systemctl suspend
