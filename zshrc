@@ -22,6 +22,10 @@ fi
 
 # alias python='python3'
 
+
+# Executables
+export PATH=$HOME/.local/bin:$PATH
+
 typeset -U path path=(~/scripts $path)
 
 
