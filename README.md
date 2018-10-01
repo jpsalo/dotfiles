@@ -17,5 +17,6 @@
 `ramitos/tern-jsx`
 `jsctags`
 `sublime`
+`android-studio`
 
 `tvnamer`
