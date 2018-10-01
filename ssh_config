@@ -5,8 +5,3 @@ Host piiras
     HostName 192.168.1.37
     User pi
 
-Host *
-    IdentityFile ~/.ssh/github_rsa
-    IdentityFile ~/.ssh/piiras_mcbbro_rsa
-    UseKeychain yes
-    AddKeysToAgent yes
