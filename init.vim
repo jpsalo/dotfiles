@@ -376,7 +376,8 @@ set termguicolors
 " colorscheme base16-github
 " colorscheme solarized
 " colorscheme hybrid_material
-colorscheme NeoSolarized
+" colorscheme NeoSolarized
+colorscheme gruvbox
 
 " let g:airline_theme='solarized'
 " let g:airline_theme = "hybrid"

@@ -2,11 +2,9 @@ Host cedi
     HostName cedi.it.helsinki.fi
 
 Host piiras
-    HostName 192.168.1.200
-    User osmc
+    HostName 192.168.1.37
+    User pi
 
-Host *
-    IdentityFile ~/.ssh/github_rsa
-    IdentityFile ~/.ssh/piiras_mcbbro_rsa
-    UseKeychain yes
-    AddKeysToAgent yes
+Host uni
+    HostName pangolin.it.helsinki.fi
+    User jusalo

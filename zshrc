@@ -5,7 +5,7 @@ ZSH_THEME="robbyrussell"
 # Loading nvm is unacceptably slow, but nvm is needed for vim
 export NVM_LAZY_LOAD=false
 
-plugins=(git zsh-nvm npm yarn)
+plugins=(git zsh-nvm npm pip yarn)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -21,6 +21,10 @@ if [ "$(uname)" = "Darwin" ]; then  # Mac
 fi
 
 # alias python='python3'
+
+
+# Executables
+export PATH=$HOME/.local/bin:$PATH
 
 typeset -U path path=(~/scripts $path)
 
@@ -79,3 +83,10 @@ theme-switch () { echo -e "\033]50;SetProfile=$1\a"; export ITERM_PROFILE=$1; }
 
 # Fuzzy finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+# Run Dropbox daemon
+if type ~/scripts/dropbox-autostart.sh > /dev/null; then
+	echo 'autostart'
+	sh ~/scripts/dropbox-autostart.sh
+fi
