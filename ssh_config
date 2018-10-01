@@ -5,3 +5,6 @@ Host piiras
     HostName 192.168.1.37
     User pi
 
+Host uni
+    HostName pangolin.it.helsinki.fi
+    User jusalo
