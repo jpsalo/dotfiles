@@ -193,8 +193,8 @@ nnoremap <Leader>c :exec '!python' shellescape(@%, 1)<CR>
 
 
 " GoTo, general and Flow
-" https://github.com/Valloric/YouCompleteMe#ycmcompleter-subcommands
-nnoremap <Leader>jd :YcmCompleter GoTo<CR>
+" https://github.com/w0rp/ale#2iv-go-to-definition
+nnoremap <Leader>jd :ALEGoToDefinition<CR>
 nnoremap <Leader>fd :FlowJumpToDef<CR>
 
 nmap <Leader>gn <Plug>GitGutterNextHunk
@@ -342,6 +342,9 @@ let g:ale_fixers = {
 " Set this setting in vimrc if you want to fix files automatically on save.
 " This is off by default.
 " let g:ale_fix_on_save = 1
+
+" https://github.com/w0rp/ale#2iii-completion
+" let g:ale_completion_enabled = 1
 
 
 " Enable JSX syntax highlighting and indenting for .js files (vim-jsx)
