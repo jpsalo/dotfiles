@@ -106,19 +106,16 @@ Plug 'w0rp/ale'
 " Syntax and style checker for Python
 Plug 'nvie/vim-flake8'
 
-" Code completion (with JavaScript support)
-" https://github.com/junegunn/vim-plug#post-update-hooks
-function! BuildYCM(info)
-  " info is a dictionary with 3 fields
-  " - name:   name of the plugin
-  " - status: 'installed', 'updated', or 'unchanged'
-  " - force:  set on PlugInstall! or PlugUpdate!
-  if a:info.status == 'installed' || a:info.force
-    !./install.py --js-completer
-  endif
-endfunction
-
-Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+" Code completion
+" https://github.com/Shougo/deoplete.nvim#install
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+let g:deoplete#enable_at_startup = 1
 
 " Toggle the display of the quickfix list and the location-list
 Plug 'Valloric/ListToggle'
@@ -196,8 +193,8 @@ nnoremap <Leader>c :exec '!python' shellescape(@%, 1)<CR>
 
 
 " GoTo, general and Flow
-" https://github.com/Valloric/YouCompleteMe#ycmcompleter-subcommands
-nnoremap <Leader>jd :YcmCompleter GoTo<CR>
+" https://github.com/w0rp/ale#2iv-go-to-definition
+nnoremap <Leader>jd :ALEGoToDefinition<CR>
 nnoremap <Leader>fd :FlowJumpToDef<CR>
 
 nmap <Leader>gn <Plug>GitGutterNextHunk
@@ -345,6 +342,9 @@ let g:ale_fixers = {
 " Set this setting in vimrc if you want to fix files automatically on save.
 " This is off by default.
 " let g:ale_fix_on_save = 1
+
+" https://github.com/w0rp/ale#2iii-completion
+" let g:ale_completion_enabled = 1
 
 
 " Enable JSX syntax highlighting and indenting for .js files (vim-jsx)
