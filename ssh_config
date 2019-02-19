@@ -6,5 +6,5 @@ Host piiras
     User pi
 
 Host uni
-    HostName pangolin.it.helsinki.fi
+    HostName melkki.cs.helsinki.fi
     User jusalo
