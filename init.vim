@@ -334,18 +334,43 @@ endif
 " endif
 
 
-function! GFilesFallback()
+" Invoke fzf in find buffer
+nnoremap <Leader>b :Buffers<CR>
+
+
+function! GFilesFallback(is_sub_project)
   " https://github.com/junegunn/fzf.vim/issues/233#issuecomment-257158595
   " Include untracked files
   " https://github.com/junegunn/fzf.vim/issues/129#issuecomment-256431038
-  execute system('git rev-parse --is-inside-work-tree') =~ 'true' ? 'GFiles --exclude-standard --cached --others' : 'Files'
+  let is_git_repository = (system('git rev-parse --is-inside-work-tree'))
+  if is_git_repository =~ 'true'
+    if (a:is_sub_project == 1)
+      call fzf#run(fzf#wrap({'source': 'git ls-files --exclude-standard --cached --others'}))
+    else
+      execute 'GFiles --exclude-standard --cached --others'
+    endif
+  else
+    execute 'Files'
+  endif
+endfunction
+
+function! Fuz(is_sub_project)
+  if expand('%') =~ 'NERD_tree'
+    execute "normal \<c-w>\<c-w>"
+  endif
+  call GFilesFallback(a:is_sub_project)
 endfunction
 
 " 1.  Don't open files in NERDtree from fzf
 " 2.  Use :GFiles when in a git repo, otherwise use :Files
+"     2.1. Optionally execute in current working directory if it is a sub
+"     project
+"
 " https://github.com/junegunn/fzf.vim/issues/326#issuecomment-282936932
 " https://github.com/junegunn/fzf.vim/issues/431#issuecomment-323862501
-nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').": call GFilesFallback()\<cr>"
+" https://github.com/junegunn/fzf.vim/issues/395#issuecomment-311566047
+nnoremap <silent> <Leader><Leader> :call Fuz(0)<CR>
+nnoremap <silent> <Leader>o :call Fuz(1)<CR>
 
 
 " Disable folding
