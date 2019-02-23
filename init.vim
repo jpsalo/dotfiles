@@ -95,14 +95,7 @@ Plug 'kshenoy/vim-signature'
 Plug 'airblade/vim-gitgutter'
 
 " Syntax checker
-" Plug 'vim-syntastic/syntastic'
 Plug 'w0rp/ale'
-
-" Prefer local repo install of eslint over global install with syntastic
-" Plug 'mtscout6/syntastic-local-eslint.vim'
-" NOTE: There is a bug in 82da4209970523933d1dd3991644396352f9e1f7 where the
-" directory is changed every time a new buffer is opened
-" Plug 'mtscout6/syntastic-local-eslint.vim', { 'commit': '7a78b2f2b9c38ca7db9c47ce8d74f854432c165f' }
 
 " Syntax and style checker for Python
 Plug 'nvie/vim-flake8'
@@ -284,17 +277,6 @@ let g:airline#extensions#branch#enabled = 0
 let g:airline#extensions#ale#enabled = 1
 
 
-" Populate the location list
-" let g:syntastic_always_populate_loc_list = 1
-
-
-" Python and JavaScript (and Flow) syntax checkers
-" https://github.com/vim-syntastic/syntastic#faqcheckers
-" let g:syntastic_python_checkers = ['flake8']
-" let g:syntastic_javascript_checkers = ['eslint', 'flow']
-" let g:syntastic_coffee_checkers = ['coffeelint']
-" Not sure if this is needed
-" let g:syntastic_javascript_flow_exe = 'flow'
 
 " After this is configured, :ALEFix will try and fix your JS code with ESLint.
 let g:ale_fixers = {
