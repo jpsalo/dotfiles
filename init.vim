@@ -21,12 +21,6 @@ set ignorecase
 set smartcase
 
 
-" Ignores (in CtrlP)
-set wildignore+=**/node_modules/**
-set wildignore+=**/build/**
-set wildignore+=**/.build/**
-
-
 " http://stackoverflow.com/a/1878984/7010222
 set tabstop=2       " The width of a TAB is set to 4.
                     " Still it is a \t. It is just that
@@ -91,7 +85,6 @@ Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Fuzzy finder
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
@@ -209,14 +202,6 @@ nmap <Leader>gn <Plug>GitGutterNextHunk
 nmap <Leader>gp <Plug>GitGutterPrevHunk
 
 
-" Invoke CtrlP in find buffer
-nnoremap <Leader>b :Buffers<CR>
-
-
-" Function navigator / jump to definiton
-nnoremap <Leader>r :CtrlPBufTag<CR>
-
-
 " Key mappings for toggling locationlist and quickfix
 let g:lt_location_list_toggle_map = '<Leader>l'
 let g:lt_quickfix_list_toggle_map = '<Leader>q'
@@ -226,15 +211,6 @@ let g:lt_quickfix_list_toggle_map = '<Leader>q'
 map <Leader>m :NERDTreeToggle<CR>
 map <Leader>p :NERDTreeFind<CR>
 
-" Activate main window if NERDTree is active before opening ctrlp
-" http://vi.stackexchange.com/a/11300
-function! CtrlPCommand()
-  if exists("b:NERDTree")
-    exec 'wincmd w'
-  endif
-  exec 'CtrlP'
-endfunction
-let g:ctrlp_cmd = 'call CtrlPCommand()'
 
 " Delete buffer without losing the split window
 " This is needed with NERDTree / netrw
@@ -285,26 +261,6 @@ let g:ycm_server_keep_logfiles = 1
 
 " For reference
 let g:ycm_server_python_interpreter = ''
-
-
-" Find dotfiles
-let g:ctrlp_show_hidden = 1
-
-" Ignore spaces when searching CtrlP
-" https://github.com/ctrlpvim/ctrlp.vim/issues/196#issuecomment-192541449
-let g:ctrlp_abbrev = {
-  \ 'gmode': 'i',
-  \ 'abbrevs': [
-    \ {
-      \ 'pattern': ' ',
-      \ 'expanded': '',
-      \ 'mode': 'pfrz',
-    \ },
-    \ ]
-  \ }
-
-" More results with the default window size
-let g:ctrlp_match_window = 'results:100'
 
 
 " Tab line
