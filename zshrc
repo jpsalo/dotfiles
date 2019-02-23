@@ -25,6 +25,7 @@ fi
 
 # Executables
 export PATH=$HOME/.local/bin:$PATH
+export PATH="$HOME/bin:$PATH"
 
 typeset -U path path=(~/scripts $path)
 
