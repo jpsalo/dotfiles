@@ -111,6 +111,8 @@ else
 endif
 let g:deoplete#enable_at_startup = 1
 
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+
 " Toggle the display of the quickfix list and the location-list
 Plug 'Valloric/ListToggle'
 
@@ -238,6 +240,19 @@ nnoremap <Leader>ff :Find<space>
 " https://github.com/Raimondi/delimitMate/blob/master/doc/delimitMate.txt
 let delimitMate_expand_space = 1
 let delimitMate_expand_cr=1
+
+
+" Set tern bin in case there is many installations (such as local)
+" https://github.com/carlitux/deoplete-ternjs#vim-configuration-example
+" https://github.com/carlitux/deoplete-ternjs/pull/26#issue-83900767
+function! StrTrim(txt)
+  return substitute(a:txt, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
+endfunction
+
+let g:tern_path = StrTrim(system('PATH=$(npm bin):$PATH && which tern'))
+if g:tern_path != 'tern not found'
+  let g:deoplete#sources#ternjs#tern_bin = g:tern_path
+endif
 
 
 " Absolute width of netrw window
