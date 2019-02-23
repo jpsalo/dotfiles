@@ -133,7 +133,7 @@ Plug 'kchmck/vim-coffee-script'
 Plug 'digitaltoad/vim-pug'
 
 " Auto-close brackets
-Plug 'jiangmiao/auto-pairs'
+Plug 'raimondi/delimitmate'
 
 Plug 'ap/vim-css-color'
 
@@ -232,6 +232,12 @@ map <Leader>fa :execute "noautocmd vimgrep /\\<" . expand("<cword>") . "\\>/j sr
 " Find in current file
 command! -nargs=1 Find execute "silent grep! -i <args> %" | redraw! | cw
 nnoremap <Leader>ff :Find<space>
+
+
+" Expand space carriage returns in delimitMate
+" https://github.com/Raimondi/delimitMate/blob/master/doc/delimitMate.txt
+let delimitMate_expand_space = 1
+let delimitMate_expand_cr=1
 
 
 " Absolute width of netrw window
