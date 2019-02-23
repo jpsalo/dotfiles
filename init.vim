@@ -265,6 +265,9 @@ let g:airline#extensions#branch#enabled = 0
 let g:airline#extensions#ale#enabled = 1
 
 
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\}
 
 " After this is configured, :ALEFix will try and fix your JS code with ESLint.
 let g:ale_fixers = {
