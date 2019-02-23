@@ -244,18 +244,6 @@ let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 
 
-" Improve syntax (for reference)
-let g:ycm_seed_identifiers_with_syntax = 0
-
-" Hide information about the current completion candidate
-let g:ycm_autoclose_preview_window_after_completion = 1
-
-let g:ycm_server_keep_logfiles = 1
-
-" For reference
-let g:ycm_server_python_interpreter = ''
-
-
 " Tab line
 let g:airline#extensions#tabline#enabled = 1
 
