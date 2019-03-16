@@ -341,24 +341,24 @@ syntax enable
 
 " Use true color
 " https://github.com/neovim/neovim/wiki/FAQ#how-can-i-use-true-color-in-the-terminal
-set termguicolors
+" set termguicolors
 
 " 256 colorspace for base16
 " https://github.com/chriskempson/base16-shell#base16-vim-users
-" if filereadable(expand("~/.vimrc_background"))
-"   let base16colorspace=256
-"   source ~/.vimrc_background
-" endif
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
 
-" colorscheme base16-github
+colorscheme base16-gruvbox-dark-pale
 " colorscheme solarized
 " colorscheme hybrid_material
 " colorscheme NeoSolarized
-colorscheme gruvbox
+" colorscheme gruvbox
 
 " Contrast
 " https://github.com/morhetz/gruvbox/wiki/Configuration#ggruvbox_contrast_light
-let g:gruvbox_contrast_light="medium"
+" let g:gruvbox_contrast_light="medium"
 
 " let g:airline_theme='solarized'
 " let g:airline_theme = "hybrid"
