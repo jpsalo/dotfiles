@@ -233,3 +233,8 @@ client.urgent           #2f343a #900000 #ffffff #900000
 # Dropbox
 # exec --no-startup-id dropbox start
 
+# Scroll: natural, horizontal, tap
+# https://unix.stackexchange.com/a/497462
+# https://www.reddit.com/r/i3wm/comments/4phohu/help_with_natural_scrolling_on_ubuntu_running_i3/
+exec --no-startup-id synclient NaturalScrolling=1 VertScrollDelta=-111 HorizTwoFingerScroll=1 HorizScrollDelta=-111
+
