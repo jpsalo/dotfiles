@@ -21,12 +21,6 @@ set ignorecase
 set smartcase
 
 
-" Ignores (in CtrlP)
-set wildignore+=**/node_modules/**
-set wildignore+=**/build/**
-set wildignore+=**/.build/**
-
-
 " http://stackoverflow.com/a/1878984/7010222
 set tabstop=2       " The width of a TAB is set to 4.
                     " Still it is a \t. It is just that
@@ -60,6 +54,14 @@ autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose <CR>:lclose<CR>
 
 " Plugin manager
 " https://github.com/junegunn/vim-plug
+" Automatic installation
+" https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 call plug#begin('~/.config/nvim/plugged')
 
 " Automatically save changes to disk
@@ -83,7 +85,6 @@ Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Fuzzy finder
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
@@ -94,14 +95,7 @@ Plug 'kshenoy/vim-signature'
 Plug 'airblade/vim-gitgutter'
 
 " Syntax checker
-" Plug 'vim-syntastic/syntastic'
 Plug 'w0rp/ale'
-
-" Prefer local repo install of eslint over global install with syntastic
-" Plug 'mtscout6/syntastic-local-eslint.vim'
-" NOTE: There is a bug in 82da4209970523933d1dd3991644396352f9e1f7 where the
-" directory is changed every time a new buffer is opened
-" Plug 'mtscout6/syntastic-local-eslint.vim', { 'commit': '7a78b2f2b9c38ca7db9c47ce8d74f854432c165f' }
 
 " Syntax and style checker for Python
 Plug 'nvie/vim-flake8'
@@ -116,6 +110,8 @@ else
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 let g:deoplete#enable_at_startup = 1
+
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 
 " Toggle the display of the quickfix list and the location-list
 Plug 'Valloric/ListToggle'
@@ -139,7 +135,7 @@ Plug 'kchmck/vim-coffee-script'
 Plug 'digitaltoad/vim-pug'
 
 " Auto-close brackets
-Plug 'jiangmiao/auto-pairs'
+Plug 'raimondi/delimitmate'
 
 Plug 'ap/vim-css-color'
 
@@ -201,14 +197,6 @@ nmap <Leader>gn <Plug>GitGutterNextHunk
 nmap <Leader>gp <Plug>GitGutterPrevHunk
 
 
-" Invoke CtrlP in find buffer
-nnoremap <Leader>b :Buffers<CR>
-
-
-" Function navigator / jump to definiton
-nnoremap <Leader>r :CtrlPBufTag<CR>
-
-
 " Key mappings for toggling locationlist and quickfix
 let g:lt_location_list_toggle_map = '<Leader>l'
 let g:lt_quickfix_list_toggle_map = '<Leader>q'
@@ -218,15 +206,6 @@ let g:lt_quickfix_list_toggle_map = '<Leader>q'
 map <Leader>m :NERDTreeToggle<CR>
 map <Leader>p :NERDTreeFind<CR>
 
-" Activate main window if NERDTree is active before opening ctrlp
-" http://vi.stackexchange.com/a/11300
-function! CtrlPCommand()
-  if exists("b:NERDTree")
-    exec 'wincmd w'
-  endif
-  exec 'CtrlP'
-endfunction
-let g:ctrlp_cmd = 'call CtrlPCommand()'
 
 " Delete buffer without losing the split window
 " This is needed with NERDTree / netrw
@@ -257,6 +236,44 @@ command! -nargs=1 Find execute "silent grep! -i <args> %" | redraw! | cw
 nnoremap <Leader>ff :Find<space>
 
 
+" Expand space carriage returns in delimitMate
+" https://github.com/Raimondi/delimitMate/blob/master/doc/delimitMate.txt
+let delimitMate_expand_space = 1
+let delimitMate_expand_cr=1
+
+
+" Navigate through autocomplete suggestions and add them
+" https://github.com/Shougo/deoplete.nvim/issues/246#issuecomment-344463696
+inoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<Up>"
+inoremap <expr><C-l> pumvisible() ? "\<C-y>" : "\<C-l>"
+
+" Select an option from popup menu with CR (Enter) without doing a return.
+" When no entry selected, <CR> closes pum and inserts new line (default)
+" Otherwise, use delimitMate <CR> expansion
+" TODO: function
+"
+" https://github.com/Shougo/deoplete.nvim/issues/492#issuecomment-306751415
+" https://github.com/Shougo/deoplete.nvim/issues/484#issuecomment-302987007
+" https://github.com/Raimondi/delimitMate/issues/53#issuecomment-8765040
+" https://github.com/Raimondi/delimitMate/blob/master/doc/delimitMate.txt
+" https://github.com/vim/vim/issues/2004#issuecomment-324357529
+imap <expr><CR> pumvisible() && !empty(v:completed_item) ? "\<C-y>" : "<Plug>delimitMateCR"
+
+
+" Set tern bin in case there is many installations (such as local)
+" https://github.com/carlitux/deoplete-ternjs#vim-configuration-example
+" https://github.com/carlitux/deoplete-ternjs/pull/26#issue-83900767
+function! StrTrim(txt)
+  return substitute(a:txt, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
+endfunction
+
+let g:tern_path = StrTrim(system('PATH=$(npm bin):$PATH && which tern'))
+if g:tern_path != 'tern not found'
+  let g:deoplete#sources#ternjs#tern_bin = g:tern_path
+endif
+
+
 " Absolute width of netrw window
 let g:netrw_winsize = 25
 
@@ -265,38 +282,6 @@ let g:netrw_banner = 0
 
 " tree-view
 let g:netrw_liststyle = 3
-
-
-" Improve syntax (for reference)
-let g:ycm_seed_identifiers_with_syntax = 0
-
-" Hide information about the current completion candidate
-let g:ycm_autoclose_preview_window_after_completion = 1
-
-let g:ycm_server_keep_logfiles = 1
-
-" For reference
-let g:ycm_server_python_interpreter = ''
-
-
-" Find dotfiles
-let g:ctrlp_show_hidden = 1
-
-" Ignore spaces when searching CtrlP
-" https://github.com/ctrlpvim/ctrlp.vim/issues/196#issuecomment-192541449
-let g:ctrlp_abbrev = {
-  \ 'gmode': 'i',
-  \ 'abbrevs': [
-    \ {
-      \ 'pattern': ' ',
-      \ 'expanded': '',
-      \ 'mode': 'pfrz',
-    \ },
-    \ ]
-  \ }
-
-" More results with the default window size
-let g:ctrlp_match_window = 'results:100'
 
 
 " Tab line
@@ -320,17 +305,9 @@ let g:airline#extensions#branch#enabled = 0
 let g:airline#extensions#ale#enabled = 1
 
 
-" Populate the location list
-" let g:syntastic_always_populate_loc_list = 1
-
-
-" Python and JavaScript (and Flow) syntax checkers
-" https://github.com/vim-syntastic/syntastic#faqcheckers
-" let g:syntastic_python_checkers = ['flake8']
-" let g:syntastic_javascript_checkers = ['eslint', 'flow']
-" let g:syntastic_coffee_checkers = ['coffeelint']
-" Not sure if this is needed
-" let g:syntastic_javascript_flow_exe = 'flow'
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\}
 
 " After this is configured, :ALEFix will try and fix your JS code with ESLint.
 let g:ale_fixers = {
@@ -379,16 +356,21 @@ set termguicolors
 " colorscheme NeoSolarized
 colorscheme gruvbox
 
+" Contrast
+" https://github.com/morhetz/gruvbox/wiki/Configuration#ggruvbox_contrast_light
+let g:gruvbox_contrast_light="medium"
+
 " let g:airline_theme='solarized'
 " let g:airline_theme = "hybrid"
 
 " Change vim background and colorscheme based on iTerm profile
+" TODO: if Mac: iTerm profile; if Linux: terminator profile
 " https://stackoverflow.com/a/38883860/7010222
 let iterm_profile = $ITERM_PROFILE
-if iterm_profile == "dark"
-    set background=dark
-else
+if iterm_profile == "light"
     set background=light
+else
+    set background=dark
 endif
 
 
@@ -400,18 +382,43 @@ endif
 " endif
 
 
-function! GFilesFallback()
+" Invoke fzf in find buffer
+nnoremap <Leader>b :Buffers<CR>
+
+
+function! GFilesFallback(is_sub_project)
   " https://github.com/junegunn/fzf.vim/issues/233#issuecomment-257158595
   " Include untracked files
   " https://github.com/junegunn/fzf.vim/issues/129#issuecomment-256431038
-  execute system('git rev-parse --is-inside-work-tree') =~ 'true' ? 'GFiles --exclude-standard --cached --others' : 'Files'
+  let is_git_repository = (system('git rev-parse --is-inside-work-tree'))
+  if is_git_repository =~ 'true'
+    if (a:is_sub_project == 1)
+      call fzf#run(fzf#wrap({'source': 'git ls-files --exclude-standard --cached --others'}))
+    else
+      execute 'GFiles --exclude-standard --cached --others'
+    endif
+  else
+    execute 'Files'
+  endif
+endfunction
+
+function! Fuz(is_sub_project)
+  if expand('%') =~ 'NERD_tree'
+    execute "normal \<c-w>\<c-w>"
+  endif
+  call GFilesFallback(a:is_sub_project)
 endfunction
 
 " 1.  Don't open files in NERDtree from fzf
 " 2.  Use :GFiles when in a git repo, otherwise use :Files
+"     2.1. Optionally execute in current working directory if it is a sub
+"     project
+"
 " https://github.com/junegunn/fzf.vim/issues/326#issuecomment-282936932
 " https://github.com/junegunn/fzf.vim/issues/431#issuecomment-323862501
-nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').": call GFilesFallback()\<cr>"
+" https://github.com/junegunn/fzf.vim/issues/395#issuecomment-311566047
+nnoremap <silent> <Leader><Leader> :call Fuz(0)<CR>
+nnoremap <silent> <Leader>o :call Fuz(1)<CR>
 
 
 " Disable folding

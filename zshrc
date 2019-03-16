@@ -25,8 +25,13 @@ fi
 
 # Executables
 export PATH=$HOME/.local/bin:$PATH
+export PATH="$HOME/bin:$PATH"
 
 typeset -U path path=(~/scripts $path)
+
+# Manually change npm’s default directory
+# https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally#manually-change-npms-default-directory
+# export PATH=~/.npm-global/bin:$PATH
 
 
 # 256 COLORS
