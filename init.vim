@@ -350,7 +350,7 @@ if filereadable(expand("~/.vimrc_background"))
   source ~/.vimrc_background
 endif
 
-colorscheme base16-gruvbox-dark-pale
+" colorscheme base16-gruvbox-dark-pale
 " colorscheme solarized
 " colorscheme hybrid_material
 " colorscheme NeoSolarized
