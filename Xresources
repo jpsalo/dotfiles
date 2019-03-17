@@ -298,5 +298,7 @@ URxvt.keysym.Shift-Control-Down:  \033[1;6B
 ! https://superuser.com/a/1247292
 URxvt.perl-ext-common: ...,default,resize-font,...
 
+URxvt.resize-font.step: 1
+
 URxvt.iso14755:        false
 URxvt.iso14755_52:     false
