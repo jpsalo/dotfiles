@@ -31,7 +31,7 @@ typeset -U path path=(~/scripts $path)
 
 # Manually change npm’s default directory
 # https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally#manually-change-npms-default-directory
-# export PATH=~/.npm-global/bin:$PATH
+export PATH=~/.npm-global/bin:$PATH
 
 
 # 256 COLORS
@@ -42,8 +42,8 @@ typeset -U path path=(~/scripts $path)
 
 # Base16 256 colorspace
 # https://github.com/chriskempson/base16-shell#bashzsh
-# BASE16_SHELL=$HOME/.config/base16-shell/
-# [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
 # Base16 Shell
 # https://github.com/kristijanhusak/vim-hybrid-material/tree/master/base16-material#setup
