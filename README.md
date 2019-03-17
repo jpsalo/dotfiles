@@ -1,12 +1,12 @@
 # prerequisites
-`neovim`
 `zsh`
 `oh-my-zsh`
-`hub`
+`nvm` (`zsh-nvm`)
 `node`
 `npm`
+`neovim`
+`hub`
 `yarn`
-`nvm` (`zsh-nvm`)
 `eslint`
 `eslint-plugin-react`
 `python`
@@ -19,4 +19,5 @@
 `sublime`
 `android-studio`
 
+`dejavu sans mono nerd font`
 `tvnamer`
