@@ -304,6 +304,10 @@ let g:airline#extensions#branch#enabled = 0
 " Show ALE errors or warnings in statusline
 let g:airline#extensions#ale#enabled = 1
 
+" Powerline font symbols
+" https://github.com/vim-airline/vim-airline/wiki/FAQ#the-powerline-font-symbols-are-not-showing-up
+let g:airline_powerline_fonts=1
+
 
 let g:ale_linters = {
 \   'javascript': ['eslint'],
