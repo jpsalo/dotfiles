@@ -18,6 +18,7 @@
 `jsctags`
 `sublime`
 `android-studio`
+`urxvt-resize-font`
 
 `dejavu sans mono nerd font`
 `tvnamer`
