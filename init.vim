@@ -88,6 +88,9 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
+" ack.vim
+Plug 'mileszs/ack.vim'
+
 " Toggle, display and navigate marks
 Plug 'kshenoy/vim-signature'
 
@@ -427,6 +430,18 @@ endfunction
 " https://github.com/junegunn/fzf.vim/issues/395#issuecomment-311566047
 nnoremap <silent> <Leader><Leader> :call Fuz(0)<CR>
 nnoremap <silent> <Leader>o :call Fuz(1)<CR>
+
+
+" The Silver Searcher (ag) with ack
+" https://github.com/ggreer/the_silver_searcher#vim
+" https://github.com/mileszs/ack.vim#can-i-use-ag-the-silver-searcher-with-this
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+" Match whole words only
+" https://github.com/junegunn/fzf.vim/issues/560#issuecomment-356022248
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--word-regexp', <bang>0)
 
 
 " Disable folding
