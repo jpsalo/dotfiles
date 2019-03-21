@@ -297,6 +297,10 @@ let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 
+" Use straight tabs
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+
 " Hide git branch from statusline
 " https://github.com/vim-airline/vim-airline/issues/605#issue-43567680
 let g:airline#extensions#branch#enabled = 0
