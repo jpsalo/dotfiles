@@ -21,6 +21,7 @@
 `sublime`
 `android-studio`
 `tig`
+`urxvt-resize-font`
 
 `dejavu sans mono nerd font`
 `tvnamer`
