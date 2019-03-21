@@ -4,12 +4,14 @@
 `nvm` (`zsh-nvm`)
 `node`
 `npm`
+`silver searcher ag`
 `neovim`
 `hub`
 `yarn`
 `eslint`
 `eslint-plugin-react`
 `python`
+`pip`
 `virtualenv`
 `virtualenvwrapper`
 `flake8`
@@ -18,6 +20,7 @@
 `jsctags`
 `sublime`
 `android-studio`
+`tig`
 
 `dejavu sans mono nerd font`
 `tvnamer`
