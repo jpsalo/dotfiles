@@ -439,10 +439,6 @@ if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
-" Match whole words only
-" https://github.com/junegunn/fzf.vim/issues/560#issuecomment-356022248
-command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--word-regexp', <bang>0)
-
 
 " Disable folding
 let g:vim_markdown_folding_disabled = 1
