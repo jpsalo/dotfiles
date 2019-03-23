@@ -374,17 +374,6 @@ endif
 " let g:airline_theme='solarized'
 " let g:airline_theme = "hybrid"
 
-" Change vim background and colorscheme based on iTerm profile
-" TODO: if Mac: iTerm profile; if Linux: terminator profile
-" https://stackoverflow.com/a/38883860/7010222
-let iterm_profile = $ITERM_PROFILE
-if iterm_profile == "light"
-    set background=light
-else
-    set background=dark
-endif
-
-
 " Change cursor shape between insert and normal mode in iTerm2.app
 " https://hamberg.no/erlend/posts/2014-03-09-change-vim-cursor-in-iterm.html
 " if $TERM_PROGRAM =~ "iTerm"
