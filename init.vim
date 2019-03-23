@@ -366,6 +366,10 @@ endif
 " let g:gruvbox_contrast_light="medium"
 
 let g:airline_theme = 'base16_vim'
+" More monotonic look
+let g:airline_base16_monotone = 1
+" Improve the contrast for the inactive statusline
+let g:airline_base16_improved_contrast = 1
 
 
 " Invoke fzf in find buffer
