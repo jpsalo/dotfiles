@@ -101,6 +101,8 @@ let g:deoplete#enable_at_startup = 1
 
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 
+Plug 'deoplete-plugins/deoplete-jedi'
+
 " Toggle the display of the quickfix list and the location-list
 Plug 'Valloric/ListToggle'
 
