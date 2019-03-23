@@ -34,6 +34,8 @@ Install what is needed and `ln -s` config.
 
 `eslint`
 
+`typescript (tsserver)`
+
 `neovim`
 
 `tig`
