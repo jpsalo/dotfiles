@@ -19,7 +19,7 @@ typeset -U path path=(~/scripts $path)
 # https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally#manually-change-npms-default-directory
 export PATH=~/.npm-global/bin:$PATH
 
-# Base16 256 colorspace
+# Base16 Shell
 # https://github.com/chriskempson/base16-shell#bashzsh
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
