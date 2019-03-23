@@ -299,7 +299,7 @@ let g:airline_powerline_fonts=1
 
 let g:ale_linters = {
 \   'javascript': ['eslint', 'tsserver'],
-\   'python': ['flake8'],
+\   'python': ['flake8', 'pyls'],
 \}
 
 " After this is configured, :ALEFix will try and fix your JS code with ESLint.

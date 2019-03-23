@@ -20,6 +20,8 @@ Install what is needed and `ln -s` config.
 
 `pip`
 
+`pyls`
+
 `jedi`
 
 `flake8`
