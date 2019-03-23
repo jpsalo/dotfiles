@@ -299,12 +299,14 @@ let g:airline_powerline_fonts=1
 
 let g:ale_linters = {
 \   'javascript': ['eslint'],
+\   'python': ['flake8'],
 \}
 
 " After this is configured, :ALEFix will try and fix your JS code with ESLint.
 let g:ale_fixers = {
 \   'javascript': ['eslint'],
 \   'coffee': ['coffeelint'],
+\   'python': ['autopep8'],
 \}
 
 
