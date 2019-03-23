@@ -298,7 +298,7 @@ let g:airline_powerline_fonts=1
 
 
 let g:ale_linters = {
-\   'javascript': ['eslint'],
+\   'javascript': ['eslint', 'tsserver'],
 \   'python': ['flake8'],
 \}
 
