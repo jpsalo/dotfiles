@@ -34,18 +34,6 @@ set softtabstop=2   " Sets the number of columns for a TAB
 set expandtab       " Expand TABs to space
 
 
-" Python indent
-" https://realpython.com/blog/python/vim-and-python-a-match-made-in-heaven/
-au BufNewFile,BufRead *.py
-      \ set tabstop=4 |
-      \ set softtabstop=4 |
-      \ set shiftwidth=4 |
-      \ set textwidth=79 |
-      \ set expandtab |
-      \ set autoindent |
-      \ set fileformat=unix |
-
-
 " Close quickfix and location-list when selecting file
 " http://stackoverflow.com/a/21326968/7010222
 " http://stackoverflow.com/a/10850835/7010222
