@@ -100,9 +100,6 @@ Plug 'airblade/vim-gitgutter'
 " Syntax checker
 Plug 'w0rp/ale'
 
-" Syntax and style checker for Python
-Plug 'nvie/vim-flake8'
-
 " Code completion
 " https://github.com/Shougo/deoplete.nvim#install
 if has('nvim')
