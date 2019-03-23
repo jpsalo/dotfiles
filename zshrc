@@ -2,7 +2,7 @@ export ZSH=~/.oh-my-zsh
 
 ZSH_THEME="robbyrussell"
 
-plugins=(git zsh-nvm npm pip yarn)
+plugins=(git npm pip)
 
 source $ZSH/oh-my-zsh.sh
 
