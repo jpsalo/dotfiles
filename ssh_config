@@ -8,4 +8,3 @@ Host piiras
 Host uni
     HostName melkki.cs.helsinki.fi
     User jusalo
-    ForwardX11 yes
