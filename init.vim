@@ -110,7 +110,7 @@ Plug 'Valloric/ListToggle'
 Plug 'pangloss/vim-javascript'
 
 " JSX syntax highlighting and indenting
-Plug 'mxw/vim-jsx'
+Plug 'maxmellon/vim-jsx-pretty'
 
 " Flow completion and type error checking
 Plug 'flowtype/vim-flow'
@@ -316,10 +316,6 @@ let g:ale_fixers = {
 
 " https://github.com/w0rp/ale#2iii-completion
 " let g:ale_completion_enabled = 1
-
-
-" Enable JSX syntax highlighting and indenting for .js files (vim-jsx)
-let g:jsx_ext_required = 0
 
 
 " Enables syntax highlighting for Flow (vim-javascript)
