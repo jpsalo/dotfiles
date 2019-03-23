@@ -170,12 +170,6 @@ nnoremap <Leader>cd :cd %:p:h<CR>
 noremap <CR> :noh<CR><CR>
 
 
-" Run Python code
-" http://stackoverflow.com/a/18948530/7010222b
-" not working with <buffer> when using netrw
-nnoremap <Leader>c :exec '!python' shellescape(@%, 1)<CR>
-
-
 " GoTo, general and Flow
 " https://github.com/w0rp/ale#2iv-go-to-definition
 nnoremap <Leader>jd :ALEGoToDefinition<CR>
