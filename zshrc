@@ -2,9 +2,6 @@ export ZSH=~/.oh-my-zsh
 
 ZSH_THEME="robbyrussell"
 
-# Loading nvm is unacceptably slow, but nvm is needed for vim
-# export NVM_LAZY_LOAD=false
-
 plugins=(git zsh-nvm npm pip yarn)
 
 source $ZSH/oh-my-zsh.sh
