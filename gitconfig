@@ -1,14 +1,3 @@
 [user]
-	name = jpsalo
+	name = jps
 	email = jpsalo@zoho.com
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-# [credential]
-#   helper = /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
-[core]
-	excludesfile = /Users/jp/.gitignore_global
-[push]
-	default = simple
