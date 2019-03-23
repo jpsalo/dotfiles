@@ -24,9 +24,6 @@ export PATH=~/.npm-global/bin:$PATH
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
-# Base16 Shell
-# https://github.com/kristijanhusak/vim-hybrid-material/tree/master/base16-material#setup
-
 # if [[ -z "${ITERM_PROFILE}" ]]; then
 #   BASE16_SHELL="$HOME/.config/base16-shell/base16-material.dark.sh"
 # else
