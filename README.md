@@ -14,11 +14,20 @@ Install what is needed and `ln -s` config.
 
 `silver searcher (ag)`
 
-## Development
+
+## Python
 `python`
 
 `pip`
 
+`jedi`
+
+`flake8`
+
+`autopep8`
+
+
+## Development
 `node`
 
 `npm`
