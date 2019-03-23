@@ -361,18 +361,11 @@ if filereadable(expand("~/.vimrc_background"))
   source ~/.vimrc_background
 endif
 
-" colorscheme base16-gruvbox-dark-pale
-" colorscheme solarized
-" colorscheme hybrid_material
-" colorscheme NeoSolarized
-" colorscheme gruvbox
-
 " Contrast
 " https://github.com/morhetz/gruvbox/wiki/Configuration#ggruvbox_contrast_light
 " let g:gruvbox_contrast_light="medium"
 
-" let g:airline_theme='solarized'
-" let g:airline_theme = "hybrid"
+let g:airline_theme = 'base16_vim'
 
 
 " Invoke fzf in find buffer
