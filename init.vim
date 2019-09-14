@@ -340,6 +340,19 @@ if filereadable(expand("~/.vimrc_background"))
   source ~/.vimrc_background
 endif
 
+" Fix highlighting for spell checks in terminal
+" Colors: https://github.com/chriskempson/base16/blob/master/styling.md
+" Arguments: group, guifg, guibg, ctermfg, ctermbg, attr, guisp
+" https://github.com/chriskempson/base16-vim/#customization
+" https://github.com/chriskempson/base16-vim/issues/182#issue-336531173
+"
+" TODO: if has(termguicolors) set ... else
+
+call Base16hi("SpellBad",   "", "", g:base16_cterm08, g:base16_cterm00, "", "")
+call Base16hi("SpellCap",   "", "", g:base16_cterm0A, g:base16_cterm00, "", "")
+call Base16hi("SpellLocal", "", "", g:base16_cterm0D, g:base16_cterm00, "", "")
+call Base16hi("SpellRare",  "", "", g:base16_cterm0B, g:base16_cterm00, "", "")
+
 " Contrast
 " https://github.com/morhetz/gruvbox/wiki/Configuration#ggruvbox_contrast_light
 " let g:gruvbox_contrast_light="medium"
