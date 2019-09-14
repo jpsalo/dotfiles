@@ -40,3 +40,6 @@ if [ -f $HOME/bin/google-cloud-sdk/path.zsh.inc ]; then . $HOME/bin/google-cloud
 if [ -f $HOME/bin/google-cloud-sdk/completion.zsh.inc ]; then . $HOME/bin/google-cloud-sdk/completion.zsh.inc; fi
 
 export GOOGLE_APPLICATION_CREDENTIALS="$(< $HOME/.google-service-account.json)"
+
+export PATH=$HOME/bin/mongodb/bin:$PATH
+export PATH=$HOME/bin/splunk/bin:$PATH
