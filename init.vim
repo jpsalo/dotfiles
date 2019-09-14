@@ -413,3 +413,9 @@ endif
 
 " Disable folding
 let g:vim_markdown_folding_disabled = 1
+
+
+" Python virtualenv
+" https://neovim.io/doc/user/provider.html#python-virtualenv
+let g:python_host_prog = '/usr/bin/python'
+let g:python3_host_prog = '/usr/bin/python3'
