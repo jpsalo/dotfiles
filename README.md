@@ -20,6 +20,10 @@ Install what is needed and `ln -s` config.
 
 `pip`
 
+`virtualenv`
+
+`virtualenvwrapper`
+
 `pyls`
 
 `jedi`
