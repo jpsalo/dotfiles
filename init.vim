@@ -178,8 +178,8 @@ noremap <CR> :noh<CR><CR>
 " GoTo, Flow
 nnoremap <Leader>fd :FlowJumpToDef<CR>
 
-nmap <Leader>gn <Plug>GitGutterNextHunk
-nmap <Leader>gp <Plug>GitGutterPrevHunk
+nmap <Leader>gn <Plug>(GitGutterNextHunk)
+nmap <Leader>gp <Plug>(GitGutterPrevHunk)
 
 
 " Key mappings for toggling locationlist and quickfix
