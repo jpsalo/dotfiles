@@ -88,6 +88,9 @@ Plug 'airblade/vim-gitgutter'
 " Syntax checker
 Plug 'w0rp/ale'
 
+" Autocompletion library
+Plug 'davidhalter/jedi-vim'
+
 " Code completion
 " https://github.com/Shougo/deoplete.nvim#install
 if has('nvim')
@@ -172,9 +175,7 @@ nnoremap <Leader>cd :cd %:p:h<CR>
 noremap <CR> :noh<CR><CR>
 
 
-" GoTo, general and Flow
-" https://github.com/w0rp/ale#2iv-go-to-definition
-nnoremap <Leader>jd :ALEGoToDefinition<CR>
+" GoTo, Flow
 nnoremap <Leader>fd :FlowJumpToDef<CR>
 
 nmap <Leader>gn <Plug>GitGutterNextHunk
@@ -224,6 +225,10 @@ nnoremap <Leader>ff :Find<space>
 " https://github.com/Raimondi/delimitMate/blob/master/doc/delimitMate.txt
 let delimitMate_expand_space = 1
 let delimitMate_expand_cr=1
+
+
+" Disable jedi-vim's completions
+let g:jedi#completions_enabled = 0
 
 
 " Navigate through autocomplete suggestions and add them
