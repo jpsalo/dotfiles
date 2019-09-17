@@ -31,7 +31,14 @@ BASE16_SHELL=$HOME/.config/base16-shell/
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/devel
-source $HOME/.local/bin/virtualenvwrapper.sh
+
+if [ -f /usr/bin/virtualenvwrapper.sh ]
+then
+  source /usr/bin/virtualenvwrapper.sh
+elif [ -f $HOME/.local/bin/virtualenvwrapper.sh ]
+then
+  source $HOME/.local/bin/virtualenvwrapper.sh
+fi
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f $HOME/bin/google-cloud-sdk/path.zsh.inc ]; then . $HOME/bin/google-cloud-sdk/path.zsh.inc; fi
@@ -39,7 +46,10 @@ if [ -f $HOME/bin/google-cloud-sdk/path.zsh.inc ]; then . $HOME/bin/google-cloud
 # The next line enables shell command completion for gcloud.
 if [ -f $HOME/bin/google-cloud-sdk/completion.zsh.inc ]; then . $HOME/bin/google-cloud-sdk/completion.zsh.inc; fi
 
-export GOOGLE_APPLICATION_CREDENTIALS="$(< $HOME/.google-service-account.json)"
+if [ -f $HOME/.google-service-account.json ]
+then
+  export GOOGLE_APPLICATION_CREDENTIALS="$(< $HOME/.google-service-account.json)"
+fi
 
 export PATH=$HOME/bin/mongodb/bin:$PATH
 export PATH=$HOME/bin/splunk/bin:$PATH
