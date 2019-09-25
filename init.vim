@@ -97,6 +97,7 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
+" Use deoplete
 let g:deoplete#enable_at_startup = 1
 
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
@@ -302,12 +303,13 @@ let g:ale_fixers = {
 \}
 
 
-" Set this setting in vimrc if you want to fix files automatically on save.
-" This is off by default.
-" let g:ale_fix_on_save = 1
+" Set this variable to 1 to fix files when you save them.
+" https://github.com/dense-analysis/ale#2ii-fixing
+let g:ale_fix_on_save = 0
 
+" Disable completion and just use ALE as a completion source for Deoplete
 " https://github.com/w0rp/ale#2iii-completion
-" let g:ale_completion_enabled = 1
+let g:ale_completion_enabled = 0
 
 
 " Enables syntax highlighting for Flow (vim-javascript)
