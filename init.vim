@@ -104,6 +104,9 @@ Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 
 Plug 'deoplete-plugins/deoplete-jedi'
 
+" Completion preview window based on neovim's floating window (for deoplete)
+Plug 'ncm2/float-preview.nvim'
+
 " Toggle the display of the quickfix list and the location-list
 Plug 'Valloric/ListToggle'
 
@@ -236,6 +239,15 @@ inoremap <expr><C-l> pumvisible() ? "\<C-y>" : "\<C-l>"
 " https://github.com/Raimondi/delimitMate/blob/master/doc/delimitMate.txt
 " https://github.com/vim/vim/issues/2004#issuecomment-324357529
 imap <expr><CR> pumvisible() && !empty(v:completed_item) ? "\<C-y>" : "<Plug>delimitMateCR"
+
+
+" Use floating window (for deoplete)
+" The preview window will be displayed beside the popup menu
+" https://github.com/Shougo/deoplete.nvim/blob/master/doc/deoplete.txt#L1766-L1769
+" https://github.com/ncm2/float-preview.nvim/issues/1#issuecomment-470524243
+" https://github.com/Shougo/deoplete.nvim/issues/959#issuecomment-479870175
+set completeopt=noinsert,menuone,noselect
+let g:float_preview#docked = 0
 
 
 " Set tern bin in case there is many installations (such as local)
