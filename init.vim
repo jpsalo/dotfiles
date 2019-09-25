@@ -207,20 +207,6 @@ augroup myvimrc
   autocmd QuickFixCmdPost l*    lwindow
 augroup END
 
-" Open the quickfix window instead of displaying grep results and prevent opening first matching file
-" https://stackoverflow.com/a/23668278/7010222
-" https://superuser.com/a/248739
-" https://stackoverflow.com/a/5723927/7010222
-command! -nargs=1 Search execute "silent grep! -iIr <args> src" | redraw! | cw
-nnoremap <Leader>7 :Search<space>
-" Search for current word in multiple files
-" http://stackoverflow.com/a/1855875/7010222
-map <Leader>fa :execute "noautocmd vimgrep /\\<" . expand("<cword>") . "\\>/j src/**/*." .  expand("%:e") <Bar> cw<CR>
-
-" Find in current file
-command! -nargs=1 Find execute "silent grep! -i <args> %" | redraw! | cw
-nnoremap <Leader>ff :Find<space>
-
 
 " Expand space carriage returns in delimitMate
 " https://github.com/Raimondi/delimitMate/blob/master/doc/delimitMate.txt
