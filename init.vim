@@ -291,9 +291,9 @@ let g:airline_right_sep = ''
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 
-" Hide git branch from statusline
+" Show git branch from statusline
 " https://github.com/vim-airline/vim-airline/issues/605#issue-43567680
-let g:airline#extensions#branch#enabled = 0
+let g:airline#extensions#branch#enabled = 1
 
 " Show ALE errors or warnings in statusline
 let g:airline#extensions#ale#enabled = 1
