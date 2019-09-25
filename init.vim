@@ -173,6 +173,10 @@ noremap <CR> :noh<CR><CR>
 
 
 " GoTo, Flow
+" https://github.com/w0rp/ale#2iv-go-to-definition
+" https://github.com/davidhalter/jedi-vim#settings
+nnoremap <Leader>ad :ALEGoToDefinition<CR>
+let g:jedi#goto_command = "<leader>jd"
 nnoremap <Leader>fd :FlowJumpToDef<CR>
 
 nmap <Leader>gn <Plug>(GitGutterNextHunk)
