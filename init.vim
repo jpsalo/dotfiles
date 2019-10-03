@@ -228,17 +228,16 @@ inoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<Down>"
 inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<Up>"
 inoremap <expr><C-l> pumvisible() ? "\<C-y>" : "\<C-l>"
 
-" Select an option from popup menu with CR (Enter) without doing a return.
-" When no entry selected, <CR> closes pum and inserts new line (default)
-" Otherwise, use delimitMate <CR> expansion
-" TODO: function
+" Skip delimitMate on pop-up menus
 "
-" https://github.com/Shougo/deoplete.nvim/issues/492#issuecomment-306751415
-" https://github.com/Shougo/deoplete.nvim/issues/484#issuecomment-302987007
-" https://github.com/Raimondi/delimitMate/issues/53#issuecomment-8765040
+" Select an option from popup menu with CR (Enter) without doing a return.
+" When no entry selected, <CR> closes pum (default)
+" Otherwise, use delimitMate <CR> expansion
+"
 " https://github.com/Raimondi/delimitMate/blob/master/doc/delimitMate.txt
-" https://github.com/vim/vim/issues/2004#issuecomment-324357529
-imap <expr><CR> pumvisible() && !empty(v:completed_item) ? "\<C-y>" : "<Plug>delimitMateCR"
+imap <expr> <CR> pumvisible()
+                 \ ? "\<C-Y>"
+                 \ : "<Plug>delimitMateCR"
 
 
 " Use floating window (for deoplete)
