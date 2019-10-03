@@ -76,9 +76,6 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-" ack.vim
-Plug 'mileszs/ack.vim'
-
 " Toggle, display and navigate marks
 Plug 'kshenoy/vim-signature'
 
@@ -100,11 +97,15 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
+" Use deoplete
 let g:deoplete#enable_at_startup = 1
 
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 
 Plug 'deoplete-plugins/deoplete-jedi'
+
+" Completion preview window based on neovim's floating window (for deoplete)
+Plug 'ncm2/float-preview.nvim'
 
 " Toggle the display of the quickfix list and the location-list
 Plug 'Valloric/ListToggle'
@@ -176,6 +177,10 @@ noremap <CR> :noh<CR><CR>
 
 
 " GoTo, Flow
+" https://github.com/w0rp/ale#2iv-go-to-definition
+" https://github.com/davidhalter/jedi-vim#settings
+nnoremap <Leader>ad :ALEGoToDefinition<CR>
+let g:jedi#goto_command = "<leader>jd"
 nnoremap <Leader>fd :FlowJumpToDef<CR>
 
 nmap <Leader>gn <Plug>(GitGutterNextHunk)
@@ -206,20 +211,6 @@ augroup myvimrc
   autocmd QuickFixCmdPost l*    lwindow
 augroup END
 
-" Open the quickfix window instead of displaying grep results and prevent opening first matching file
-" https://stackoverflow.com/a/23668278/7010222
-" https://superuser.com/a/248739
-" https://stackoverflow.com/a/5723927/7010222
-command! -nargs=1 Search execute "silent grep! -iIr <args> src" | redraw! | cw
-nnoremap <Leader>7 :Search<space>
-" Search for current word in multiple files
-" http://stackoverflow.com/a/1855875/7010222
-map <Leader>fa :execute "noautocmd vimgrep /\\<" . expand("<cword>") . "\\>/j src/**/*." .  expand("%:e") <Bar> cw<CR>
-
-" Find in current file
-command! -nargs=1 Find execute "silent grep! -i <args> %" | redraw! | cw
-nnoremap <Leader>ff :Find<space>
-
 
 " Expand space carriage returns in delimitMate
 " https://github.com/Raimondi/delimitMate/blob/master/doc/delimitMate.txt
@@ -248,6 +239,15 @@ inoremap <expr><C-l> pumvisible() ? "\<C-y>" : "\<C-l>"
 " https://github.com/Raimondi/delimitMate/blob/master/doc/delimitMate.txt
 " https://github.com/vim/vim/issues/2004#issuecomment-324357529
 imap <expr><CR> pumvisible() && !empty(v:completed_item) ? "\<C-y>" : "<Plug>delimitMateCR"
+
+
+" Use floating window (for deoplete)
+" The preview window will be displayed beside the popup menu
+" https://github.com/Shougo/deoplete.nvim/blob/master/doc/deoplete.txt#L1766-L1769
+" https://github.com/ncm2/float-preview.nvim/issues/1#issuecomment-470524243
+" https://github.com/Shougo/deoplete.nvim/issues/959#issuecomment-479870175
+set completeopt=noinsert,menuone,noselect
+let g:float_preview#docked = 0
 
 
 " Set tern bin in case there is many installations (such as local)
@@ -290,9 +290,9 @@ let g:airline_right_sep = ''
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 
-" Hide git branch from statusline
+" Show git branch from statusline
 " https://github.com/vim-airline/vim-airline/issues/605#issue-43567680
-let g:airline#extensions#branch#enabled = 0
+let g:airline#extensions#branch#enabled = 1
 
 " Show ALE errors or warnings in statusline
 let g:airline#extensions#ale#enabled = 1
@@ -315,12 +315,13 @@ let g:ale_fixers = {
 \}
 
 
-" Set this setting in vimrc if you want to fix files automatically on save.
-" This is off by default.
-" let g:ale_fix_on_save = 1
+" Set this variable to 1 to fix files when you save them.
+" https://github.com/dense-analysis/ale#2ii-fixing
+let g:ale_fix_on_save = 0
 
+" Disable completion and just use ALE as a completion source for Deoplete
 " https://github.com/w0rp/ale#2iii-completion
-" let g:ale_completion_enabled = 1
+let g:ale_completion_enabled = 0
 
 
 " Enables syntax highlighting for Flow (vim-javascript)
@@ -372,48 +373,22 @@ let g:airline_base16_improved_contrast = 1
 " Invoke fzf in find buffer
 nnoremap <Leader>b :Buffers<CR>
 
-
-function! GFilesFallback(is_sub_project)
-  " https://github.com/junegunn/fzf.vim/issues/233#issuecomment-257158595
-  " Include untracked files
-  " https://github.com/junegunn/fzf.vim/issues/129#issuecomment-256431038
-  let is_git_repository = (system('git rev-parse --is-inside-work-tree'))
-  if is_git_repository =~ 'true'
-    if (a:is_sub_project == 1)
-      call fzf#run(fzf#wrap({'source': 'git ls-files --exclude-standard --cached --others'}))
-    else
-      execute 'GFiles --exclude-standard --cached --others'
-    endif
-  else
-    execute 'Files'
-  endif
-endfunction
-
-function! Fuz(is_sub_project)
+function! Fuz()
   if expand('%') =~ 'NERD_tree'
     execute "normal \<c-w>\<c-w>"
   endif
-  call GFilesFallback(a:is_sub_project)
+  execute 'Files'
 endfunction
 
-" 1.  Don't open files in NERDtree from fzf
-" 2.  Use :GFiles when in a git repo, otherwise use :Files
-"     2.1. Optionally execute in current working directory if it is a sub
-"     project
-"
+" Don't open files in NERDtree from fzf
 " https://github.com/junegunn/fzf.vim/issues/326#issuecomment-282936932
-" https://github.com/junegunn/fzf.vim/issues/431#issuecomment-323862501
-" https://github.com/junegunn/fzf.vim/issues/395#issuecomment-311566047
-nnoremap <silent> <Leader><Leader> :call Fuz(0)<CR>
-nnoremap <silent> <Leader>o :call Fuz(1)<CR>
+" https://github.com/junegunn/fzf/issues/453#issuecomment-166648024
+nnoremap <silent> <Leader><Leader> :call Fuz()<CR>
 
-
-" The Silver Searcher (ag) with ack
-" https://github.com/ggreer/the_silver_searcher#vim
-" https://github.com/mileszs/ack.vim#can-i-use-ag-the-silver-searcher-with-this
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
+" Respecting .gitignore
+" https://github.com/junegunn/fzf#respecting-gitignore
+" https://github.com/junegunn/fzf.vim/issues/194#issuecomment-245031594
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
 
 
 " Disable folding
