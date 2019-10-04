@@ -58,6 +58,9 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
 
+" IntelliSense. Use release branch
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " Automatically save changes to disk
 Plug '907th/vim-auto-save'
 
@@ -87,29 +90,6 @@ Plug 'kshenoy/vim-signature'
 
 " Git gutter
 Plug 'airblade/vim-gitgutter'
-
-" Syntax checker
-Plug 'w0rp/ale'
-
-" Autocompletion library
-Plug 'davidhalter/jedi-vim'
-
-" Code completion
-" https://github.com/Shougo/deoplete.nvim#install
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-
-Plug 'deoplete-plugins/deoplete-jedi'
-
-" Completion preview window based on neovim's floating window (for deoplete)
-Plug 'ncm2/float-preview.nvim'
 
 " Toggle the display of the quickfix list and the location-list
 Plug 'Valloric/ListToggle'
@@ -254,12 +234,13 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 " https://github.com/vim-airline/vim-airline/issues/605#issue-43567680
 let g:airline#extensions#branch#enabled = 1
 
-" Show ALE errors or warnings in statusline
-let g:airline#extensions#ale#enabled = 1
-
 " Powerline font symbols
 " https://github.com/vim-airline/vim-airline/wiki/FAQ#the-powerline-font-symbols-are-not-showing-up
 let g:airline_powerline_fonts=1
+
+" Enable coc integration
+let g:airline#extensions#coc#enabled = 1
+
 
 " FUZZY FINDER
 """"""""""""""
@@ -283,51 +264,22 @@ nnoremap <Leader>b :Buffers<CR>
 " https://github.com/junegunn/fzf.vim/issues/194#issuecomment-245031594
 let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
 
-" COMPLETION & LINTING
+" INTELLISENSE
 """"""""""""""""""""""
 
-let g:ale_linters = {
-\   'javascript': ['eslint', 'tsserver'],
-\   'python': ['pycodestyle'],
-\}
+" Install extensions
+" https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#install-extensions
+let g:coc_global_extensions = ['coc-python', 'coc-eslint', 'coc-tsserver']
 
-" After this is configured, :ALEFix will try and fix your JS code with ESLint.
-let g:ale_fixers = {
-\   'javascript': ['eslint'],
-\   'coffee': ['coffeelint'],
-\   'python': ['autopep8'],
-\}
-
-" Set this variable to 1 to fix files when you save them.
-" https://github.com/dense-analysis/ale#2ii-fixing
-let g:ale_fix_on_save = 0
-
-" Disable completion and just use ALE as a completion source for Deoplete
-" https://github.com/w0rp/ale#2iii-completion
-let g:ale_completion_enabled = 0
-
-" Disable completion and just use jedi-vim as a completion source for
-" deoplete-jedi
-" https://github.com/davidhalter/jedi-vim#the-completion-is-too-slow
-let g:jedi#completions_enabled = 0
-
-" Use deoplete
-let g:deoplete#enable_at_startup = 1
+" Resolve workspace folders from PYTHONPATH in .env file
+" https://github.com/neoclide/coc.nvim/wiki/Using-workspaceFolders#resolve-workspace-folder
+" https://github.com/neoclide/coc-python/issues/26#issuecomment-489805114
+autocmd FileType python let b:coc_root_patterns = ['.git', '.env']
 
 " GoTo
-" https://github.com/w0rp/ale#2iv-go-to-definition
-" https://github.com/davidhalter/jedi-vim#settings
-nnoremap <Leader>ad :ALEGoToDefinition<CR>
-let g:jedi#goto_command = "<leader>jd"
-nnoremap <Leader>fd :FlowJumpToDef<CR>
-
-" Use floating window (for deoplete)
-" The preview window will be displayed beside the popup menu
-" https://github.com/Shougo/deoplete.nvim/blob/master/doc/deoplete.txt#L1766-L1769
-" https://github.com/ncm2/float-preview.nvim/issues/1#issuecomment-470524243
-" https://github.com/Shougo/deoplete.nvim/issues/959#issuecomment-479870175
-set completeopt=noinsert,menuone,noselect
-let g:float_preview#docked = 0
+" https://github.com/neoclide/coc.nvim/blob/master/doc/coc.txt
+nnoremap <leader>jd :call CocAction('jumpDefinition')<cr>
+nnoremap <leader>fd :FlowJumpToDef<cr>
 
 " Navigate through autocomplete suggestions and add them
 " https://github.com/Shougo/deoplete.nvim/issues/246#issuecomment-344463696
@@ -345,18 +297,6 @@ inoremap <expr><C-l> pumvisible() ? "\<C-y>" : "\<C-l>"
 imap <expr> <CR> pumvisible()
                  \ ? "\<C-Y>"
                  \ : "<Plug>delimitMateCR"
-
-" Set tern bin in case there is many installations (such as local)
-" https://github.com/carlitux/deoplete-ternjs#vim-configuration-example
-" https://github.com/carlitux/deoplete-ternjs/pull/26#issue-83900767
-function! StrTrim(txt)
-  return substitute(a:txt, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
-endfunction
-
-let g:tern_path = StrTrim(system('PATH=$(npm bin):$PATH && which tern'))
-if g:tern_path != 'tern not found'
-  let g:deoplete#sources#ternjs#tern_bin = g:tern_path
-endif
 
 " Enables syntax highlighting for Flow (vim-javascript)
 let g:javascript_plugin_flow = 1

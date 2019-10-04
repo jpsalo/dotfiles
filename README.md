@@ -24,13 +24,11 @@ Install what is needed and `ln -s` config.
 
 `virtualenvwrapper`
 
-`pyls`
-
-`jedi`
-
 `flake8`
 
 `autopep8`
+
+`python language server`
 
 
 ## Development

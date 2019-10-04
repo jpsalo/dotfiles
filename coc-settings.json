@@ -1,0 +1,11 @@
+{
+  "python.jediEnabled": false,
+  "python.linting.pylintEnabled": false,
+  "python.linting.flake8Enabled": true,
+  "python.linting.enabled": true,
+  // python (alias)
+  // https://github.com/neoclide/coc-python/issues/55#issuecomment-538155053
+  "python.pythonPath": "python",
+  "python.setInterpreter": "python",
+  "tsserver.enable": "true"
+}
