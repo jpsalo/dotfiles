@@ -265,7 +265,7 @@ nnoremap <Leader>b :Buffers<CR>
 let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
 
 " INTELLISENSE
-""""""""""""""""""""""
+""""""""""""""
 
 " Install extensions
 " https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#install-extensions
@@ -276,10 +276,31 @@ let g:coc_global_extensions = ['coc-python', 'coc-eslint', 'coc-tsserver']
 " https://github.com/neoclide/coc-python/issues/26#issuecomment-489805114
 autocmd FileType python let b:coc_root_patterns = ['.git', '.env']
 
+" Remap for rename current word
+" https://github.com/neoclide/coc.nvim#example-vim-configuration
+nmap <leader>rn <Plug>(coc-rename)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
 " GoTo
-" https://github.com/neoclide/coc.nvim/blob/master/doc/coc.txt
-nnoremap <leader>jd :call CocAction('jumpDefinition')<cr>
+nmap <silent> <leader>jd <Plug>(coc-definition)
+nmap <silent> gr <Plug>(coc-references)
 nnoremap <leader>fd :FlowJumpToDef<cr>
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
 " Navigate through autocomplete suggestions and add them
 " https://github.com/Shougo/deoplete.nvim/issues/246#issuecomment-344463696
