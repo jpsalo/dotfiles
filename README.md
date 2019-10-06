@@ -14,6 +14,8 @@ Install what is needed and `ln -s` config.
 
 `silver searcher (ag)`
 
+`base16-manager` with `chriskempson/base16-shell` and `chriskempson/base16-vim`
+
 
 ## Python
 `python`

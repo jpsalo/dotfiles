@@ -334,7 +334,11 @@ let g:flow#autoclose = 1
 
 " 256 colorspace for base16
 " https://github.com/chriskempson/base16-shell#base16-vim-users
-if filereadable(expand("~/.vimrc_background"))
+" https://github.com/base16-manager/base16-manager#notes
+if filereadable(expand("~/.config/nvim/colorscheme.vim"))
+  let base16colorspace=256
+  source ~/.config/nvim/colorscheme.vim
+elseif filereadable(expand("~/.vimrc_background"))
   let base16colorspace=256
   source ~/.vimrc_background
 endif
