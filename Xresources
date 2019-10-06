@@ -207,25 +207,25 @@ URxvt.perl-ext-common: ...,default,resize-font,...
 URxvt.resize-font.step: 1
 URxvt.iso14755_52:     false
 
-! Base16 Gruvbox dark, pale
-! Scheme: Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)
+! Base16 Solarized Dark
+! Scheme: Ethan Schoonover (http://ethanschoonover.com/solarized)
 
-#define base00 #262626
-#define base01 #3a3a3a
-#define base02 #4e4e4e
-#define base03 #8a8a8a
-#define base04 #949494
-#define base05 #dab997
-#define base06 #d5c4a1
-#define base07 #ebdbb2
-#define base08 #d75f5f
-#define base09 #ff8700
-#define base0A #ffaf00
-#define base0B #afaf00
-#define base0C #85ad85
-#define base0D #83adad
-#define base0E #d485ad
-#define base0F #d65d0e
+#define base00 #002b36
+#define base01 #073642
+#define base02 #586e75
+#define base03 #657b83
+#define base04 #839496
+#define base05 #93a1a1
+#define base06 #eee8d5
+#define base07 #fdf6e3
+#define base08 #dc322f
+#define base09 #cb4b16
+#define base0A #b58900
+#define base0B #859900
+#define base0C #2aa198
+#define base0D #268bd2
+#define base0E #6c71c4
+#define base0F #d33682
 
 *foreground:   base05
 #ifdef background_opacity
