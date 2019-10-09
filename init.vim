@@ -234,6 +234,9 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 " https://github.com/vim-airline/vim-airline/issues/605#issue-43567680
 let g:airline#extensions#branch#enabled = 1
 
+"
+let g:airline#extensions#hunks#enabled = 0
+
 " Powerline font symbols
 " https://github.com/vim-airline/vim-airline/wiki/FAQ#the-powerline-font-symbols-are-not-showing-up
 let g:airline_powerline_fonts=1
