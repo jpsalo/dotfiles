@@ -2,7 +2,7 @@ export ZSH=~/.oh-my-zsh
 
 ZSH_THEME="robbyrussell"
 
-plugins=(git npm pip)
+plugins=(git npm pip colored-man-pages tmux)
 
 source $ZSH/oh-my-zsh.sh
 
