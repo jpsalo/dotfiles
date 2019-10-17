@@ -116,6 +116,7 @@ Plug 'digitaltoad/vim-pug'
 Plug 'raimondi/delimitmate'
 
 Plug 'ap/vim-css-color'
+Plug 'cakebaker/scss-syntax.vim'
 
 " Distraction-free writing
 Plug 'junegunn/goyo.vim'
