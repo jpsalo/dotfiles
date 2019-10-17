@@ -116,6 +116,7 @@ Plug 'digitaltoad/vim-pug'
 Plug 'raimondi/delimitmate'
 
 Plug 'ap/vim-css-color'
+Plug 'cakebaker/scss-syntax.vim'
 
 " Distraction-free writing
 Plug 'junegunn/goyo.vim'
@@ -234,7 +235,7 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 " https://github.com/vim-airline/vim-airline/issues/605#issue-43567680
 let g:airline#extensions#branch#enabled = 1
 
-"
+" Disable git hunks
 let g:airline#extensions#hunks#enabled = 0
 
 " Powerline font symbols
