@@ -273,7 +273,7 @@ let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
 
 " Install extensions
 " https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#install-extensions
-let g:coc_global_extensions = ['coc-python', 'coc-eslint', 'coc-tsserver']
+let g:coc_global_extensions = ['coc-python', 'coc-eslint', 'coc-tsserver', 'coc-css']
 
 " Resolve workspace folders from PYTHONPATH in .env file
 " https://github.com/neoclide/coc.nvim/wiki/Using-workspaceFolders#resolve-workspace-folder
