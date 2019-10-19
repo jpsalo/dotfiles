@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # https://github.com/chriskempson/base16-shell/issues/126#issuecomment-409990674
 BASE16_SHELL=$HOME/.config/base16-shell/
