@@ -37,4 +37,4 @@ URxvt.perl-ext-common:            ...,default,resize-font,...
 URxvt.resize-font.step:           1
 URxvt.iso14755_52:                false
 
-#include ".Xresources.d/colors"
+#include <.Xresources.d/colors>
