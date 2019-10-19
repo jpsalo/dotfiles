@@ -21,9 +21,10 @@ export PATH=~/.npm-global/bin:$PATH
 
 # Base16 Shell
 # https://github.com/chriskempson/base16-shell#bashzsh
-# https://github.com/base16-manager/base16-manager#notes
-BASE16_SHELL=$HOME/.local/share/base16-manager/chriskempson/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+BASE16_SHELL="$HOME/.config/base16-shell/"
+[ -n "$PS1" ] && \
+    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+        eval "$("$BASE16_SHELL/profile_helper.sh")"
 
 # Fuzzy finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
