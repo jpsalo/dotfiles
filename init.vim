@@ -126,12 +126,7 @@ Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 
 " Color scheme
-Plug 'morhetz/gruvbox'
 Plug 'chriskempson/base16-vim'
-Plug 'altercation/vim-colors-solarized'
-Plug 'kristijanhusak/vim-hybrid-material'
-Plug 'iCyMind/NeoSolarized'
-Plug 'mhartington/oceanic-next'
 
 call plug#end()
 
@@ -356,10 +351,6 @@ call Base16hi("SpellBad",   "", "", g:base16_cterm08, g:base16_cterm00, "", "")
 call Base16hi("SpellCap",   "", "", g:base16_cterm0A, g:base16_cterm00, "", "")
 call Base16hi("SpellLocal", "", "", g:base16_cterm0D, g:base16_cterm00, "", "")
 call Base16hi("SpellRare",  "", "", g:base16_cterm0B, g:base16_cterm00, "", "")
-
-" Contrast
-" https://github.com/morhetz/gruvbox/wiki/Configuration#ggruvbox_contrast_light
-" let g:gruvbox_contrast_light="medium"
 
 let g:airline_theme = 'base16_vim'
 " More monotonic look
