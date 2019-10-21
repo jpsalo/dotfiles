@@ -8,13 +8,15 @@ Install what is needed and `ln -s` config.
 
 `oh-my-zsh`
 
+`tmux`
+
 `dejavu sans mono nerd font`
 
 `urxvt-resize-font`
 
 `silver searcher (ag)`
 
-`base16-manager` with `chriskempson/base16-shell` and `chriskempson/base16-vim`
+`base16-xresources` with `chriskempson/base16-shell` and `chriskempson/base16-vim`
 
 
 ## Python
@@ -34,6 +36,12 @@ Install what is needed and `ln -s` config.
 
 
 ## Development
+`neovim`
+
+`tig`
+
+
+## JavaScript
 `node`
 
 `npm`
@@ -42,6 +50,6 @@ Install what is needed and `ln -s` config.
 
 `typescript (tsserver)`
 
-`neovim`
 
-`tig`
+## UI
+`feh`
