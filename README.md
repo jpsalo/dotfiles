@@ -12,6 +12,8 @@ Install what is needed and `ln -s` config.
 
 `xclip`
 
+`xclip`
+
 `dejavu sans mono nerd font`
 
 `urxvt-resize-font`
