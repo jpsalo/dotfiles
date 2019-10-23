@@ -10,6 +10,8 @@ Install what is needed and `ln -s` config.
 
 `tmux`
 
+`xclip`
+
 `dejavu sans mono nerd font`
 
 `urxvt-resize-font`
