@@ -8,7 +8,7 @@ Install what is needed and `ln -s` config.
 
 `oh-my-zsh`
 
-`tmux`
+`tmux` and `bc` for compatibility mode
 
 `xclip`
 
