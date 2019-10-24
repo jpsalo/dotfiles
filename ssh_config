@@ -4,6 +4,8 @@ Host cedi
 Host piiras
     HostName 192.168.1.37
     User pi
+    ForwardX11 yes
+    ForwardX11Trusted yes
 
 Host uni
     HostName melkki.cs.helsinki.fi
