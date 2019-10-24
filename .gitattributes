@@ -1,2 +1,3 @@
 i3_config merge=ours
 i3status.conf merge=ours
+tmux.conf merge=ours
