@@ -15,7 +15,10 @@ set_theme() {
   curl $xresources_theme > ~/.Xresources.d/colors
   xrdb -load -I$HOME ~/.Xresources
 
-  i3-msg reload
+  if [ "$XDG_CURRENT_DESKTOP" = "i3" ]
+  then
+    i3-msg reload
+  fi
 
   shell_theme=${HOME}/.config/base16-shell/scripts/base16-${theme}.sh
   _base16 $shell_theme $theme
