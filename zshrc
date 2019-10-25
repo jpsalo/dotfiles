@@ -9,6 +9,7 @@ source $ZSH/oh-my-zsh.sh
 export EDITOR='nvim'
 
 alias python='python3'
+alias pip=pip3
 
 # Executables
 export PATH=$HOME/.local/bin:$PATH
