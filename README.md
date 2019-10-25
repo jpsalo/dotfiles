@@ -4,23 +4,17 @@ Install what is needed and `ln -s` config.
 ## Terminal & Shell
 `urxvt`
 
-`zsh`
+Plugins: `urxvt-resize-font`
 
-`oh-my-zsh`
+Font: `dejavu sans mono nerd font`
 
-`tmux` and `bc` for compatibility mode
+`zsh` with `oh-my-zsh`
 
-`xclip`
-
-`xclip`
-
-`dejavu sans mono nerd font`
-
-`urxvt-resize-font`
+`tmux`, `xclip` for clipboard and `bc` for compatibility mode
 
 `silver searcher (ag)`
 
-`base16-xresources` with `chriskempson/base16-shell` and `chriskempson/base16-vim`
+Theme: `base16-xresources` with `chriskempson/base16-shell` and `chriskempson/base16-vim`
 
 
 ## Python
@@ -37,7 +31,6 @@ Install what is needed and `ln -s` config.
 `autopep8`
 
 `python language server`
-
 
 ## Development
 `neovim`
