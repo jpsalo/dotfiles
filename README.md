@@ -1,52 +1,55 @@
-# Prerequisites
-Install what is needed and `ln -s` config.
+# Instructions
+Install prerequisites and `ln -s` config. There should be no missing dependencies if the list is followed from start to end.
+
 
 ## Terminal & Shell
-`urxvt`
+Install `urxvt` with 256 colors support
 
-Plugins: `urxvt-resize-font`
-
-Font: `dejavu sans mono nerd font`
+ - Plugins: `urxvt-resize-font`
+ - Font: `DeJavu Sans Mono Nerd Font`
 
 `zsh` with `oh-my-zsh`
 
-`tmux`, `xclip` for clipboard and `bc` for compatibility mode
+`tmux`
 
-`silver searcher (ag)`
+ - `xclip` for clipboard
+ - `bc` for compatibility mode configuration
 
-Theme: `base16-xresources` with `chriskempson/base16-shell` and `chriskempson/base16-vim`
+`the_silver_searcher` (ag)
 
-
-## Python
-`python`
-
-`pip`
-
-`virtualenv`
-
-`virtualenvwrapper`
-
-`flake8`
-
-`autopep8`
-
-`python language server`
 
 ## Development
-`neovim`
+
+
+### Python
+`python` and `pip`
+
+Install following pip packages:
+
+ - Virtual environment: `virtualenv` and `virtualenvwrapper`
+ - `python-language-server` (for Neovim)
+ - Linting: `flake8`
+ - Code formatting: `autopep8`
+
+
+### JavaScript
+`node` and `npm`
+
+Install following npm packages:
+
+ - Linting `eslint`
+ - `typescript (tsserver)`
+
+
+### Editor
+`neovim` and `pynvim` (from pip) for Python support
 
 `tig`
 
 
-## JavaScript
-`node`
-
-`npm`
-
-`eslint`
-
-`typescript (tsserver)`
-
-
 ## UI
-`feh`
+Theme: `base16-xresources` with `base16-shell` and `base16-vim`
+
+Wallpaper: `feh`
+
+Use `theme.sh <THEME>`
