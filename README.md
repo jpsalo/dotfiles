@@ -6,7 +6,7 @@ Install prerequisites and `ln -s` config. There should be no missing dependencie
 Install `urxvt` with 256 colors support
 
  - Plugins: `urxvt-resize-font`
- - Font: `DeJavu Sans Mono Nerd Font`
+ - Font: `DejaVu Sans Mono Nerd Font`
 
 `tmux`
 
