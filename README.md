@@ -8,12 +8,12 @@ Install `urxvt` with 256 colors support
  - Plugins: `urxvt-resize-font`
  - Font: `DeJavu Sans Mono Nerd Font`
 
-`zsh` with `oh-my-zsh`
-
 `tmux`
 
  - `xclip` for clipboard
  - `bc` for compatibility mode configuration
+
+`zsh` with `oh-my-zsh`
 
 `the_silver_searcher` (ag)
 
@@ -35,7 +35,7 @@ Install following pip packages:
 ### JavaScript
 `node` and `npm`
 
-Install following npm packages:
+You can install the following optional npm packages:
 
  - Linting `eslint`
  - `typescript (tsserver)`
@@ -48,8 +48,14 @@ Install following npm packages:
 
 
 ## UI
-Theme: `base16-xresources` with `base16-shell` and `base16-vim`
+Theme
+ - Xresources: `base16-xresources`
+ - Shell: `base16-shell`
+ - Editor: `base16-vim`
 
-Wallpaper: `feh`
+Wallpaper:
+ - Generate with `ImageMagick`
+ - Set with `feh`
+
 
 Use `theme.sh <THEME>`
