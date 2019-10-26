@@ -306,30 +306,31 @@ exec --no-startup-id ~/.fehbg
 # to:
 # background $term_background
 # Same logic applied to everything else.
-set_from_resource $term_background background
-set_from_resource $term_foreground foreground
-set_from_resource $term_color0     color0
-set_from_resource $term_color1     color1
-set_from_resource $term_color2     color2
-set_from_resource $term_color3     color3
-set_from_resource $term_color4     color4
-set_from_resource $term_color5     color5
-set_from_resource $term_color6     color6
-set_from_resource $term_color7     color7
-set_from_resource $term_color8     color8
-set_from_resource $term_color9     color9
-set_from_resource $term_color10    color10
-set_from_resource $term_color11    color11
-set_from_resource $term_color12    color12
-set_from_resource $term_color13    color13
-set_from_resource $term_color14    color14
-set_from_resource $term_color15    color15
-set_from_resource $term_color16    color16
-set_from_resource $term_color17    color17
-set_from_resource $term_color18    color18
-set_from_resource $term_color19    color19
-set_from_resource $term_color20    color20
-set_from_resource $term_color21    color21
+# Fallback: https://raw.githubusercontent.com/khamer/base16-i3/master/colors/base16-default-dark.config
+set_from_resource $term_background background #181818
+set_from_resource $term_foreground foreground #d8d8d8
+set_from_resource $term_color0     color0     #181818
+set_from_resource $term_color1     color1     #ab4642
+set_from_resource $term_color2     color2     #a1b56c
+set_from_resource $term_color3     color3     #f7ca88
+set_from_resource $term_color4     color4     #7cafc2
+set_from_resource $term_color5     color5     #ba8baf
+set_from_resource $term_color6     color6     #86c1b9
+set_from_resource $term_color7     color7     #d8d8d8
+set_from_resource $term_color8     color8     #585858
+set_from_resource $term_color9     color9     #ab4642
+set_from_resource $term_color10    color10    #a1b56c
+set_from_resource $term_color11    color11    #f7ca88
+set_from_resource $term_color12    color12    #7cafc2
+set_from_resource $term_color13    color13    #ba8baf
+set_from_resource $term_color14    color14    #86c1b9
+set_from_resource $term_color15    color15    #f8f8f8
+set_from_resource $term_color16    color16    #dc9656
+set_from_resource $term_color17    color17    #a16946
+set_from_resource $term_color18    color18    #282828
+set_from_resource $term_color19    color19    #383838
+set_from_resource $term_color20    color20    #b8b8b8
+set_from_resource $term_color21    color21    #e8e8e8
 
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
 bar {
