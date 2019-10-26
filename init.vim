@@ -331,14 +331,6 @@ let g:flow#autoclose = 1
 " https://github.com/neovim/neovim/wiki/FAQ#how-can-i-use-true-color-in-the-terminal
 " set termguicolors
 
-" 256 colorspace for base16
-" https://github.com/chriskempson/base16-shell#base16-vim-users
-" https://github.com/base16-manager/base16-manager#notes
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-endif
-
 " Fix highlighting for spell checks in terminal
 " Colors: https://github.com/chriskempson/base16/blob/master/styling.md
 " Arguments: group, guifg, guibg, ctermfg, ctermbg, attr, guisp
@@ -346,11 +338,25 @@ endif
 " https://github.com/chriskempson/base16-vim/issues/182#issue-336531173
 "
 " TODO: if has(termguicolors) set ... else
+function! s:base16_customize() abort
+  call Base16hi("SpellBad",   "", "", g:base16_cterm08, g:base16_cterm00, "", "")
+  call Base16hi("SpellCap",   "", "", g:base16_cterm0A, g:base16_cterm00, "", "")
+  call Base16hi("SpellLocal", "", "", g:base16_cterm0D, g:base16_cterm00, "", "")
+  call Base16hi("SpellRare",  "", "", g:base16_cterm0B, g:base16_cterm00, "", "")
+endfunction
 
-call Base16hi("SpellBad",   "", "", g:base16_cterm08, g:base16_cterm00, "", "")
-call Base16hi("SpellCap",   "", "", g:base16_cterm0A, g:base16_cterm00, "", "")
-call Base16hi("SpellLocal", "", "", g:base16_cterm0D, g:base16_cterm00, "", "")
-call Base16hi("SpellRare",  "", "", g:base16_cterm0B, g:base16_cterm00, "", "")
+augroup on_change_colorschema
+  autocmd!
+  autocmd ColorScheme * call s:base16_customize()
+augroup END
+
+" 256 colorspace for base16
+" https://github.com/chriskempson/base16-shell#base16-vim-users
+" https://github.com/base16-manager/base16-manager#notes
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
 
 let g:airline_theme = 'base16_vim'
 " More monotonic look
