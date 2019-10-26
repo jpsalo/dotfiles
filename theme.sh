@@ -8,6 +8,10 @@ BASE16_SHELL=$HOME/.config/base16-shell/
 DEFAULT_DARK="oceanicnext"
 DEFAULT_LIGHT="solarized-light"
 
+get_xres_col() {
+  xrdb -query | grep $1 | cut -f 2
+}
+
 set_theme() {
   theme=$1
 
@@ -27,27 +31,27 @@ set_theme() {
 set_wallpaper() {
   bg=$(xrdb -query | grep "*background" | cut -f 2)
 
-  color1=$(xrdb -query | grep "*color1" | cut -f 2)
-  color2=$(xrdb -query | grep "*color2" | cut -f 2)
-  color3=$(xrdb -query | grep "*color3" | cut -f 2)
-  color4=$(xrdb -query | grep "*color4" | cut -f 2)
-  color5=$(xrdb -query | grep "*color5" | cut -f 2)
-  color6=$(xrdb -query | grep "*color6" | cut -f 2)
-  color7=$(xrdb -query | grep "*color7" | cut -f 2)
-  color8=$(xrdb -query | grep "*color8" | cut -f 2)
-  color9=$(xrdb -query | grep "*color9" | cut -f 2)
-  color10=$(xrdb -query | grep "*color10" | cut -f 2)
-  color11=$(xrdb -query | grep "*color11" | cut -f 2)
-  color12=$(xrdb -query | grep "*color12" | cut -f 2)
-  color13=$(xrdb -query | grep "*color13" | cut -f 2)
-  color14=$(xrdb -query | grep "*color14" | cut -f 2)
-  color15=$(xrdb -query | grep "*color15" | cut -f 2)
-  color16=$(xrdb -query | grep "*color16" | cut -f 2)
-  color17=$(xrdb -query | grep "*color17" | cut -f 2)
-  color18=$(xrdb -query | grep "*color18" | cut -f 2)
-  color19=$(xrdb -query | grep "*color19" | cut -f 2)
-  color20=$(xrdb -query | grep "*color20" | cut -f 2)
-  color21=$(xrdb -query | grep "*color21" | cut -f 2)
+  color1="$(get_xres_col color1:)"
+  color2="$(get_xres_col color2:)"
+  color3="$(get_xres_col color3:)"
+  color4="$(get_xres_col color4:)"
+  color5="$(get_xres_col color5:)"
+  color6="$(get_xres_col color6:)"
+  color7="$(get_xres_col color7:)"
+  color8="$(get_xres_col color8:)"
+  color9="$(get_xres_col color9:)"
+  color10="$(get_xres_col color10:)"
+  color11="$(get_xres_col color11:)"
+  color12="$(get_xres_col color12:)"
+  color13="$(get_xres_col color13:)"
+  color14="$(get_xres_col color14:)"
+  color15="$(get_xres_col color15:)"
+  color16="$(get_xres_col color16:)"
+  color17="$(get_xres_col color17:)"
+  color18="$(get_xres_col color18:)"
+  color19="$(get_xres_col color19:)"
+  color20="$(get_xres_col color20:)"
+  color21="$(get_xres_col color21:)"
 
   convert -size 1920x1080 xc:$bg \
      -draw "fill '$color1'  rectangle 50,   100   100,  150"  \
