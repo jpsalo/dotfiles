@@ -273,6 +273,29 @@ exec --no-startup-id redshift-gtk
 # Wallpaper
 exec --no-startup-id ~/.fehbg
 
+## Base16 Default Dark
+# Author: Chris Kempson (http://chriskempson.com)
+#
+# You can use these variables anywhere in the i3 configuration file.
+# https://github.com/khamer/base16-i3/blob/master/colors/base16-default-dark.config
+
+set $base00 #181818
+set $base01 #282828
+set $base02 #383838
+set $base03 #585858
+set $base04 #b8b8b8
+set $base05 #d8d8d8
+set $base06 #e8e8e8
+set $base07 #f8f8f8
+set $base08 #ab4642
+set $base09 #dc9656
+set $base0A #f7ca88
+set $base0B #a1b56c
+set $base0C #86c1b9
+set $base0D #7cafc2
+set $base0E #ba8baf
+set $base0F #a16946
+
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
 bar {
 	i3bar_command i3bar
@@ -289,16 +312,16 @@ bar {
 	strip_workspace_numbers yes
 
     colors {
-      background #222D31
-      statusline #F9FAF9
-      separator  #454947
+      background $base00
+      separator  $base01
+      statusline $base04
 
 #                      border  backgr. text
-      focused_workspace  #F9FAF9 #16a085 #292F34
-      active_workspace   #595B5B #353836 #FDF6E3
-      inactive_workspace #595B5B #222D31 #EEE8D5
-      binding_mode       #16a085 #2C2C2C #F9FAF9
-      urgent_workspace   #16a085 #FDF6E3 #E5201D
+      focused_workspace   $base05 $base0D $base00
+      active_workspace    $base05 $base03 $base00
+      inactive_workspace  $base03 $base01 $base05
+      urgent_workspace    $base08 $base08 $base00
+      binding_mode        $base00 $base0A $base00
   }
 }
 
@@ -307,10 +330,9 @@ bindsym $mod+m bar mode toggle
 
 # Theme colors
 # class                   border  backgr. text    indic.   child_border
-  client.focused          #556064 #556064 #80FFF9 #FDF6E3
-  client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
-  client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948
-  client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
-  client.placeholder      #000000 #0c0c0c #ffffff #000000
-
-  client.background       #2B2C2B
+client.focused          $base05 $base0D $base00 $base0D $base0C
+client.focused_inactive $base01 $base01 $base05 $base03 $base01
+client.unfocused        $base01 $base00 $base05 $base01 $base01
+client.urgent           $base08 $base08 $base00 $base08 $base08
+client.placeholder      $base00 $base00 $base05 $base00 $base00
+client.background       $base07
