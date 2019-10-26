@@ -5,6 +5,7 @@ BASE16_SHELL=$HOME/.config/base16-shell/
 [ -s $BASE16_SHELL/profile_helper.sh ] && \
               eval "$($BASE16_SHELL/profile_helper.sh)"
 
+DEFAULT="default-dark"
 DEFAULT_DARK="oceanicnext"
 DEFAULT_LIGHT="solarized-light"
 
@@ -82,7 +83,9 @@ set_wallpaper() {
   feh --bg-scale $HOME/.wallpaper.png
 }
 
-if [ "$1" = "dark" ]; then
+if [ "$1" = "default" ]; then
+  set_theme $DEFAULT
+elif [ "$1" = "dark" ]; then
   set_theme $DEFAULT_DARK
 elif [ "$1" = "light" ]; then
   set_theme $DEFAULT_LIGHT
