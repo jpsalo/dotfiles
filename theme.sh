@@ -22,6 +22,12 @@ set_theme() {
 
   if [ "$XDG_CURRENT_DESKTOP" = "i3" ]
   then
+    color_good="$(get_xres_col color2:)"
+    color_bad="$(get_xres_col color1:)"
+
+    sed --in-place --follow-symlinks '/color_good /s/=.*$/= "'"$color_good"'"/' $HOME/.config/i3status/config
+    sed --in-place --follow-symlinks '/color_bad /s/=.*$/= "'"$color_bad"'"/'   $HOME/.config/i3status/config
+
     i3-msg reload
   fi
 
