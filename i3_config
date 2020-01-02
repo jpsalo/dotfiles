@@ -286,7 +286,11 @@ exec --no-startup-id redshift-gtk
 # exec_always --no-startup-id sbxkb
 # exec --no-startup-id start_conky_maia
 exec --no-startup-id start_conky_solarized
-exec --no-startup-id xautolock -time 10 -locker blurlock
+
+# Lock on top left, ignore on bottom left
+# https://www.reddit.com/r/i3wm/comments/ak8fjy/how_do_you_guys_suspend_xautolocki3lock_when/ef331ps?utm_source=share&utm_medium=web2x
+exec --no-startup-id xautolock -time 10 -corners +00- -locker blurlock
+
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
 
