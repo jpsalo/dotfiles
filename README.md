@@ -57,5 +57,4 @@ Wallpaper:
  - Generate with `ImageMagick`
  - Set with `feh`
 
-
-Use `theme.sh <THEME>`
+Put `theme.sh` into `~/scripts` directory and use like this: `theme.sh <THEME>`
