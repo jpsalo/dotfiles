@@ -2,6 +2,8 @@ export ZSH=~/.oh-my-zsh
 
 ZSH_THEME="robbyrussell"
 
+plugins+=(zsh-nvm)
+
 plugins+=(
   colored-man-pages
   git
@@ -42,3 +44,6 @@ then
   export GOOGLE_APPLICATION_CREDENTIALS="$(< $HOME/.google-service-account.json)"
 fi
 
+# nvm completion
+# https://github.com/nvm-sh/nvm#bash-completion
+[[ -r $NVM_DIR/bash_completion ]] && \. $NVM_DIR/bash_completion

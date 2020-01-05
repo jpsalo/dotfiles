@@ -33,7 +33,7 @@ Install following pip packages:
 
 
 ### JavaScript
-`node` and `npm`
+`node` and `npm` and `zsh-nvm`
 
 You can install the following optional npm packages:
 
