@@ -272,7 +272,7 @@ nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 
 " Install extensions
 " https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#install-extensions
-let g:coc_global_extensions = ['coc-python', 'coc-eslint', 'coc-tsserver', 'coc-css']
+let g:coc_global_extensions = ['coc-python', 'coc-eslint', 'coc-tsserver', 'coc-flow', 'coc-css']
 
 " Resolve workspace folders from PYTHONPATH in .env file
 " https://github.com/neoclide/coc.nvim/wiki/Using-workspaceFolders#resolve-workspace-folder
