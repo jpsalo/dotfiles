@@ -2,7 +2,14 @@ export ZSH=~/.oh-my-zsh
 
 ZSH_THEME="robbyrussell"
 
-plugins=(git npm pip colored-man-pages tmux)
+plugins+=(
+  colored-man-pages
+  git
+  npm
+  pip
+  tmux
+  virtualenvwrapper
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -23,14 +30,6 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/devel
-
-if [ -f /usr/bin/virtualenvwrapper.sh ]
-then
-  source /usr/bin/virtualenvwrapper.sh
-elif [ -f $HOME/.local/bin/virtualenvwrapper.sh ]
-then
-  source $HOME/.local/bin/virtualenvwrapper.sh
-fi
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f $HOME/bin/google-cloud-sdk/path.zsh.inc ]; then . $HOME/bin/google-cloud-sdk/path.zsh.inc; fi
