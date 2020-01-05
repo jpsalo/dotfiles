@@ -10,6 +10,7 @@ plugins+=(
   npm
   pip
   tmux
+  yarn
   virtualenvwrapper
 )
 
