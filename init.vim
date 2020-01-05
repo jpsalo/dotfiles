@@ -263,6 +263,10 @@ nnoremap <Leader>b :Buffers<CR>
 " https://github.com/junegunn/fzf.vim/issues/194#issuecomment-245031594
 let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
 
+" Search for word under cursor
+" https://github.com/junegunn/fzf.vim/issues/50#issuecomment-161676378
+nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
+
 " INTELLISENSE
 """"""""""""""
 
