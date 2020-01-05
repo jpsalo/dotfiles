@@ -6,19 +6,8 @@ plugins=(git npm pip colored-man-pages tmux)
 
 source $ZSH/oh-my-zsh.sh
 
-export EDITOR='nvim'
-
 alias python='python3'
 alias pip=pip3
-
-# Executables
-export PATH=$HOME/.local/bin:$PATH
-export PATH="$HOME/bin:$PATH"
-typeset -U path path=(~/scripts $path)
-
-# Manually change npm’s default directory
-# https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally#manually-change-npms-default-directory
-export PATH=~/.npm-global/bin:$PATH
 
 # Base16 Shell
 # https://github.com/chriskempson/base16-shell#bashzsh
@@ -54,5 +43,3 @@ then
   export GOOGLE_APPLICATION_CREDENTIALS="$(< $HOME/.google-service-account.json)"
 fi
 
-export PATH=$HOME/bin/mongodb/bin:$PATH
-export PATH=$HOME/bin/splunk/bin:$PATH
