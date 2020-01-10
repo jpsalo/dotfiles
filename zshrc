@@ -14,6 +14,7 @@ plugins+=(
   virtualenvwrapper
 )
 
+ZSH_TMUX_AUTOSTART=true
 source $ZSH/oh-my-zsh.sh
 
 alias python='python3'
