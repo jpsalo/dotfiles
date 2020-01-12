@@ -14,18 +14,20 @@ plugins+=(
   virtualenvwrapper
 )
 
-ZSH_TMUX_AUTOSTART=true
-source $ZSH/oh-my-zsh.sh
-
-alias python='python3'
-alias pip=pip3
-
 # Base16 Shell
 # https://github.com/chriskempson/base16-shell#bashzsh
 BASE16_SHELL="$HOME/.config/base16-shell/"
 [ -n "$PS1" ] && \
     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
         eval "$("$BASE16_SHELL/profile_helper.sh")"
+
+ZSH_TMUX_AUTOSTART=true
+ZSH_TMUX_AUTOQUIT=false
+
+source $ZSH/oh-my-zsh.sh
+
+alias python='python3'
+alias pip=pip3
 
 # Fuzzy finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
