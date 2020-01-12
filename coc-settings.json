@@ -8,6 +8,7 @@
   "python.pythonPath": "python",
   "python.setInterpreter": "python",
   "tsserver.enable": "true",
+  "eslint.enable": true,
   // disable tsserver with flow
   // https://github.com/amiralies/coc-flow#setup
   "javascript.validate.enable": false
