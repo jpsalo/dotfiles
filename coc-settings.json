@@ -8,6 +8,9 @@
   "python.pythonPath": "python",
   "python.setInterpreter": "python",
   "eslint.enable": true,
+  // Avoid re-fetching types
+  // https://github.com/neoclide/coc-tsserver#coc-tsserver
+  "tsserver.npm": "/usr/bin/npm",
   "tsserver.enable": true,
   // disable tsserver with flow
   // https://github.com/amiralies/coc-flow#setup

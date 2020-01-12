@@ -44,6 +44,10 @@ set expandtab       " Expand TABs to space
 let g:python_host_prog = '/usr/bin/python2'
 let g:python3_host_prog = '/usr/bin/python3'
 
+" NOTE:
+" g:node_host_prog is hndled by neovim npm package
+" https://neovim.io/doc/user/provider.html#g:node_host_prog
+
 " PLUGINS
 """""""""
 

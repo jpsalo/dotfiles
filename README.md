@@ -33,12 +33,9 @@ Install following pip packages:
 
 
 ### JavaScript
-`node` and `npm` and `zsh-nvm`
+`node` and `npm` and `zsh-nvm` (Oh My Zsh plugin)
 
-You can install the following optional npm packages:
-
- - Linting `eslint`
- - `typescript (tsserver)`
+Default global npm packages are in`$NVM_DIR/default-packages`
 
 
 ### Editor
