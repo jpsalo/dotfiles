@@ -4,6 +4,10 @@
 " Map the Leader key to SPACE
 let mapleader="\<SPACE>"
 
+" Map ctrl-c to Esc to trigger InsertLeave
+" https://github.com/neoclide/coc.nvim/issues/1197#issuecomment-534361825
+inoremap <C-c> <Esc>
+
 " Enable mouse
 set mouse=a
 
