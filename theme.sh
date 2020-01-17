@@ -6,7 +6,7 @@ BASE16_SHELL=$HOME/.config/base16-shell/
               eval "$($BASE16_SHELL/profile_helper.sh)"
 
 DEFAULT="default-dark"
-DEFAULT_DARK="oceanicnext"
+DEFAULT_DARK="material"
 DEFAULT_LIGHT="solarized-light"
 
 get_xres_col() {
