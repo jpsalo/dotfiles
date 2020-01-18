@@ -39,7 +39,8 @@ Default global npm packages are in`$NVM_DIR/default-packages`
 
 
 ### Editor
-`neovim` and `pynvim` (from pip) for Python support
+
+Install `neovim`. Create a "py3nvim" virtual environment and install `pynvim` (from pip) for Python support (see [python-virtualenv](https://neovim.io/doc/user/provider.html#python-virtualenv)).
 
 `tig`
 
