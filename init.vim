@@ -78,6 +78,9 @@ Plug 'vim-scripts/BufOnly.vim'
 " Git wrapper
 Plug 'tpope/vim-fugitive'
 
+" GitHub extension for fugitive.vim
+Plug 'tpope/vim-rhubarb'
+
 " EditorConfig
 Plug 'editorconfig/editorconfig-vim'
 
