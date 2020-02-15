@@ -287,6 +287,18 @@ nnoremap <Leader>b :call Fuz(':Buffers')<CR>
 " Ag
 nnoremap <Leader>7 :call Fuz(':Ag')<CR>
 
+" Global .ignore (local .ignore is enabled by default)
+" Make :Ag not match file names, only the file content
+"
+" https://github.com/junegunn/fzf.vim/issues/346#issuecomment-288483704
+" https://github.com/ggreer/the_silver_searcher/wiki/Advanced-Usage#ignore
+" https://github.com/junegunn/fzf.vim/issues/582
+" https://github.com/junegunn/fzf.vim/issues/475#issuecomment-339979974
+command! -bang -nargs=* Ag call fzf#vim#ag(
+  \ <q-args>,
+  \ '--path-to-ignore ~/.ignore --hidden --ignore .git',
+  \ {'options': '--delimiter : --nth 4..'},
+  \ <bang>0)
 
 " Search for word under cursor
 " TODO: NERDtree
