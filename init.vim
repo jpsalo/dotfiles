@@ -273,19 +273,23 @@ let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
 " Don't open files in NERDtree from fzf
 " https://github.com/junegunn/fzf.vim/issues/326#issuecomment-282936932
 " https://github.com/junegunn/fzf/issues/453#issuecomment-166648024
-function! Fuz()
+" https://github.com/junegunn/fzf/issues/453#issuecomment-354634207
+function! Fuz(command_str)
   if expand('%') =~ 'NERD_tree'
     execute "normal \<c-w>\<c-w>"
   endif
-  execute 'Files'
+  execute a:command_str
 endfunction
-nnoremap <silent> <Leader><Leader> :call Fuz()<CR>
 
+nnoremap <silent> <Leader><Leader> :call Fuz(':Files')<CR>
 " Invoke fzf in find buffer
-nnoremap <Leader>b :Buffers<CR>
+nnoremap <Leader>b :call Fuz(':Buffers')<CR>
+" Ag
+nnoremap <Leader>7 :call Fuz(':Ag')<CR>
 
 
 " Search for word under cursor
+" TODO: NERDtree
 " https://github.com/junegunn/fzf.vim/issues/50#issuecomment-161676378
 nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 
