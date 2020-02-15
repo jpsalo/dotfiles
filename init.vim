@@ -300,6 +300,13 @@ command! -bang -nargs=* Ag call fzf#vim#ag(
   \ {'options': '--delimiter : --nth 4..'},
   \ <bang>0)
 
+" Only print the names of files containing matches, not the matching lines.
+" An empty query will print all files that would be searched.
+" TODO: NERDtree
+command! -bang -nargs=* Matches call fzf#run(fzf#wrap(
+  \ {'source': 'ag --files-with-matches '.shellescape(<q-args>)}
+  \ ))
+
 " Search for word under cursor
 " TODO: NERDtree
 " https://github.com/junegunn/fzf.vim/issues/50#issuecomment-161676378
