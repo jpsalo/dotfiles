@@ -265,6 +265,11 @@ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 " https://github.com/junegunn/fzf.vim/issues/317#issuecomment-281287381
 let $FZF_DEFAULT_OPTS = '--reverse'
 
+" Respecting .gitignore
+" https://github.com/junegunn/fzf#respecting-gitignore
+" https://github.com/junegunn/fzf.vim/issues/194#issuecomment-245031594
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+
 " Don't open files in NERDtree from fzf
 " https://github.com/junegunn/fzf.vim/issues/326#issuecomment-282936932
 " https://github.com/junegunn/fzf/issues/453#issuecomment-166648024
@@ -279,10 +284,6 @@ nnoremap <silent> <Leader><Leader> :call Fuz()<CR>
 " Invoke fzf in find buffer
 nnoremap <Leader>b :Buffers<CR>
 
-" Respecting .gitignore
-" https://github.com/junegunn/fzf#respecting-gitignore
-" https://github.com/junegunn/fzf.vim/issues/194#issuecomment-245031594
-let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
 
 " Search for word under cursor
 " https://github.com/junegunn/fzf.vim/issues/50#issuecomment-161676378
