@@ -256,6 +256,15 @@ let g:airline#extensions#coc#enabled = 1
 " FUZZY FINDER
 """"""""""""""
 
+" Float
+" https://github.com/junegunn/fzf/blob/master/README-VIM.md#starting-fzf-in-a-popup-window
+" https://github.com/junegunn/fzf.vim/issues/821#issuecomment-581481211
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+
+" Reverse layout (with float)
+" https://github.com/junegunn/fzf.vim/issues/317#issuecomment-281287381
+let $FZF_DEFAULT_OPTS = '--reverse'
+
 " Don't open files in NERDtree from fzf
 " https://github.com/junegunn/fzf.vim/issues/326#issuecomment-282936932
 " https://github.com/junegunn/fzf/issues/453#issuecomment-166648024
