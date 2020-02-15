@@ -108,7 +108,8 @@ Plug 'Valloric/ListToggle'
 " Javascript indentation and syntax
 Plug 'pangloss/vim-javascript'
 
-" JSX syntax highlighting and indenting
+" React (jsx, tsx) syntax highlighting and indenting
+Plug 'HerringtonDarkholme/yats.vim'
 Plug 'maxmellon/vim-jsx-pretty'
 
 " Flow completion and type error checking
