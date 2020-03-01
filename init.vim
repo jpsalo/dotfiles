@@ -379,6 +379,9 @@ imap <expr> <CR> pumvisible()
                  \ ? "\<C-Y>"
                  \ : "<Plug>delimitMateCR"
 
+" Colorful jsx config
+let g:vim_jsx_pretty_colorful_config = 1 " default 0
+
 " Enables syntax highlighting for Flow (vim-javascript)
 let g:javascript_plugin_flow = 1
 
