@@ -319,7 +319,7 @@ nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 
 " Install extensions
 " https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#install-extensions
-let g:coc_global_extensions = ['coc-python', 'coc-eslint', 'coc-tsserver', 'coc-flow', 'coc-css']
+let g:coc_global_extensions = ['coc-python', 'coc-eslint', 'coc-tsserver', 'coc-flow', 'coc-css', 'coc-prettier']
 
 " Set dynamic interpreter for coc-python.
 " Typically this will be active virtual environment's python interpreter
@@ -358,6 +358,9 @@ nnoremap <leader>fd :FlowJumpToDef<cr>
 
 " use `:OR` for organize import of current buffer
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Setup `Prettier` command
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " Navigate through autocomplete suggestions and add them
 " https://github.com/Shougo/deoplete.nvim/issues/246#issuecomment-344463696
