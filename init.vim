@@ -49,8 +49,10 @@ set expandtab       " Expand TABs to space
 let g:python3_host_prog = '$WORKON_HOME/py3nvim/bin/python3'
 
 " NOTE:
-" g:node_host_prog is hndled by neovim npm package
+" g:node_host_prog is handled by neovim npm package
+" g:coc_node_path picks that
 " https://neovim.io/doc/user/provider.html#g:node_host_prog
+" https://github.com/neoclide/coc.nvim/wiki/F.A.Q#environment-node-doesnt-meet-the-requirement
 
 " PLUGINS
 """""""""
