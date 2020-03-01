@@ -356,7 +356,7 @@ nmap <silent> <leader>jd <Plug>(coc-definition)
 nmap <silent> gr <Plug>(coc-references)
 nnoremap <leader>fd :FlowJumpToDef<cr>
 
-" use `:OR` for organize import of current buffer
+" Use `:OR` for organize import of current buffer
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
 " Setup `Prettier` command
