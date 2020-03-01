@@ -202,7 +202,6 @@ for_window [title="MuseScore: Play Panel"] floating enable
 for_window [class="Nitrogen"] floating enable sticky enable border normal
 for_window [class="Oblogout"] fullscreen enable
 for_window [class="octopi"] floating enable
-for_window [title="Oracle VM VirtualBox"] floating disable
 for_window [title="About Pale Moon"] floating enable
 for_window [class="Pamac-manager"] floating enable
 for_window [class="Pavucontrol"] floating enable
@@ -212,9 +211,10 @@ for_window [title="Screen Layout Editor"] floating enable border normal # arandr
 for_window [class="Simple-scan"] floating enable border normal
 for_window [class="(?i)System-config-printer.py"] floating enable border normal
 for_window [class="Skype"] floating enable border normal
+for_window [title="Task Manager - Chromium"] floating enable
 for_window [class="Timeset-gui"] floating enable border normal
 for_window [title="Toggl Desktop"] floating enable border none
-for_window [class="(?i)virtualbox"] floating enable border normal
+for_window [class="(?i)virtualbox"] floating disable
 for_window [class="Xfburn"] floating enable
 
 # switch to workspace with urgent window automatically
