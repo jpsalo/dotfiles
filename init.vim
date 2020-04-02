@@ -123,6 +123,9 @@ Plug 'leafgarland/typescript-vim'
 " CoffeeScript
 Plug 'kchmck/vim-coffee-script'
 
+" GraphQL
+Plug 'jparise/vim-graphql'
+
 " Pug (Jade) syntax highlighting
 Plug 'digitaltoad/vim-pug'
 
