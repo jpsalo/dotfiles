@@ -6,3 +6,5 @@
 [filter "ignoreColor"]
   clean = sed -e '/color_good /s/=.*$/= \""#a1b56c"\"/' -e '/color_bad /s/=.*$/= \""#ab4642"\"/'
   smudge = cat
+[pager]
+  branch = false
