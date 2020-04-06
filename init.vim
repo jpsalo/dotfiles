@@ -30,6 +30,9 @@ set splitright
 set ignorecase
 set smartcase
 
+" Ignore case on file and directory completion
+set wildignorecase
+
 " TAB and indent to 2 spaces
 " http://stackoverflow.com/a/1878984/7010222
 set tabstop=2       " The width of a TAB is set to 4.
