@@ -17,7 +17,7 @@ set_theme() {
   theme=$1
 
   xresources_theme="https://raw.githubusercontent.com/chriskempson/base16-xresources/master/xresources/base16-${theme}-256.Xresources"
-  mkdir -p ~/.Xresources.d/colors
+  mkdir -p ~/.Xresources.d
   curl $xresources_theme > ~/.Xresources.d/colors
   xrdb -load -I$HOME ~/.Xresources
 
