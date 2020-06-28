@@ -10,13 +10,7 @@ alias install_command='brew install'
 
 is_package_installed() {
   package=$1
-  is_installed=0
-
-  if command -v $package &> /dev/null; then
-    is_installed=1
-  fi
-
-  echo "$is_installed"
+  command -v "$package" >/dev/null 2>&1
 }
 
 # TODO: install_package()
@@ -26,7 +20,7 @@ is_package_installed() {
 install_package() {
   package=$1
 
-  if [ ! $( is_package_installed $package ) ]; then
+  if ! is_package_installed $package; then
     $install_command $package
   else
     echo $package already installed
@@ -61,7 +55,7 @@ create_symlink() {
 check_prerequisites() {
   has_prerequisites=1
 
-  if [ ! $( is_package_installed git ) ]; then
+  if ! is_package_installed git; then
     echo >&2 "Git not found"
     has_prerequisites=0
   fi
@@ -76,7 +70,7 @@ check_prerequisites() {
 }
 
 install_brew() {
-  if [ ! $( is_package_installed brew ) ]; then
+  if ! is_package_installed brew; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
   fi
 }
@@ -140,7 +134,7 @@ setup_python() {
 }
 
 setup_node() {
-  if [ ! $( is_package_installed node ) ]; then
+  if ! is_package_installed node; then
     brew install node
   fi
 
@@ -161,7 +155,7 @@ setup_node() {
 }
 
 setup_neovim() {
-  if [ ! $( is_package_installed neovim ) ]; then
+  if ! is_package_installed neovim; then
     brew install neovim
   fi
 
