@@ -3,6 +3,7 @@
 # TODO: OS install command
 # - macOS, brew
 # - Arch, sudo pacman -S
+alias install_command='brew install'
 
 # TODO: clone_repo()
 # clone with https (for a truly one-liner)
@@ -26,7 +27,7 @@ install_package() {
   package=$1
 
   if [ ! $( is_package_installed $package ) ]; then
-    brew install $package
+    $install_command $package
   else
     echo $package already installed
   fi
