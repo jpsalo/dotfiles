@@ -134,9 +134,7 @@ setup_python() {
 }
 
 setup_node() {
-  if ! is_package_installed node; then
-    install_command node
-  fi
+  if ! is_package_installed node; then install_command node; fi
 
   # Install nvm manually, use it later via zsh-nvm
   # https://github.com/nvm-sh/nvm#manual-install
@@ -155,10 +153,7 @@ setup_node() {
 }
 
 setup_neovim() {
-  if ! is_package_installed neovim; then
-    install_command neovim
-  fi
-
+  if ! is_package_installed neovim; then install_command neovim; fi
   mkvirtualenv py3nvim -i pynvim && deactivate
 
   validate_directory $HOME/.config/nvim
