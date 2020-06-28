@@ -76,41 +76,41 @@ install_brew() {
 }
 
 setup_base_configuration() {
-  validate_directory ~/.ssh
-  backup_existing_file ~/ssh/config
-  create_symlink ~/dotfiles/ssh_config ~/.ssh/config
+  validate_directory $HOME/.ssh
+  backup_existing_file $HOME/ssh/config
+  create_symlink $HOME/dotfiles/ssh_config $HOME/.ssh/config
 
-  backup_existing_file ~/.gitconfig
-  create_symlink ~/dotfiles/gitconfig ~/.gitconfig
+  backup_existing_file $HOME/.gitconfig
+  create_symlink $HOME/dotfiles/gitconfig $HOME/.gitconfig
 
-  validate_directory ~/scripts
-  create_symlink ~/dotfiles/theme.sh ~/scripts/theme.sh
+  validate_directory $HOME/scripts
+  create_symlink $HOME/dotfiles/theme.sh $HOME/scripts/theme.sh
 
-  backup_existing_file ~/.zshenv
-  create_symlink ~/dotfiles/zshenv ~/.zshenv
+  backup_existing_file $HOME/.zshenv
+  create_symlink $HOME/dotfiles/zshenv $HOME/.zshenv
 
-  backup_existing_file ~/.Xresources
-  create_symlink ~/dotfiles/Xresources ~/.Xresources
+  backup_existing_file $HOME/.Xresources
+  create_symlink $HOME/dotfiles/Xresources $HOME/.Xresources
 
   install_package tmux
-  backup_existing_file ~/tmux.conf
-  create_symlink ~/dotfiles/tmux.conf ~/.tmux.conf
+  backup_existing_file $HOME/tmux.conf
+  create_symlink $HOME/dotfiles/tmux.conf $HOME/.tmux.conf
 
   install_package the_silver_searcher
-  backup_existing_file ~/.ignore
-  create_symlink ~/dotfiles/ignore ~/.ignore
+  backup_existing_file $HOME/.ignore
+  create_symlink $HOME/dotfiles/ignore $HOME/.ignore
 
   install_package tig
-  backup_existing_file ~/.tigrc
-  create_symlink ~/dotfiles/tigrc ~/.tigrc
+  backup_existing_file $HOME/.tigrc
+  create_symlink $HOME/dotfiles/tigrc $HOME/.tigrc
 }
 
 setup_zsh() {
   # Install Oh My Zsh
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
-  backup_existing_file ~/.zshrc
-  create_symlink ~/dotfiles/zshrc ~/.zshrc
+  backup_existing_file $HOME/.zshrc
+  create_symlink $HOME/dotfiles/zshrc $HOME/.zshrc
 }
 
 setup_python() {
@@ -142,7 +142,7 @@ setup_node() {
   # https://github.com/nvm-sh/nvm#manual-install
 
   # NOTE: directory is $ZSH_CUSTOM
-  git clone https://github.com/lukechilds/zsh-nvm ~/.oh-my-zsh/custom/plugins/zsh-nvm
+  git clone https://github.com/lukechilds/zsh-nvm $HOME/.oh-my-zsh/custom/plugins/zsh-nvm
 
   export NVM_DIR="$HOME/.nvm" && (
     git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
@@ -150,7 +150,7 @@ setup_node() {
     git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
   ) && \. "$NVM_DIR/nvm.sh"
 
-  create_symlink ~/dotfiles/nvm_default-packages $NVM_DIR/default-packages
+  create_symlink $HOME/dotfiles/nvm_default-packages $NVM_DIR/default-packages
   nvm install --lts
 }
 
@@ -161,23 +161,23 @@ setup_neovim() {
 
   mkvirtualenv py3nvim -i pynvim && deactivate
 
-  validate_directory ~/.config/nvim
-  backup_existing_file ~/.config/nvim/init.vim
-  backup_existing_file ~/.config/nvim/coc-settings.json
-  create_symlink ~/dotfiles/init.vim ~/.config/nvim/init.vim
-  create_symlink ~/dotfiles/coc-settings.json ~/.config/nvim/coc-settings.json
+  validate_directory $HOME/.config/nvim
+  backup_existing_file $HOME/.config/nvim/init.vim
+  backup_existing_file $HOME/.config/nvim/coc-settings.json
+  create_symlink $HOME/dotfiles/init.vim $HOME/.config/nvim/init.vim
+  create_symlink $HOME/dotfiles/coc-settings.json $HOME/.config/nvim/coc-settings.json
 
-  backup_existing_file ~/.editorconfig
-  backup_existing_file ~/.eslintrc
-  backup_existing_file ~/.tern-project
-  create_symlink ~/dotfiles/editorconfig ~/.editorconfig
-  create_symlink ~/dotfiles/eslintrc.js ~/.eslintrc.js
-  create_symlink ~/dotfiles/tern-project ~/.tern-project
+  backup_existing_file $HOME/.editorconfig
+  backup_existing_file $HOME/.eslintrc
+  backup_existing_file $HOME/.tern-project
+  create_symlink $HOME/dotfiles/editorconfig $HOME/.editorconfig
+  create_symlink $HOME/dotfiles/eslintrc.js $HOME/.eslintrc.js
+  create_symlink $HOME/dotfiles/tern-project $HOME/.tern-project
 }
 
 setup_ui() {
-  git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
-  ~/scripts/theme.sh dark
+  git clone https://github.com/chriskempson/base16-shell.git $HOME/.config/base16-shell
+  $HOME/scripts/theme.sh dark
 
   brew tap homebrew/cask-fonts
   brew cask install font-hack-nerd-font
