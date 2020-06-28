@@ -46,8 +46,13 @@ backup_existing_file() {
 }
 
 create_symlink() {
-  source_file=$1
-  target_file=$2
+  source_file=$HOME/dotfiles/$1
+
+  if [ -z "$2" ]; then
+    target_file=$HOME/.$1
+  else
+    target_file=$2
+  fi
 
   ln -sfn $source_file $target_file
 }
@@ -81,28 +86,28 @@ setup_base_configuration() {
   create_symlink ssh_config $HOME/.ssh/config
 
   backup_existing_file $HOME/.gitconfig
-  create_symlink gitconfig $HOME/.gitconfig
+  create_symlink gitconfig
 
   validate_directory $HOME/scripts
   create_symlink theme.sh $HOME/scripts/theme.sh
 
   backup_existing_file $HOME/.zshenv
-  create_symlink zshenv $HOME/.zshenv
+  create_symlink zshenv
 
   backup_existing_file $HOME/.Xresources
-  create_symlink Xresources $HOME/.Xresources
+  create_symlink Xresources
 
   install_package tmux
   backup_existing_file $HOME/tmux.conf
-  create_symlink tmux.conf $HOME/.tmux.conf
+  create_symlink tmux.conf
 
   install_package the_silver_searcher
   backup_existing_file $HOME/.ignore
-  create_symlink ignore $HOME/.ignore
+  create_symlink ignore
 
   install_package tig
   backup_existing_file $HOME/.tigrc
-  create_symlink tigrc $HOME/.tigrc
+  create_symlink tigrc
 }
 
 setup_zsh() {
@@ -110,7 +115,7 @@ setup_zsh() {
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
   backup_existing_file $HOME/.zshrc
-  create_symlink zshrc $HOME/.zshrc
+  create_symlink zshrc
 }
 
 setup_python() {
@@ -170,9 +175,9 @@ setup_neovim() {
   backup_existing_file $HOME/.editorconfig
   backup_existing_file $HOME/.eslintrc
   backup_existing_file $HOME/.tern-project
-  create_symlink editorconfig $HOME/.editorconfig
-  create_symlink eslintrc.js $HOME/.eslintrc.js
-  create_symlink tern-project $HOME/.tern-project
+  create_symlink editorconfig
+  create_symlink eslintrc.js
+  create_symlink tern-project
 }
 
 setup_ui() {
