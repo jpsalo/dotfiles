@@ -433,3 +433,7 @@ let g:airline_theme = 'base16_vim'
 let g:airline_base16_monotone = 1
 " Improve the contrast for the inactive statusline
 let g:airline_base16_improved_contrast = 1
+
+" On window resize, if goyo is active, do <c-w>= to resize the window
+" https://github.com/junegunn/goyo.vim/issues/159#issuecomment-342417487
+autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
