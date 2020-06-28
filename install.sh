@@ -101,7 +101,7 @@ setup_base_configuration() {
   backup_existing_file $HOME/tmux.conf
   create_symlink tmux.conf
 
-  install_package the_silver_searcher
+  install_package ag # the_silver_searcher
   backup_existing_file $HOME/.ignore
   create_symlink ignore
 
