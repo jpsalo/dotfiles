@@ -2,10 +2,13 @@ export ZSH=~/.oh-my-zsh
 
 ZSH_THEME="robbyrussell"
 
-# Auto use node version specified in directory's .nvmrc file
-# https://github.com/lukechilds/zsh-nvm#auto-use
-export NVM_AUTO_USE=true
-plugins+=(zsh-nvm)
+# NOTE: directory is $ZSH_CUSTOM
+if [ -d ~/.oh-my-zsh/custom/plugins/zsh-nvm ]; then
+  # Auto use node version specified in directory's .nvmrc file
+  # https://github.com/lukechilds/zsh-nvm#auto-use
+  export NVM_AUTO_USE=true
+  plugins+=(zsh-nvm)
+fi
 
 plugins+=(
   colored-man-pages
