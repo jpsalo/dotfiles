@@ -160,7 +160,7 @@ setup_node() {
 }
 
 setup_neovim() {
-  if [ ! $( is_package_installed node ) ]; then
+  if [ ! $( is_package_installed neovim ) ]; then
     brew install neovim
   fi
 
