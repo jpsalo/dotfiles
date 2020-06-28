@@ -197,7 +197,7 @@ else
 fi
 echo
 
-echo Install Homebrew
+echo Install Homebrew...
 install_brew
 echo OK
 echo
@@ -212,12 +212,12 @@ setup_zsh
 echo OK
 echo
 
-echo Setting up Python...
+echo Setting up Python 3...
 setup_python
 echo OK
 echo
 
-echo Setting up node...
+echo Setting up Node.js...
 setup_node
 echo OK
 echo
@@ -227,7 +227,7 @@ setup_neovim
 echo OK
 echo
 
-echo Setting up UI
+echo Setting up UI...
 setup_ui
 echo OK
 echo
