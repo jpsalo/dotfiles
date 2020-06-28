@@ -78,31 +78,31 @@ install_brew() {
 setup_base_configuration() {
   validate_directory $HOME/.ssh
   backup_existing_file $HOME/ssh/config
-  create_symlink $HOME/dotfiles/ssh_config $HOME/.ssh/config
+  create_symlink ssh_config $HOME/.ssh/config
 
   backup_existing_file $HOME/.gitconfig
-  create_symlink $HOME/dotfiles/gitconfig $HOME/.gitconfig
+  create_symlink gitconfig $HOME/.gitconfig
 
   validate_directory $HOME/scripts
-  create_symlink $HOME/dotfiles/theme.sh $HOME/scripts/theme.sh
+  create_symlink theme.sh $HOME/scripts/theme.sh
 
   backup_existing_file $HOME/.zshenv
-  create_symlink $HOME/dotfiles/zshenv $HOME/.zshenv
+  create_symlink zshenv $HOME/.zshenv
 
   backup_existing_file $HOME/.Xresources
-  create_symlink $HOME/dotfiles/Xresources $HOME/.Xresources
+  create_symlink Xresources $HOME/.Xresources
 
   install_package tmux
   backup_existing_file $HOME/tmux.conf
-  create_symlink $HOME/dotfiles/tmux.conf $HOME/.tmux.conf
+  create_symlink tmux.conf $HOME/.tmux.conf
 
   install_package the_silver_searcher
   backup_existing_file $HOME/.ignore
-  create_symlink $HOME/dotfiles/ignore $HOME/.ignore
+  create_symlink ignore $HOME/.ignore
 
   install_package tig
   backup_existing_file $HOME/.tigrc
-  create_symlink $HOME/dotfiles/tigrc $HOME/.tigrc
+  create_symlink tigrc $HOME/.tigrc
 }
 
 setup_zsh() {
@@ -110,7 +110,7 @@ setup_zsh() {
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
   backup_existing_file $HOME/.zshrc
-  create_symlink $HOME/dotfiles/zshrc $HOME/.zshrc
+  create_symlink zshrc $HOME/.zshrc
 }
 
 setup_python() {
@@ -150,7 +150,7 @@ setup_node() {
     git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
   ) && \. "$NVM_DIR/nvm.sh"
 
-  create_symlink $HOME/dotfiles/nvm_default-packages $NVM_DIR/default-packages
+  create_symlink nvm_default-packages $NVM_DIR/default-packages
   nvm install --lts
 }
 
@@ -164,15 +164,15 @@ setup_neovim() {
   validate_directory $HOME/.config/nvim
   backup_existing_file $HOME/.config/nvim/init.vim
   backup_existing_file $HOME/.config/nvim/coc-settings.json
-  create_symlink $HOME/dotfiles/init.vim $HOME/.config/nvim/init.vim
-  create_symlink $HOME/dotfiles/coc-settings.json $HOME/.config/nvim/coc-settings.json
+  create_symlink init.vim $HOME/.config/nvim/init.vim
+  create_symlink coc-settings.json $HOME/.config/nvim/coc-settings.json
 
   backup_existing_file $HOME/.editorconfig
   backup_existing_file $HOME/.eslintrc
   backup_existing_file $HOME/.tern-project
-  create_symlink $HOME/dotfiles/editorconfig $HOME/.editorconfig
-  create_symlink $HOME/dotfiles/eslintrc.js $HOME/.eslintrc.js
-  create_symlink $HOME/dotfiles/tern-project $HOME/.tern-project
+  create_symlink editorconfig $HOME/.editorconfig
+  create_symlink eslintrc.js $HOME/.eslintrc.js
+  create_symlink tern-project $HOME/.tern-project
 }
 
 setup_ui() {
