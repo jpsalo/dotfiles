@@ -135,7 +135,7 @@ setup_python() {
 
 setup_node() {
   if ! is_package_installed node; then
-    brew install node
+    install_command node
   fi
 
   # Install nvm manually, use it later via zsh-nvm
@@ -156,7 +156,7 @@ setup_node() {
 
 setup_neovim() {
   if ! is_package_installed neovim; then
-    brew install neovim
+    install_command neovim
   fi
 
   mkvirtualenv py3nvim -i pynvim && deactivate
