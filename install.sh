@@ -9,8 +9,8 @@ alias install_command='brew install'
 # clone with https (for a truly one-liner)
 
 is_package_installed() {
-  package=$1
-  command -v "$package" >/dev/null 2>&1
+  pkg_command=$1
+  command -v "$pkg_command" >/dev/null 2>&1
 }
 
 # TODO: install_package()
@@ -20,7 +20,13 @@ is_package_installed() {
 install_package() {
   package=$1
 
-  if ! is_package_installed $package; then
+  if [ -z "$2" ]; then
+    pkg_command=$1
+  else
+    pkg_command=$2
+  fi
+
+  if ! is_package_installed $pkg_command; then
     $install_command $package
   else
     echo $package already installed
@@ -96,7 +102,7 @@ setup_base_configuration() {
   backup_existing_file $HOME/tmux.conf
   create_symlink tmux.conf
 
-  install_package ag # the_silver_searcher
+  install_package the_silver_searcher ag
   backup_existing_file $HOME/.ignore
   create_symlink ignore
 
@@ -153,7 +159,7 @@ setup_node() {
 }
 
 setup_neovim() {
-  install_package nvim
+  install_package neovim nvim
   mkvirtualenv py3nvim -i pynvim && deactivate
 
   validate_directory $HOME/.config/nvim
