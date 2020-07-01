@@ -14,9 +14,14 @@ is_package_installed() {
 }
 
 # TODO: install_package()
+# - install_command
+# - is subdirectory?
+# - backup
 # - package name
 # - configuration
 # - destination
+# - create symlink
+# - callback
 install_package() {
   package=$1
 
