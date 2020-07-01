@@ -186,8 +186,10 @@ autocmd FileType nerdtree nnoremap <buffer> <S-Tab> <NOP>
 
 " Delete buffer without losing the split window
 " This is needed with NERDTree / netrw
+" Compatible with `set hidden`
 " http://stackoverflow.com/a/4468491/7010222
-nnoremap <Leader>w :bp\|bd #<CR>
+" https://stackoverflow.com/questions/4465095/vim-delete-buffer-without-losing-the-split-window/4468491#comment42185471_4468491
+nnoremap <Leader>w :b#\|bd #<CR>
 autocmd FileType nerdtree nnoremap <buffer> <Leader>w <NOP>
 
 " LISTS
