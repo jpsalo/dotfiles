@@ -366,6 +366,9 @@ endfunction
 
 :call s:setup_global_eslint()
 
+" Show all diagnostics.
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+
 " Remap for rename current word
 " https://github.com/neoclide/coc.nvim#example-vim-configuration
 nmap <leader>rn <Plug>(coc-rename)
