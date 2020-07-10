@@ -4,19 +4,19 @@ Host *
   IdentityFile ~/.ssh/id_rsa
 
 Host cedi
-    HostName cedi.it.helsinki.fi
+  HostName cedi.it.helsinki.fi
 
 Host piiras
-    HostName 192.168.1.37
-    User pi
-    ForwardX11 yes
-    ForwardX11Trusted yes
+  HostName 192.168.1.37
+  User pi
+  ForwardX11 yes
+  ForwardX11Trusted yes
 
 Host uni
-    HostName melkki.cs.helsinki.fi
-    User jusalo
-    ForwardX11 yes
-    ForwardX11Trusted yes
+  HostName melkki.cs.helsinki.fi
+  User jusalo
+  ForwardX11 yes
+  ForwardX11Trusted yes
 
 Host gitlab.com
   Preferredauthentications publickey
