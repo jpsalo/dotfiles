@@ -1,5 +1,6 @@
 # https://github.com/nvm-sh/nvm#default-global-packages-from-file-while-installing
 
 eslint
+eslint-plugin-promise
 neovim
 typescript
