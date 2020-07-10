@@ -58,3 +58,5 @@ fi
 # nvm completion
 # https://github.com/nvm-sh/nvm#bash-completion
 [[ -r $NVM_DIR/bash_completion ]] && \. $NVM_DIR/bash_completion
+
+alias eslint='eslint --resolve-plugins-relative-to $(npm root -g)'
