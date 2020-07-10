@@ -94,6 +94,9 @@ setup_base_configuration() {
   backup_existing_file $HOME/.gitconfig
   create_symlink gitconfig
 
+  backup_existing_file $HOME/.gitignore
+  create_symlink gitignore
+
   validate_directory $HOME/scripts
   create_symlink theme.sh $HOME/scripts/theme.sh
 
