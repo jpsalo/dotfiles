@@ -86,6 +86,9 @@ Plug 'tpope/vim-fugitive'
 " GitHub extension for fugitive.vim
 Plug 'tpope/vim-rhubarb'
 
+" GitLab extension for fugitive.vim
+Plug 'shumphrey/fugitive-gitlab.vim'
+
 " EditorConfig
 Plug 'editorconfig/editorconfig-vim'
 
@@ -171,6 +174,9 @@ let delimitMate_expand_cr=1
 
 nmap <Leader>gn <Plug>(GitGutterNextHunk)
 nmap <Leader>gp <Plug>(GitGutterPrevHunk)
+
+" TODO: From environment variable (zshenv)?
+let g:fugitive_gitlab_domains = ['https://gitlab.siilicloud.com']
 
 " Disable folding
 let g:vim_markdown_folding_disabled = 1

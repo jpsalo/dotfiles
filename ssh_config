@@ -17,3 +17,11 @@ Host uni
     User jusalo
     ForwardX11 yes
     ForwardX11Trusted yes
+
+Host gitlab.com
+  Preferredauthentications publickey
+  IdentityFile ~/.ssh/id_rsa
+
+Host gitlab.siilicloud.com
+  Preferredauthentications publickey
+  IdentityFile ~/.ssh/id_ed25519_siili
