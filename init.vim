@@ -52,7 +52,7 @@ set expandtab       " Expand TABs to space
 let g:python3_host_prog = '$WORKON_HOME/py3nvim/bin/python3'
 
 " NOTE:
-" g:node_host_prog is handled by neovim npm package
+" g:node_host_prog is handled by neovim npm package (from `npm root -g`)
 " g:coc_node_path picks that
 " https://neovim.io/doc/user/provider.html#g:node_host_prog
 " https://github.com/neoclide/coc.nvim/wiki/F.A.Q#environment-node-doesnt-meet-the-requirement
@@ -340,6 +340,31 @@ call coc#config('python', {
 " https://github.com/neoclide/coc.nvim/wiki/Using-workspaceFolders#resolve-workspace-folder
 " https://github.com/neoclide/coc-python/issues/26#issuecomment-489805114
 autocmd FileType python let b:coc_root_patterns = ['.git', '.env']
+
+" If no local eslint config is available, coc will use personal configuration
+" file. This function resolves path to a nvm-npm directory where the plugins
+" are installed.
+" https://eslint.org/docs/developer-guide/nodejs-api#◆-new-eslint-options
+" https://eslint.org/docs/user-guide/configuring#configuration-file-formats
+" https://eslint.org/docs/user-guide/configuring#personal-configuration-file-deprecated
+function! s:setup_global_eslint()
+  " https://eslint.org/docs/user-guide/configuring#configuration-file-formats
+  let configFiles = ['.eslintrc.js', '.eslintrc.cjs', '.eslintrc.yaml', '.eslintrc.yml', '.eslintrc.json', '.eslintrc']
+  let hasLocalEslintConfig = 0
+
+  for i in configFiles
+    if !empty(findfile(i))
+      let hasLocalEslintConfig = 1
+      break
+    endif
+  endfor
+
+  if hasLocalEslintConfig == 0
+    call coc#config("eslint.options.resolvePluginsRelativeTo", system('npm root -g'))
+  endif
+endfunction
+
+:call s:setup_global_eslint()
 
 " Remap for rename current word
 " https://github.com/neoclide/coc.nvim#example-vim-configuration
