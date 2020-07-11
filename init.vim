@@ -366,6 +366,8 @@ function! s:setup_global_eslint()
   endfor
 
   if hasLocalEslintConfig == 0
+    " https://github.com/neoclide/coc.nvim/issues/1120#issue-486136450
+    call coc#config("eslint.options.configFile", ($HOME . "/.eslintrc.js"))
     call coc#config("eslint.options.resolvePluginsRelativeTo", system('npm root -g'))
   endif
 endfunction
