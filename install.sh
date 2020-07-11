@@ -26,7 +26,7 @@ install_package() {
   package=$1
 
   if [ -z "$2" ]; then
-    pkg_command=$1
+    pkg_command=$package
   else
     pkg_command=$2
   fi
@@ -100,9 +100,6 @@ setup_base_configuration() {
   validate_directory $HOME/scripts
   create_symlink theme.sh $HOME/scripts/theme.sh
 
-  backup_existing_file $HOME/.zshenv
-  create_symlink zshenv
-
   backup_existing_file $HOME/.Xresources
   create_symlink Xresources
 
@@ -125,6 +122,9 @@ setup_zsh() {
 
   backup_existing_file $HOME/.zshrc
   create_symlink zshrc
+
+  backup_existing_file $HOME/.zshenv
+  create_symlink zshenv
 }
 
 setup_python() {
