@@ -1,6 +1,10 @@
 # https://github.com/nvm-sh/nvm#default-global-packages-from-file-while-installing
 
+# ESLint
 eslint
-eslint-plugin-promise # for ESLint config
-neovim # Node.js integration for Neovim
+eslint-plugin-promise
+
+# Node.js integration for Neovim
+neovim
+
 typescript
