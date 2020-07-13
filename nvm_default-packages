@@ -7,5 +7,8 @@ eslint-plugin-promise
 # Node.js integration for Neovim
 neovim
 
+# Asks for analytics and installation fails but seems to work
+# NOTE: default_packages does not support --silent install flag
 @angular/cli
+
 typescript
