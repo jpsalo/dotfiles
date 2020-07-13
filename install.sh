@@ -32,7 +32,7 @@ install_package() {
   fi
 
   if ! is_package_installed $pkg_command; then
-    $install_command $package
+    install_command $package
   else
     echo $package already installed
   fi
