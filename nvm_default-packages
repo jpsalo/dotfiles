@@ -7,4 +7,5 @@ eslint-plugin-promise
 # Node.js integration for Neovim
 neovim
 
+@angular/cli
 typescript
