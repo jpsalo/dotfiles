@@ -141,6 +141,7 @@ setup_python() {
 
   # Make it available inside this script
   # https://stackoverflow.com/a/7539449
+  # FIXME: Does not work, but replication would require teardown
   source `which virtualenvwrapper.sh`
 
   python3 -m pip install python-language-server
