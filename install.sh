@@ -129,7 +129,8 @@ setup_zsh() {
 
 setup_python() {
   # Installing Python 3 here
-  # TODO: The many ways to check
+  # TODO: The many ways to check is Python 3 installed
+  # TODO: The commands to check and install Python 3 has to come from variables
   brew list python || brew install python
 
   # NOTE: virtualenv & virtualenvwrapper need to be in same global site-packages area
