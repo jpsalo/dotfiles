@@ -11,5 +11,11 @@
   // disable tsserver with flow
   // https://github.com/amiralies/coc-flow#setup
   "javascript.validate.enable": true,
-  "flow.enable": false
+  "flow.enable": false,
+  // disable coc-css validation with coc-stylelintplus
+  // https://github.com/bmatcuk/coc-stylelintplus#installation
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "wxss.validate": false
 }
