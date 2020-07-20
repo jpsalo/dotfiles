@@ -13,6 +13,7 @@ fi
 plugins+=(
   colored-man-pages
   git
+  ng
   npm
   pip
   tmux
