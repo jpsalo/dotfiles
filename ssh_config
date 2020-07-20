@@ -24,4 +24,4 @@ Host gitlab.com
 
 Host gitlab.siilicloud.com
   Preferredauthentications publickey
-  IdentityFile ~/.ssh/id_ed25519_siili
+  IdentityFile ~/.ssh/id_ed25519
