@@ -333,6 +333,7 @@ nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 
 " Install extensions
 " https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#install-extensions
+" FIXME: newline
 let g:coc_global_extensions = ['coc-python', 'coc-angular', 'coc-eslint', 'coc-stylelintplus', 'coc-tsserver', 'coc-flow', 'coc-css', 'coc-prettier']
 
 " Set dynamic interpreter for coc-python.
@@ -355,6 +356,7 @@ autocmd FileType python let b:coc_root_patterns = ['.git', '.env']
 " https://eslint.org/docs/user-guide/configuring#personal-configuration-file-deprecated
 function! s:setup_global_eslint()
   " https://eslint.org/docs/user-guide/configuring#configuration-file-formats
+  " FIXME: newline
   let configFiles = ['.eslintrc.js', '.eslintrc.cjs', '.eslintrc.yaml', '.eslintrc.yml', '.eslintrc.json', '.eslintrc']
   let hasLocalEslintConfig = 0
 
