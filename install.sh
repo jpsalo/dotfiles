@@ -1,13 +1,5 @@
 #!/bin/bash
 
-get_operating_system() {
-  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    echo "arch_linux"
-  elif [[ "$OSTYPE" == "darwin"* ]]; then
-    echo "macos"
-  fi
-}
-
 # TODO: clone_repo()
 # clone with https (for a truly one-liner)
 
@@ -91,7 +83,10 @@ install_brew() {
 }
 
 configure_os_settings() {
-  os=$( get_operating_system )
+  validate_directory $HOME/scripts
+  create_symlink get_operating_system.sh $HOME/scripts/get_operating_system.sh
+  os=$( $HOME/scripts/get_operating_system.sh )
+
   if [[ $os == "arch_linux" ]]; then
     alias install_command="sudo pacman -S" # TODO: --noconfirm
   elif [[ $os == "macos" ]]; then
