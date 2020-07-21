@@ -166,6 +166,7 @@ setup_node() {
 
   create_symlink nvm_default-packages $NVM_DIR/default-packages
   nvm install --lts
+  nvm alias default lts/*
 }
 
 setup_neovim() {
