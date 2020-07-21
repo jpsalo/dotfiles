@@ -8,13 +8,14 @@ alias install_command='brew install'
 # TODO: clone_repo()
 # clone with https (for a truly one-liner)
 
+# TODO: allow custom check
 is_package_installed() {
   pkg_command=$1
   command -v "$pkg_command" > /dev/null 2>&1
 }
 
 # TODO: install_package()
-# - install_command
+# - allow custom install_command
 # - is subdirectory?
 # - backup
 # - package name
