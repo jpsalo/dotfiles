@@ -1,9 +1,12 @@
 #!/bin/bash
 
-# TODO: OS install command
-# - macOS, brew
-# - Arch, sudo pacman -S
-alias install_command='brew install'
+get_operating_system() {
+  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    echo "arch_linux"
+  elif [[ "$OSTYPE" == "darwin"* ]]; then
+    echo "macos"
+  fi
+}
 
 # TODO: clone_repo()
 # clone with https (for a truly one-liner)
@@ -87,6 +90,17 @@ install_brew() {
   fi
 }
 
+configure_os_settings() {
+  os=$( get_operating_system )
+  if [[ $os == "arch_linux" ]]; then
+    alias install_command="sudo pacman -S" # TODO: --noconfirm
+  elif [[ $os == "macos" ]]; then
+    echo Install Homebrew...
+    install_brew
+    alias install_command="brew install"
+  fi
+}
+
 setup_base_configuration() {
   validate_directory $HOME/.ssh
   backup_existing_file $HOME/ssh/config
@@ -129,10 +143,14 @@ setup_zsh() {
 }
 
 setup_python() {
-  # Installing Python 3 here
-  # TODO: The many ways to check is Python 3 installed
-  # TODO: The commands to check and install Python 3 has to come from variables
-  brew list python || brew install python
+
+  if [[ $os == "arch_linux" ]]; then
+    install_package python
+  elif [[ $os == "macos" ]]; then
+    # TODO: as is_package_installed custom check
+    # TODO: as custom install_command for install_package
+    brew list python || brew install python
+  fi
 
   # NOTE: virtualenv & virtualenvwrapper need to be in same global site-packages area
   # TODO: use requirements.txt
@@ -192,8 +210,20 @@ setup_ui() {
   git clone https://github.com/chriskempson/base16-shell.git $HOME/.config/base16-shell
   $HOME/scripts/theme.sh dark
 
-  brew tap homebrew/cask-fonts
-  brew cask install font-source-code-pro
+  if [[ $os == "arch_linux" ]]; then
+    linux_fonts=nerd-fonts-dejavu-complete
+    # TODO: as is_package_installed custom check
+    if pacman -Qi $linux_fonts > /dev/null 2>&1; then
+      echo $linux_fonts already installed
+    else
+      # TODO: as custom install_command for install_package
+      pamac build $linux_fonts # TODO: --no-confirm
+    fi
+  elif [[ $os == "macos" ]]; then
+    brew tap homebrew cask/fonts
+    # TODO: as custom install_command for install_package
+    brew cask install font-source-code-pro
+  fi
 }
 
 finish_installation() {
@@ -210,8 +240,8 @@ else
 fi
 echo
 
-echo Install Homebrew...
-install_brew
+echo Configuring OS-specific settings...
+configure_os_settings
 echo OK
 echo
 
