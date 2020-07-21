@@ -215,7 +215,7 @@ setup_ui() {
       pamac build $linux_fonts # TODO: --no-confirm
     fi
   elif [[ $os == "macos" ]]; then
-    brew tap homebrew cask/fonts
+    brew tap homebrew/cask-fonts
     # TODO: as custom install_command for install_package
     brew cask install font-source-code-pro
   fi
