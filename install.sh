@@ -10,7 +10,7 @@ alias install_command='brew install'
 
 is_package_installed() {
   pkg_command=$1
-  command -v "$pkg_command" >/dev/null 2>&1
+  command -v "$pkg_command" > /dev/null 2>&1
 }
 
 # TODO: install_package()
