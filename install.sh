@@ -193,7 +193,7 @@ setup_ui() {
   $HOME/scripts/theme.sh dark
 
   brew tap homebrew/cask-fonts
-  brew cask install font-hack-nerd-font
+  brew cask install font-source-code-pro
 }
 
 finish_installation() {
