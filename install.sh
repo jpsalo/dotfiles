@@ -126,6 +126,25 @@ setup_base_configuration() {
   create_symlink tigrc
 }
 
+setup_terminal() {
+  if [[ $os == "macos" ]]; then
+    brew cask install iterm2
+
+    validate_directory $HOME/.config/iterm
+    backup_existing_file $HOME/.config/iterm/com.googlecode.iterm2.plist
+    create_symlink com.googlecode.iterm2.plist $HOME/.config/iterm/com.googlecode.iterm2.plist
+
+    # It looks like apps need to be run before the settings can be persisted
+    echo iTerm2 will now open. Please quit it to continue the installation.
+    open -W -a iTerm
+
+    # Specify the preferences directory
+    defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "~/.config/iterm/"
+    # Tell iTerm2 to use the custom preferences in the directory
+    defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
+  fi
+}
+
 setup_zsh() {
   # Install Oh My Zsh
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
@@ -244,6 +263,10 @@ echo Setting up the base...
 setup_base_configuration
 echo OK
 echo
+
+echo Setting up terminal...
+setup_terminal
+echo OK
 
 echo Setting up Zsh...
 setup_zsh
