@@ -225,7 +225,9 @@ setup_ui() {
   $HOME/scripts/theme.sh dark
 
   if [[ $os == "arch_linux" ]]; then
-    linux_fonts=nerd-fonts-dejavu-complete
+    linux_fonts=nerd-fonts-source-code-pro
+    linux_fonts_fallback=nerd-fonts-dejavu-complete
+
     # TODO: as is_package_installed custom check
     if pacman -Qi $linux_fonts > /dev/null 2>&1; then
       echo $linux_fonts already installed
@@ -233,6 +235,15 @@ setup_ui() {
       # TODO: as custom install_command for install_package
       pamac build $linux_fonts # TODO: --no-confirm
     fi
+
+    # TODO: as is_package_installed custom check
+    if pacman -Qi $linux_fonts_fallback > /dev/null 2>&1; then
+      echo $linux_fonts_fallback already installed
+    else
+      # TODO: as custom install_command for install_package
+      pamac build $linux_font_fallback  # TODO: --no-confirm
+    fi
+
   elif [[ $os == "macos" ]]; then
     brew tap homebrew/cask-fonts
     # TODO: as custom install_command for install_package

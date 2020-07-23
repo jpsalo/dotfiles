@@ -8,8 +8,12 @@ Xft.lcdfilter: lcddefault
 
 *fading:                          8
 
+! Glyphs (unicode symbols) require fallback fonts
+! https://github.com/powerline/fonts/issues/176#issuecomment-382130511
 ! https://github.com/powerline/fonts/issues/176#issuecomment-423787581
-URxvt*font:                       xft:Deja Vu Sans Mono Nerd Font:size=12
+URxvt*font:                       xft:Source Code Pro:pixelsize=18:minspace=False, xft:Deja Vu Sans:pixelsize=13
+URxvt*boldFont:                   xft:Source Code Pro:pixelsize=18:minspace=False, xft:Deja Vu Sans:pixelsize=13
+URxvt*letterSpace:                0
 
 URxvt.depth:                      32
 URxvt*scrollBar:                  false
