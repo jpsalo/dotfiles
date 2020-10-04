@@ -353,7 +353,7 @@ nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 " Install extensions
 " https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#install-extensions
 " FIXME: newline
-let g:coc_global_extensions = ['coc-python', 'coc-angular', 'coc-eslint', 'coc-stylelintplus', 'coc-tsserver', 'coc-flow', 'coc-css', 'coc-prettier']
+let g:coc_global_extensions = ['coc-json', 'coc-python', 'coc-angular', 'coc-eslint', 'coc-stylelintplus', 'coc-tsserver', 'coc-flow', 'coc-css', 'coc-prettier']
 
 " Set dynamic interpreter for coc-python.
 " Typically this will be active virtual environment's python interpreter
