@@ -210,6 +210,8 @@ autocmd FileType nerdtree nnoremap <buffer> <S-Tab> <NOP>
 " Compatible with `set hidden`
 " http://stackoverflow.com/a/4468491/7010222
 " https://stackoverflow.com/questions/4465095/vim-delete-buffer-without-losing-the-split-window/4468491#comment42185471_4468491
+" https://vim.fandom.com/wiki/Easier_buffer_switching#Switching_to_the_previously_edited_buffer
+" TODO: sometimes goes to ghost (previously active) buffer, such as, when closing last buffer
 nnoremap <Leader>w :b#\|bd #<CR>
 autocmd FileType nerdtree nnoremap <buffer> <Leader>w <NOP>
 
