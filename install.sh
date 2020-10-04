@@ -125,6 +125,7 @@ setup_base_configuration() {
   backup_existing_file $HOME/.tigrc
   create_symlink tigrc
 
+  validate_directory $HOME/.config/bat
   install_package bat
   backup_existing_file $HOME/.config/bat/config
   create_symlink bat_config $HOME/.config/bat/config
