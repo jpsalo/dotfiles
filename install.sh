@@ -124,6 +124,10 @@ setup_base_configuration() {
   install_package tig
   backup_existing_file $HOME/.tigrc
   create_symlink tigrc
+
+  install_package bat
+  backup_existing_file $HOME/.config/bat/config
+  create_symlink bat_config $HOME/.config/bat/config
 }
 
 setup_terminal() {

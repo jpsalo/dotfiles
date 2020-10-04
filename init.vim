@@ -316,6 +316,12 @@ nnoremap <Leader>7 :call Fuz(':Ag')<CR>
 " Tags
 nnoremap <Leader>t :call Fuz(':Tags')<CR>
 
+" Syntax highlighting in preview
+" NOTE: Requires bat
+" https://github.com/junegunn/fzf.vim/blob/master/README.md#example-customizing-files-command
+command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
 " Global .ignore (local .ignore is enabled by default)
 " Make :Ag not match file names, only the file content
 "
