@@ -93,6 +93,9 @@ Plug 'tpope/vim-rhubarb'
 " GitLab extension for fugitive.vim
 Plug 'shumphrey/fugitive-gitlab.vim'
 
+" Stash extension for fugitive.vim
+Plug 'mobiushorizons/fugitive-stash.vim'
+
 " EditorConfig
 Plug 'editorconfig/editorconfig-vim'
 
@@ -181,6 +184,7 @@ nmap <Leader>gp <Plug>(GitGutterPrevHunk)
 
 " TODO: From environment variable (zshenv)?
 let g:fugitive_gitlab_domains = ['https://gitlab.siilicloud.com']
+let g:fugitive_stash_domains = ['http://buildtools.bisnode.com/stash/']
 
 let g:gutentags_ctags_exclude = [
       \ 'build',
