@@ -71,6 +71,10 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
 
+" Management of tags files
+" NOTE: requires ctags
+Plug 'ludovicchabant/vim-gutentags'
+
 " IntelliSense. Use release branch
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -177,6 +181,13 @@ nmap <Leader>gp <Plug>(GitGutterPrevHunk)
 
 " TODO: From environment variable (zshenv)?
 let g:fugitive_gitlab_domains = ['https://gitlab.siilicloud.com']
+
+let g:gutentags_ctags_exclude = [
+      \ 'build',
+      \ 'dist',
+      \ 'node_modules',
+      \ 'xeno',
+      \ ]
 
 " Disable folding
 let g:vim_markdown_folding_disabled = 1
@@ -302,6 +313,8 @@ nnoremap <silent> <Leader><Leader> :call Fuz(':Files')<CR>
 nnoremap <Leader>b :call Fuz(':Buffers')<CR>
 " Ag
 nnoremap <Leader>7 :call Fuz(':Ag')<CR>
+" Tags
+nnoremap <Leader>t :call Fuz(':Tags')<CR>
 
 " Global .ignore (local .ignore is enabled by default)
 " Make :Ag not match file names, only the file content

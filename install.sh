@@ -206,6 +206,12 @@ setup_neovim() {
   install_package neovim nvim
   mkvirtualenv py3nvim -i pynvim && deactivate
 
+  if [[ $os == "arch_linux" ]]; then
+    # TODO: https://github.com/universal-ctags/ctags/blob/master/docs/autotools.rst
+  elif [[ $os == "macos" ]]; then
+    brew install --HEAD universal-ctags/universal-ctags/universal-ctags
+  fi
+
   validate_directory $HOME/.config/nvim
   backup_existing_file $HOME/.config/nvim/init.vim
   backup_existing_file $HOME/.config/nvim/coc-settings.json
