@@ -28,7 +28,7 @@ install_package() {
   fi
 
   if ! is_package_installed $pkg_command; then
-    install_command $package
+    $install_command $package
   else
     echo $package already installed
   fi
@@ -88,11 +88,11 @@ configure_os_settings() {
   os=$( $HOME/scripts/get_operating_system.sh )
 
   if [[ $os == "arch_linux" ]]; then
-    alias install_command="sudo pacman -S" # TODO: --noconfirm
+    install_command="sudo pacman -S" # TODO: --noconfirm
   elif [[ $os == "macos" ]]; then
     echo Install Homebrew...
     install_brew
-    alias install_command="brew install"
+    install_command="brew install"
   fi
 }
 
