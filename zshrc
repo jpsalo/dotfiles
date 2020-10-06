@@ -12,6 +12,7 @@ fi
 
 plugins+=(
   colored-man-pages
+  extract
   git
   ng
   npm
