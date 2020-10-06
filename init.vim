@@ -187,6 +187,7 @@ let g:fugitive_gitlab_domains = ['https://gitlab.siilicloud.com']
 let g:fugitive_stash_domains = ['http://buildtools.bisnode.com/stash/']
 
 let g:gutentags_ctags_exclude = [
+      \ '*-lock.json',
       \ 'build',
       \ 'dist',
       \ 'node_modules',
