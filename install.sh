@@ -212,7 +212,21 @@ setup_neovim() {
   mkvirtualenv py3nvim -i pynvim && deactivate
 
   if [[ $os == "arch_linux" ]]; then
-    # TODO: https://github.com/universal-ctags/ctags/blob/master/docs/autotools.rst
+    if ! is_package_installed ctags; then
+      # https://github.com/universal-ctags/ctags/blob/master/docs/autotools.rst
+      # TODO: check if package is installed
+      install_package python-docutils
+      validate_directory $HOME/bin
+      validate_directory $HOME/lib
+      git clone https://github.com/universal-ctags/ctags.git $HOME/lib/universal-ctags
+      (
+        cd $HOME/lib/universal-ctags
+        ./autogen.sh
+        ./configure --prefix=$HOME
+        make
+        make install
+      )
+    fi
   elif [[ $os == "macos" ]]; then
     brew install --HEAD universal-ctags/universal-ctags/universal-ctags
   fi
