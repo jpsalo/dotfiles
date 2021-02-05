@@ -4,6 +4,10 @@
 " Map the Leader key to SPACE
 let mapleader="\<SPACE>"
 
+" Map ctrl-c to Esc to trigger InsertLeave
+" https://github.com/neoclide/coc.nvim/issues/1197#issuecomment-534361825
+inoremap <C-c> <Esc>
+
 " Enable mouse
 set mouse=a
 
@@ -26,6 +30,9 @@ set splitright
 set ignorecase
 set smartcase
 
+" Ignore case on file and directory completion
+set wildignorecase
+
 " TAB and indent to 2 spaces
 " http://stackoverflow.com/a/1878984/7010222
 set tabstop=2       " The width of a TAB is set to 4.
@@ -40,9 +47,15 @@ set softtabstop=2   " Sets the number of columns for a TAB
 set expandtab       " Expand TABs to space
 
 " Python virtualenv
+" Set static interpreter (and pynvim package) for Neovim
 " https://neovim.io/doc/user/provider.html#python-virtualenv
-let g:python_host_prog = '/usr/bin/python'
-let g:python3_host_prog = '/usr/bin/python3'
+let g:python3_host_prog = '$WORKON_HOME/py3nvim/bin/python3'
+
+" NOTE:
+" g:node_host_prog is handled by neovim npm package (from `npm root -g`)
+" g:coc_node_path picks that
+" https://neovim.io/doc/user/provider.html#g:node_host_prog
+" https://github.com/neoclide/coc.nvim/wiki/F.A.Q#environment-node-doesnt-meet-the-requirement
 
 " PLUGINS
 """""""""
@@ -58,6 +71,10 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
 
+" Management of tags files
+" NOTE: requires ctags
+Plug 'ludovicchabant/vim-gutentags'
+
 " IntelliSense. Use release branch
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -69,6 +86,15 @@ Plug 'vim-scripts/BufOnly.vim'
 
 " Git wrapper
 Plug 'tpope/vim-fugitive'
+
+" GitHub extension for fugitive.vim
+Plug 'tpope/vim-rhubarb'
+
+" GitLab extension for fugitive.vim
+Plug 'shumphrey/fugitive-gitlab.vim'
+
+" Stash extension for fugitive.vim
+Plug 'mobiushorizons/fugitive-stash.vim'
 
 " EditorConfig
 Plug 'editorconfig/editorconfig-vim'
@@ -97,7 +123,8 @@ Plug 'Valloric/ListToggle'
 " Javascript indentation and syntax
 Plug 'pangloss/vim-javascript'
 
-" JSX syntax highlighting and indenting
+" React (jsx, tsx) syntax highlighting and indenting
+Plug 'HerringtonDarkholme/yats.vim'
 Plug 'maxmellon/vim-jsx-pretty'
 
 " Flow completion and type error checking
@@ -108,6 +135,9 @@ Plug 'leafgarland/typescript-vim'
 
 " CoffeeScript
 Plug 'kchmck/vim-coffee-script'
+
+" GraphQL
+Plug 'jparise/vim-graphql'
 
 " Pug (Jade) syntax highlighting
 Plug 'digitaltoad/vim-pug'
@@ -152,6 +182,18 @@ let delimitMate_expand_cr=1
 nmap <Leader>gn <Plug>(GitGutterNextHunk)
 nmap <Leader>gp <Plug>(GitGutterPrevHunk)
 
+" TODO: From environment variable (zshenv)?
+let g:fugitive_gitlab_domains = ['https://gitlab.siilicloud.com']
+let g:fugitive_stash_domains = ['http://buildtools.bisnode.com/stash/']
+
+let g:gutentags_ctags_exclude = [
+      \ '*-lock.json',
+      \ 'build',
+      \ 'dist',
+      \ 'node_modules',
+      \ 'xeno',
+      \ ]
+
 " Disable folding
 let g:vim_markdown_folding_disabled = 1
 
@@ -166,8 +208,12 @@ autocmd FileType nerdtree nnoremap <buffer> <S-Tab> <NOP>
 
 " Delete buffer without losing the split window
 " This is needed with NERDTree / netrw
+" Compatible with `set hidden`
 " http://stackoverflow.com/a/4468491/7010222
-nnoremap <Leader>w :bp\|bd #<CR>
+" https://stackoverflow.com/questions/4465095/vim-delete-buffer-without-losing-the-split-window/4468491#comment42185471_4468491
+" https://vim.fandom.com/wiki/Easier_buffer_switching#Switching_to_the_previously_edited_buffer
+" TODO: sometimes goes to ghost (previously active) buffer, such as, when closing last buffer
+nnoremap <Leader>w :b#\|bd #<CR>
 autocmd FileType nerdtree nnoremap <buffer> <Leader>w <NOP>
 
 " LISTS
@@ -244,36 +290,120 @@ let g:airline#extensions#coc#enabled = 1
 " FUZZY FINDER
 """"""""""""""
 
-" Don't open files in NERDtree from fzf
-" https://github.com/junegunn/fzf.vim/issues/326#issuecomment-282936932
-" https://github.com/junegunn/fzf/issues/453#issuecomment-166648024
-function! Fuz()
-  if expand('%') =~ 'NERD_tree'
-    execute "normal \<c-w>\<c-w>"
-  endif
-  execute 'Files'
-endfunction
-nnoremap <silent> <Leader><Leader> :call Fuz()<CR>
+" Float
+" https://github.com/junegunn/fzf/blob/master/README-VIM.md#starting-fzf-in-a-popup-window
+" https://github.com/junegunn/fzf.vim/issues/821#issuecomment-581481211
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
-" Invoke fzf in find buffer
-nnoremap <Leader>b :Buffers<CR>
+" Reverse layout (with float)
+" https://github.com/junegunn/fzf.vim/issues/317#issuecomment-281287381
+let $FZF_DEFAULT_OPTS = '--reverse'
 
 " Respecting .gitignore
 " https://github.com/junegunn/fzf#respecting-gitignore
 " https://github.com/junegunn/fzf.vim/issues/194#issuecomment-245031594
 let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
 
+" Don't open files in NERDtree from fzf
+" https://github.com/junegunn/fzf.vim/issues/326#issuecomment-282936932
+" https://github.com/junegunn/fzf/issues/453#issuecomment-166648024
+" https://github.com/junegunn/fzf/issues/453#issuecomment-354634207
+function! Fuz(command_str)
+  if expand('%') =~ 'NERD_tree'
+    execute "normal \<c-w>\<c-w>"
+  endif
+  execute a:command_str
+endfunction
+
+nnoremap <silent> <Leader><Leader> :call Fuz(':Files')<CR>
+" Invoke fzf in find buffer
+nnoremap <Leader>b :call Fuz(':Buffers')<CR>
+" Ag
+nnoremap <Leader>7 :call Fuz(':Ag')<CR>
+" Tags
+nnoremap <Leader>t :call Fuz(':Tags')<CR>
+
+" Syntax highlighting in preview
+" NOTE: Requires bat
+" https://github.com/junegunn/fzf.vim/blob/master/README.md#example-customizing-files-command
+command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+" Global .ignore (local .ignore is enabled by default)
+" Make :Ag not match file names, only the file content
+"
+" https://github.com/junegunn/fzf.vim/issues/346#issuecomment-288483704
+" https://github.com/ggreer/the_silver_searcher/wiki/Advanced-Usage#ignore
+" https://github.com/junegunn/fzf.vim/issues/582
+" https://github.com/junegunn/fzf.vim/issues/475#issuecomment-339979974
+command! -bang -nargs=* Ag call fzf#vim#ag(
+  \ <q-args>,
+  \ '--path-to-ignore ~/.ignore --hidden --ignore .git',
+  \ {'options': '--delimiter : --nth 4..'},
+  \ <bang>0)
+
+" Only print the names of files containing matches, not the matching lines.
+" An empty query will print all files that would be searched.
+" TODO: NERDtree
+command! -bang -nargs=* Matches call fzf#run(fzf#wrap(
+  \ {'source': 'ag --files-with-matches '.shellescape(<q-args>)}
+  \ ))
+
+" Search for word under cursor
+" TODO: NERDtree
+" https://github.com/junegunn/fzf.vim/issues/50#issuecomment-161676378
+nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
+
 " INTELLISENSE
 """"""""""""""
 
 " Install extensions
 " https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#install-extensions
-let g:coc_global_extensions = ['coc-python', 'coc-eslint', 'coc-tsserver', 'coc-css']
+" FIXME: newline
+let g:coc_global_extensions = ['coc-json', 'coc-python', 'coc-angular', 'coc-eslint', 'coc-stylelintplus', 'coc-tsserver', 'coc-flow', 'coc-css', 'coc-prettier']
+
+" Set dynamic interpreter for coc-python.
+" Typically this will be active virtual environment's python interpreter
+" https://github.com/neoclide/coc-python/issues/55#issuecomment-525352153
+call coc#config('python', {
+\  'pythonPath': split(execute('!which python'), '\n')[-1]
+\})
 
 " Resolve workspace folders from PYTHONPATH in .env file
 " https://github.com/neoclide/coc.nvim/wiki/Using-workspaceFolders#resolve-workspace-folder
 " https://github.com/neoclide/coc-python/issues/26#issuecomment-489805114
 autocmd FileType python let b:coc_root_patterns = ['.git', '.env']
+
+" If no local eslint config is available, coc will use personal configuration
+" file. This function resolves path to a nvm-npm directory where the plugins
+" are installed.
+" https://eslint.org/docs/developer-guide/nodejs-api#◆-new-eslint-options
+" https://eslint.org/docs/user-guide/configuring#configuration-file-formats
+" https://eslint.org/docs/user-guide/configuring#personal-configuration-file-deprecated
+function! s:setup_global_eslint()
+  " https://eslint.org/docs/user-guide/configuring#configuration-file-formats
+  " FIXME: newline
+  let configFiles = ['.eslintrc.js', '.eslintrc.cjs', '.eslintrc.yaml', '.eslintrc.yml', '.eslintrc.json', '.eslintrc']
+  let hasLocalEslintConfig = 0
+
+  for i in configFiles
+    if !empty(findfile(i))
+      let hasLocalEslintConfig = 1
+      break
+    endif
+  endfor
+
+  if hasLocalEslintConfig == 0
+    " https://github.com/neoclide/coc.nvim/issues/1120#issue-486136450
+    call coc#config("eslint.options.configFile", ($HOME . "/.eslintrc.js"))
+    call coc#config("eslint.options.resolvePluginsRelativeTo", system('npm root -g'))
+  endif
+endfunction
+
+:call s:setup_global_eslint()
+
+" Show all diagnostics.
+nnoremap <silent><nowait> <leader>e  :<C-u>CocList diagnostics<cr>
 
 " Remap for rename current word
 " https://github.com/neoclide/coc.nvim#example-vim-configuration
@@ -298,8 +428,11 @@ nmap <silent> <leader>jd <Plug>(coc-definition)
 nmap <silent> gr <Plug>(coc-references)
 nnoremap <leader>fd :FlowJumpToDef<cr>
 
-" use `:OR` for organize import of current buffer
+" Use `:OR` for organize import of current buffer
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Setup `Prettier` command
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " Navigate through autocomplete suggestions and add them
 " https://github.com/Shougo/deoplete.nvim/issues/246#issuecomment-344463696
@@ -317,6 +450,9 @@ inoremap <expr><C-l> pumvisible() ? "\<C-y>" : "\<C-l>"
 imap <expr> <CR> pumvisible()
                  \ ? "\<C-Y>"
                  \ : "<Plug>delimitMateCR"
+
+" Colorful jsx config
+let g:vim_jsx_pretty_colorful_config = 1 " default 0
 
 " Enables syntax highlighting for Flow (vim-javascript)
 let g:javascript_plugin_flow = 1
@@ -363,3 +499,9 @@ let g:airline_theme = 'base16_vim'
 let g:airline_base16_monotone = 1
 " Improve the contrast for the inactive statusline
 let g:airline_base16_improved_contrast = 1
+
+let g:goyo_width = 120
+
+" On window resize, if goyo is active, do <c-w>= to resize the window
+" https://github.com/junegunn/goyo.vim/issues/159#issuecomment-342417487
+autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif

@@ -2,23 +2,25 @@ export ZSH=~/.oh-my-zsh
 
 ZSH_THEME="robbyrussell"
 
-plugins=(git npm pip colored-man-pages tmux)
+# NOTE: directory is $ZSH_CUSTOM
+if [ -d ~/.oh-my-zsh/custom/plugins/zsh-nvm ]; then
+  # Auto use node version specified in directory's .nvmrc file
+  # https://github.com/lukechilds/zsh-nvm#auto-use
+  export NVM_AUTO_USE=true
+  plugins+=(zsh-nvm)
+fi
 
-source $ZSH/oh-my-zsh.sh
-
-export EDITOR='nvim'
-
-alias python='python3'
-alias pip=pip3
-
-# Executables
-export PATH=$HOME/.local/bin:$PATH
-export PATH="$HOME/bin:$PATH"
-typeset -U path path=(~/scripts $path)
-
-# Manually change npm’s default directory
-# https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally#manually-change-npms-default-directory
-export PATH=~/.npm-global/bin:$PATH
+plugins+=(
+  colored-man-pages
+  extract
+  git
+  ng
+  npm
+  pip
+  tmux
+  yarn
+  virtualenvwrapper
+)
 
 # Base16 Shell
 # https://github.com/chriskempson/base16-shell#bashzsh
@@ -27,21 +29,22 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
         eval "$("$BASE16_SHELL/profile_helper.sh")"
 
+ZSH_TMUX_AUTOSTART=true
+ZSH_TMUX_AUTOQUIT=false
+
+source $ZSH/oh-my-zsh.sh
+
+alias python='python3'
+alias pip=pip3
+
 # Fuzzy finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # https://virtualenvwrapper.readthedocs.io/en/latest/install.html#python-interpreter-virtualenv-and-path
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+# NOTE: System Python path is not the same on Linux and on macOS
+export VIRTUALENVWRAPPER_PYTHON=`which python3`
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/devel
-
-if [ -f /usr/bin/virtualenvwrapper.sh ]
-then
-  source /usr/bin/virtualenvwrapper.sh
-elif [ -f $HOME/.local/bin/virtualenvwrapper.sh ]
-then
-  source $HOME/.local/bin/virtualenvwrapper.sh
-fi
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f $HOME/bin/google-cloud-sdk/path.zsh.inc ]; then . $HOME/bin/google-cloud-sdk/path.zsh.inc; fi
@@ -54,5 +57,11 @@ then
   export GOOGLE_APPLICATION_CREDENTIALS="$(< $HOME/.google-service-account.json)"
 fi
 
-export PATH=$HOME/bin/mongodb/bin:$PATH
-export PATH=$HOME/bin/splunk/bin:$PATH
+# nvm completion
+# https://github.com/nvm-sh/nvm#bash-completion
+[[ -r $NVM_DIR/bash_completion ]] && \. $NVM_DIR/bash_completion
+
+# Run global ESLint with personal configuration file and find the plugins from nvm's npm packages
+# https://eslint.org/docs/user-guide/configuring#personal-configuration-file-deprecated
+# https://eslint.org/docs/user-guide/command-line-interface
+alias eslint='eslint --config $HOME/.eslintrc.js --resolve-plugins-relative-to $(npm root -g)'

@@ -1,9 +1,7 @@
 module.exports = {
-  "extends": "standard",
+  "extends": "eslint:recommended",
   "plugins": [
-    "standard",
     "promise",
-    "react"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -13,6 +11,5 @@ module.exports = {
   "rules": {
     "semi": ["off"],
     "space-before-function-paren": ["error", "never"],
-    "react/jsx-uses-vars": "error"
   }
 };

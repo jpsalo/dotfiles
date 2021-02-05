@@ -3,9 +3,19 @@
   "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true,
   "python.linting.enabled": true,
-  // python (alias)
-  // https://github.com/neoclide/coc-python/issues/55#issuecomment-538155053
-  "python.pythonPath": "python",
-  "python.setInterpreter": "python",
-  "tsserver.enable": "true"
+  "eslint.enable": true,
+  // Avoid re-fetching types
+  // https://github.com/neoclide/coc-tsserver#coc-tsserver
+  "tsserver.npm": "/usr/bin/npm",
+  "tsserver.enable": true,
+  // disable tsserver with flow
+  // https://github.com/amiralies/coc-flow#setup
+  "javascript.validate.enable": true,
+  "flow.enable": false,
+  // disable coc-css validation with coc-stylelintplus
+  // https://github.com/bmatcuk/coc-stylelintplus#installation
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "wxss.validate": false
 }

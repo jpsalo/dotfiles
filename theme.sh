@@ -6,7 +6,7 @@ BASE16_SHELL=$HOME/.config/base16-shell/
               eval "$($BASE16_SHELL/profile_helper.sh)"
 
 DEFAULT="default-dark"
-DEFAULT_DARK="oceanicnext"
+DEFAULT_DARK="material"
 DEFAULT_LIGHT="solarized-light"
 
 get_xres_col() {
@@ -17,6 +17,7 @@ set_theme() {
   theme=$1
 
   xresources_theme="https://raw.githubusercontent.com/chriskempson/base16-xresources/master/xresources/base16-${theme}-256.Xresources"
+  mkdir -p ~/.Xresources.d
   curl $xresources_theme > ~/.Xresources.d/colors
   xrdb -load -I$HOME ~/.Xresources
 

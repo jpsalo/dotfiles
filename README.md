@@ -33,16 +33,14 @@ Install following pip packages:
 
 
 ### JavaScript
-`node` and `npm`
+`node` and `npm` and `zsh-nvm` (Oh My Zsh plugin)
 
-You can install the following optional npm packages:
-
- - Linting `eslint`
- - `typescript (tsserver)`
+Default global npm packages are in`$NVM_DIR/default-packages`
 
 
 ### Editor
-`neovim` and `pynvim` (from pip) for Python support
+
+Install `neovim`. Create a "py3nvim" virtual environment and install `pynvim` (from pip) for Python support (see [python-virtualenv](https://neovim.io/doc/user/provider.html#python-virtualenv)).
 
 `tig`
 
@@ -57,5 +55,4 @@ Wallpaper:
  - Generate with `ImageMagick`
  - Set with `feh`
 
-
-Use `theme.sh <THEME>`
+Put `theme.sh` into `~/scripts` directory and use like this: `theme.sh <THEME>`
