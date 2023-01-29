@@ -71,6 +71,10 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'neovim/nvim-lspconfig'
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
 " Management of tags files
 " NOTE: requires ctags
 Plug 'ludovicchabant/vim-gutentags'
@@ -103,9 +107,16 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" Tree explorer
+" Tree explorer (NERDTree)
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" Tree explorer (neo-tree)
+" https://www.reddit.com/r/neovim/comments/tuyzch/comment/i39x42i/?utm_source=share&utm_medium=web2x&context=3
+Plug 'nvim-lua/plenary.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
 
 " Fuzzy finder
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -349,6 +360,17 @@ command! -bang -nargs=* Matches call fzf#run(fzf#wrap(
   \ {'source': 'ag --files-with-matches '.shellescape(<q-args>)}
   \ ))
 
+" i.e. Fag --ts heading, Fag --sass button
+" https://github.com/junegunn/fzf.vim/issues/92
+function! s:ag_with_opts(arg, bang)
+  let tokens  = split(a:arg)
+  let ag_opts = join(filter(copy(tokens), 'v:val =~ "^-"'))
+  let query   = join(filter(copy(tokens), 'v:val !~ "^-"'))
+  call fzf#vim#ag(query, ag_opts, {})
+endfunction
+
+autocmd VimEnter * command! -nargs=* -bang Fag call s:ag_with_opts(<q-args>, <bang>0)
+
 " Search for word under cursor
 " TODO: NERDtree
 " https://github.com/junegunn/fzf.vim/issues/50#issuecomment-161676378
@@ -360,9 +382,9 @@ nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 " Install extensions
 " https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#install-extensions
 " FIXME: newline
-let g:coc_global_extensions = ['coc-json', 'coc-python', 'coc-angular', 'coc-eslint', 'coc-stylelintplus', 'coc-tsserver', 'coc-flow', 'coc-css', 'coc-prettier']
+let g:coc_global_extensions = ['coc-json', 'coc-pyright', 'coc-angular', 'coc-eslint', 'coc-stylelintplus', 'coc-tsserver', 'coc-flow', 'coc-css', 'coc-prettier']
 
-" Set dynamic interpreter for coc-python.
+" Set dynamic interpreter for coc-pyright.
 " Typically this will be active virtual environment's python interpreter
 " https://github.com/neoclide/coc-python/issues/55#issuecomment-525352153
 call coc#config('python', {

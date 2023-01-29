@@ -1,5 +1,8 @@
 # https://github.com/nvm-sh/nvm#default-global-packages-from-file-while-installing
 
+# Colour Contrast Checker CLI
+colour-contrast-cli
+
 # ESLint
 eslint
 eslint-plugin-promise
@@ -12,3 +15,5 @@ neovim
 @angular/cli
 
 typescript
+ts-node
+yarn

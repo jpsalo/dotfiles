@@ -182,7 +182,6 @@ setup_python() {
   # FIXME: Does not work, but replication would require teardown
   source `which virtualenvwrapper.sh`
 
-  python3 -m pip install python-language-server
   python3 -m pip install flake8
   python3 -m pip install --upgrade autopep8
 }
