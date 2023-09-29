@@ -1,9 +1,14 @@
 #!/bin/bash
 
 # https://github.com/chriskempson/base16-shell/issues/126#issuecomment-409990674
-BASE16_SHELL=$HOME/.config/base16-shell/
-[ -s $BASE16_SHELL/profile_helper.sh ] && \
-              eval "$($BASE16_SHELL/profile_helper.sh)"
+# https://web.archive.org/web/20210111200639/https://github.com/chriskempson/base16-shell/issues/126
+# BASE16_SHELL=$HOME/.config/base16-shell/
+# [ -s $BASE16_SHELL/profile_helper.sh ] && \
+#               eval "$($BASE16_SHELL/profile_helper.sh)"
+
+BASE16_SHELL="$HOME/.config/base16-shell/"
+    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+        source "$BASE16_SHELL/profile_helper.sh"
 
 DEFAULT="default-dark"
 DEFAULT_DARK="material"
@@ -16,7 +21,15 @@ get_xres_col() {
 set_theme() {
   theme=$1
 
-  xresources_theme="https://raw.githubusercontent.com/chriskempson/base16-xresources/master/xresources/base16-${theme}-256.Xresources"
+  # TODO: Xresources
+  if [[ "$theme" =~ ^catppuccin-.* ]]; then
+    shell_theme=${HOME}/scripts/base16-${theme}.sh
+    _base16 $shell_theme $theme
+    return 1
+  fi
+
+  # https://github.com/tinted-theming/base16-xresources
+  xresources_theme="https://raw.githubusercontent.com/base16-project/base16-xresources/main/xresources/base16-${theme}-256.Xresources"
   mkdir -p ~/.Xresources.d
   curl $xresources_theme > ~/.Xresources.d/colors
   xrdb -load -I$HOME ~/.Xresources

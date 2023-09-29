@@ -17,5 +17,12 @@
   "css.validate": false,
   "less.validate": false,
   "scss.validate": false,
-  "wxss.validate": false
+  "wxss.validate": false,
+  "angular.enable-strict-mode-prompt": false,
+  // "angular.enable-experimental-ivy-prompt": false,
+  // "angular.experimental-ivy": true,
+  // "suggest.floatConfig": {"border": true},
+  // "floatFactory.floatConfig": {"border": true}
+  // obsolete/testing
+  // "hover.floatConfig": {"border": true},
 }

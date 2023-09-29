@@ -195,11 +195,12 @@ setup_node() {
   # NOTE: directory is $ZSH_CUSTOM
   git clone https://github.com/lukechilds/zsh-nvm $HOME/.oh-my-zsh/custom/plugins/zsh-nvm
 
-  export NVM_DIR="$HOME/.nvm" && (
-    git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
-    cd "$NVM_DIR"
-    git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
-  ) && \. "$NVM_DIR/nvm.sh"
+  # NOTE: Not needed with zsh-nvm
+  # export NVM_DIR="$HOME/.nvm" && (
+  #   git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
+  #   cd "$NVM_DIR"
+  #   git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
+  # ) && \. "$NVM_DIR/nvm.sh"
 
   create_symlink nvm_default-packages $NVM_DIR/default-packages
   nvm install --lts
@@ -249,8 +250,8 @@ setup_ui() {
   $HOME/scripts/theme.sh dark
 
   if [[ $os == "arch_linux" ]]; then
-    linux_fonts=nerd-fonts-source-code-pro
-    linux_fonts_fallback=nerd-fonts-dejavu-complete
+    linux_fonts=ttf-sourcecodepro-nerd
+    linux_fonts_fallback=ttf-dejavu-nerd
 
     # TODO: as is_package_installed custom check
     if pacman -Qi $linux_fonts > /dev/null 2>&1; then
@@ -271,7 +272,8 @@ setup_ui() {
   elif [[ $os == "macos" ]]; then
     brew tap homebrew/cask-fonts
     # TODO: as custom install_command for install_package
-    brew cask install font-source-code-pro
+    # brew cask install font-source-code-pro
+    brew cask install font-sauce-code-pro-nerd-font
   fi
 }
 

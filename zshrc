@@ -7,6 +7,7 @@ if [ -d ~/.oh-my-zsh/custom/plugins/zsh-nvm ]; then
   # Auto use node version specified in directory's .nvmrc file
   # https://github.com/lukechilds/zsh-nvm#auto-use
   export NVM_AUTO_USE=true
+  export NVM_COMPLETION=true
   plugins+=(zsh-nvm)
 fi
 
@@ -24,10 +25,15 @@ plugins+=(
 
 # Base16 Shell
 # https://github.com/chriskempson/base16-shell#bashzsh
+# BASE16_SHELL="$HOME/.config/base16-shell/"
+# [ -n "$PS1" ] && \
+#     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+#         eval "$("$BASE16_SHELL/profile_helper.sh")"
+
 BASE16_SHELL="$HOME/.config/base16-shell/"
 [ -n "$PS1" ] && \
     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-        eval "$("$BASE16_SHELL/profile_helper.sh")"
+        source "$BASE16_SHELL/profile_helper.sh"
 
 ZSH_TMUX_AUTOSTART=true
 ZSH_TMUX_AUTOQUIT=false
@@ -57,11 +63,16 @@ then
   export GOOGLE_APPLICATION_CREDENTIALS="$(< $HOME/.google-service-account.json)"
 fi
 
+# NOTE: not needed. Handled by zsh-nvm
 # nvm completion
 # https://github.com/nvm-sh/nvm#bash-completion
-[[ -r $NVM_DIR/bash_completion ]] && \. $NVM_DIR/bash_completion
+# [[ -r $NVM_DIR/bash_completion ]] && \. $NVM_DIR/bash_completion
 
 # Run global ESLint with personal configuration file and find the plugins from nvm's npm packages
 # https://eslint.org/docs/user-guide/configuring#personal-configuration-file-deprecated
 # https://eslint.org/docs/user-guide/command-line-interface
 alias eslint='eslint --config $HOME/.eslintrc.js --resolve-plugins-relative-to $(npm root -g)'
+
+# Load Angular CLI autocompletion.
+# https://angular.io/cli/completion
+source <(ng completion script)

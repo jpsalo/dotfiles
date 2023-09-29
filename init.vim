@@ -63,13 +63,15 @@ let g:python3_host_prog = '$WORKON_HOME/py3nvim/bin/python3'
 " https://github.com/junegunn/vim-plug
 " Automatic installation
 " https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
-if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin('~/.config/nvim/plugged')
+
+Plug 'williamboman/mason.nvim'
 
 Plug 'neovim/nvim-lspconfig'
 
@@ -101,6 +103,7 @@ Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'mobiushorizons/fugitive-stash.vim'
 
 " EditorConfig
+" TODO: https://neovim.io/doc/user/editorconfig.html
 Plug 'editorconfig/editorconfig-vim'
 
 " Status/tabline
@@ -108,19 +111,27 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " Tree explorer (NERDTree)
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'scrooloose/nerdtree'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Tree explorer (neo-tree)
-" https://www.reddit.com/r/neovim/comments/tuyzch/comment/i39x42i/?utm_source=share&utm_medium=web2x&context=3
+" https://www.reddit.com/r/neovim/comments/tuyzch/comment/i39x42i/?utm_source=share&utm_medium=web2x&context=3aaaaa
 Plug 'nvim-lua/plenary.nvim'
-Plug 'kyazdani42/nvim-web-devicons'
+Plug 'nvim-tree/nvim-web-devicons'
 Plug 'MunifTanjim/nui.nvim'
 Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
 
+" buffer line (with tabpage integration)
+" Plug 'nvim-tree/nvim-web-devicons' " Recommended (for coloured icons)
+" Plug 'ryanoasis/vim-devicons' Icons without colours
+Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
+
 " Fuzzy finder
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+
+" Notification manager
+Plug 'rcarriga/nvim-notify'
 
 " Toggle, display and navigate marks
 Plug 'kshenoy/vim-signature'
@@ -168,6 +179,10 @@ Plug 'plasticboy/vim-markdown'
 
 " Color scheme
 Plug 'chriskempson/base16-vim'
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+
+" Indentation guides
+Plug 'lukas-reineke/indent-blankline.nvim'
 
 call plug#end()
 
@@ -190,8 +205,8 @@ nnoremap <Leader>cd :cd %:p:h<CR>
 let delimitMate_expand_space = 1
 let delimitMate_expand_cr=1
 
-nmap <Leader>gn <Plug>(GitGutterNextHunk)
-nmap <Leader>gp <Plug>(GitGutterPrevHunk)
+nnoremap <Leader>gn <Plug>(GitGutterNextHunk)
+nnoremap <Leader>gp <Plug>(GitGutterPrevHunk)
 
 " TODO: From environment variable (zshenv)?
 let g:fugitive_gitlab_domains = ['https://gitlab.siilicloud.com']
@@ -214,8 +229,8 @@ let g:vim_markdown_folding_disabled = 1
 " Next or previous buffer in the buffer list
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
-autocmd FileType nerdtree nnoremap <buffer> <Tab> <NOP>
-autocmd FileType nerdtree nnoremap <buffer> <S-Tab> <NOP>
+" autocmd FileType nerdtree nnoremap <buffer> <Tab> <NOP>
+" autocmd FileType nerdtree nnoremap <buffer> <S-Tab> <NOP>
 
 " Delete buffer without losing the split window
 " This is needed with NERDTree / netrw
@@ -224,8 +239,9 @@ autocmd FileType nerdtree nnoremap <buffer> <S-Tab> <NOP>
 " https://stackoverflow.com/questions/4465095/vim-delete-buffer-without-losing-the-split-window/4468491#comment42185471_4468491
 " https://vim.fandom.com/wiki/Easier_buffer_switching#Switching_to_the_previously_edited_buffer
 " TODO: sometimes goes to ghost (previously active) buffer, such as, when closing last buffer
-nnoremap <Leader>w :b#\|bd #<CR>
-autocmd FileType nerdtree nnoremap <buffer> <Leader>w <NOP>
+" nnoremap <Leader>w :b#\|bd #<CR>
+" autocmd FileType nerdtree nnoremap <buffer> <Leader>w <NOP>
+nnoremap <Leader>w :bd<CR>
 
 " LISTS
 """""""
@@ -251,8 +267,12 @@ autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose <CR>:lclose<CR>
 """""""""""""""
 
 " Toggle, reveal file in NERDTree
-map <Leader>m :NERDTreeToggle<CR>
-map <Leader>p :NERDTreeFind<CR>
+" https://github.com/nvim-neo-tree/neo-tree.nvim#the-neotree-command
+" map <Leader>m :NERDTreeToggle<CR>
+" map <Leader>p :NERDTreeFind<CR>
+noremap <Leader>m :NeoTreeFocusToggle<CR>
+noremap <Leader>n :NeoTreeFloatToggle<CR>
+noremap <Leader>p :Neotree filesystem reveal left<CR>
 
 " Absolute width of netrw window
 let g:netrw_winsize = 25
@@ -267,7 +287,8 @@ let g:netrw_liststyle = 3
 """"""""""""""""
 
 " Tab line
-let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#enabled = 2
+let g:airline#extensions#tabline#enabled = 0
 
 " Just show the filename (no path) in the tab
 let g:airline#extensions#tabline#fnamemod = ':t'
@@ -304,7 +325,7 @@ let g:airline#extensions#coc#enabled = 1
 " Float
 " https://github.com/junegunn/fzf/blob/master/README-VIM.md#starting-fzf-in-a-popup-window
 " https://github.com/junegunn/fzf.vim/issues/821#issuecomment-581481211
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'border': 'none' } }
 
 " Reverse layout (with float)
 " https://github.com/junegunn/fzf.vim/issues/317#issuecomment-281287381
@@ -320,9 +341,8 @@ let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
 " https://github.com/junegunn/fzf/issues/453#issuecomment-166648024
 " https://github.com/junegunn/fzf/issues/453#issuecomment-354634207
 function! Fuz(command_str)
-  if expand('%') =~ 'NERD_tree'
-    execute "normal \<c-w>\<c-w>"
-  endif
+  " if expand('%') =~ 'NERD_tree'
+  "   execute "normal \<c-w>\<c-w>"
   execute a:command_str
 endfunction
 
@@ -424,12 +444,18 @@ endfunction
 
 :call s:setup_global_eslint()
 
+" Ensure coc-angular is loaded in templates
+" https://github.com/iamcco/coc-angular/issues/56#issuecomment-1126947357
+" https://github.com/neoclide/coc.nvim/issues/1183#issuecomment-842550700
+" https://github.com/neoclide/coc.nvim/issues/132#issuecomment-433637296
+autocmd FileType html :call CocActionAsync('activeExtension', 'coc-angular')
+
 " Show all diagnostics.
 nnoremap <silent><nowait> <leader>e  :<C-u>CocList diagnostics<cr>
 
 " Remap for rename current word
 " https://github.com/neoclide/coc.nvim#example-vim-configuration
-nmap <leader>rn <Plug>(coc-rename)
+nnoremap <leader>rn <Plug>(coc-rename)
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -438,7 +464,7 @@ function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
   else
-    call CocAction('doHover')
+    call CocActionAsync('doHover')
   endif
 endfunction
 
@@ -446,8 +472,8 @@ endfunction
 inoremap <silent><expr> <c-space> coc#refresh()
 
 " GoTo
-nmap <silent> <leader>jd <Plug>(coc-definition)
-nmap <silent> gr <Plug>(coc-references)
+nnoremap <silent> <leader>jd <Plug>(coc-definition)
+nnoremap <silent> gr <Plug>(coc-references)
 nnoremap <leader>fd :FlowJumpToDef<cr>
 
 " Use `:OR` for organize import of current buffer
@@ -457,10 +483,24 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " Navigate through autocomplete suggestions and add them
+" https://github.com/neoclide/coc.nvim/wiki/Completion-with-sources#use-tab-and-s-tab-to-navigate-the-completion-list
+inoremap <expr> <C-j> coc#pum#visible() ? coc#pum#next(1) : "\<Down>"
+inoremap <expr> <C-k> coc#pum#visible() ? coc#pum#prev(1) : "\<Up>"
 " https://github.com/Shougo/deoplete.nvim/issues/246#issuecomment-344463696
-inoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<Down>"
-inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<Up>"
-inoremap <expr><C-l> pumvisible() ? "\<C-y>" : "\<C-l>"
+" inoremap <expr><C-j> pum#visible() ? "\<C-n>" : "\<Down>"
+" inoremap <expr><C-k> pum#visible() ? "\<C-p>" : "\<Up>"
+" inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" :"<S-Tab>"
+" inoremap <Down> <C-k>=pumvisible() ? "\<lt>C-N>" : "\<lt>Down>"<CR>
+
+cnoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<Down>"
+cnoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<Up>"
+" inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+
+
+" Use <cr> to confirm completion
+" https://github.com/neoclide/coc.nvim/wiki/Completion-with-sources#use-cr-to-confirm-completion
+" https://github.com/neoclide/coc-pairs/issues/83#issuecomment-1073263345
+inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Skip delimitMate on pop-up menus
 "
@@ -469,9 +509,9 @@ inoremap <expr><C-l> pumvisible() ? "\<C-y>" : "\<C-l>"
 " Otherwise, use delimitMate <CR> expansion
 "
 " https://github.com/Raimondi/delimitMate/blob/master/doc/delimitMate.txt
-imap <expr> <CR> pumvisible()
-                 \ ? "\<C-Y>"
-                 \ : "<Plug>delimitMateCR"
+" imap <expr> <CR> pumvisible()
+"                  \ ? "\<C-Y>"
+"                  \ : "<Plug>delimitMateCR"
 
 " Colorful jsx config
 let g:vim_jsx_pretty_colorful_config = 1 " default 0
@@ -482,8 +522,15 @@ let g:javascript_plugin_flow = 1
 " Do not open quickfix when no errors
 let g:flow#autoclose = 1
 
+" Max line lenght highlight
+" https://github.com/editorconfig/editorconfig-vim/blob/1d54632f7fcad38df8e428f349bc58b15af4b206/doc/editorconfig.txt#L125
+let g:EditorConfig_max_line_indicator = "fillexceeding"
+
 " UI
 """"
+
+" Global statusline
+set laststatus=3
 
 " Use true color
 " https://github.com/neovim/neovim/wiki/FAQ#how-can-i-use-true-color-in-the-terminal
@@ -497,33 +544,150 @@ let g:flow#autoclose = 1
 "
 " TODO: if has(termguicolors) set ... else
 function! s:base16_customize() abort
+  if stridx($BASE16_THEME, 'catppuccin') >= 0
+    return 0
+  endif
   call Base16hi("SpellBad",   "", "", g:base16_cterm08, g:base16_cterm00, "", "")
   call Base16hi("SpellCap",   "", "", g:base16_cterm0A, g:base16_cterm00, "", "")
   call Base16hi("SpellLocal", "", "", g:base16_cterm0D, g:base16_cterm00, "", "")
   call Base16hi("SpellRare",  "", "", g:base16_cterm0B, g:base16_cterm00, "", "")
 endfunction
 
+" See also: https://github.com/junegunn/goyo.vim#faq
 augroup on_change_colorschema
   autocmd!
   autocmd ColorScheme * call s:base16_customize()
 augroup END
 
+function! SetupTheme(theme_str)
+  if (a:theme_str == 'catppuccin')
+    colorscheme $BASE16_THEME " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+    let g:airline_theme = 'catppuccin'
+    " TODO i.e. execute 'AirlineRefresh'
+    " https://github.com/vim-airline/vim-airline/wiki/FAQ#colors-go-out-of-sync-when-i-source-my-vimrc
+
+    " Customize fzf colors
+    " - fzf#wrap translates this to a set of `--color` options
+    " https://github.com/junegunn/fzf/blob/master/README-VIM.md
+    " https://www.reddit.com/r/vim/comments/hstq6l/comment/fyd1ksy/?utm_source=share&utm_medium=web2x&context=3
+    " https://stackoverflow.com/a/31146436/7010222
+    hi link FzfFloat Normalfloat
+  elseif (a:theme_str == 'base16')
+    let g:base16colorspace=256
+    colorscheme base16-$BASE16_THEME
+    let g:airline_theme = 'base16_vim'
+    let g:airline_base16_monotone = 1
+    let g:airline_base16_improved_contrast = 1
+    " Current selection highlight color in completion list. See also: https://github.com/neoclide/coc.nvim/discussions/3351#discussion-3555665
+    " https://github.com/neoclide/coc.nvim/issues/3980
+    " https://vi.stackexchange.com/q/9675
+    " https://github.com/chriskempson/base16/blob/main/styling.md
+    execute 'highlight CocFloating ctermbg=' . g:base16_cterm01
+    execute 'highlight CocMenuSel ctermbg=' . g:base16_cterm02
+    hi link FzfFloat CocFloating
+  endif
+  let g:fzf_colors = {
+  \ 'bg': ['bg', 'FzfFloat'],
+      \ 'preview-bg': ['bg', 'Normal']}
+endfunction
+
 " 256 colorspace for base16
 " https://github.com/chriskempson/base16-shell#base16-vim-users
 " https://github.com/base16-manager/base16-manager#notes
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
+" if filereadable(expand("~/.vimrc_background"))
+"   let base16colorspace=256
+"   source ~/.vimrc_background
+" endif
+
+" colorscheme catppuccin-frappe " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+if exists('$BASE16_THEME') && stridx($BASE16_THEME, 'catppuccin') >= 0
+  call SetupTheme('catppuccin')
+elseif exists('$BASE16_THEME')
+      \ && (!exists('g:colors_name') || g:colors_name != 'base16-$BASE16_THEME')
+  call SetupTheme('base16')
 endif
 
-let g:airline_theme = 'base16_vim'
+" let g:airline_theme = 'base16_vim'
 " More monotonic look
-let g:airline_base16_monotone = 1
+" let g:airline_base16_monotone = 1
 " Improve the contrast for the inactive statusline
-let g:airline_base16_improved_contrast = 1
+" let g:airline_base16_improved_contrast = 1
 
+" TODO: max line length variable
 let g:goyo_width = 120
 
 " On window resize, if goyo is active, do <c-w>= to resize the window
 " https://github.com/junegunn/goyo.vim/issues/159#issuecomment-342417487
 autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
+
+lua << EOF
+  require('neo-tree').setup({
+    -- event_handlers = {
+    --   {
+    --     event = "file_opened",
+    --     handler = function(args)
+    --       --auto close
+    --       print("neo_tree_window_before_close", vim.inspect(args))
+    --       require("neo-tree").close_all()
+    --     end
+    --   },
+    -- },
+    window = {
+      -- https://github.com/nvim-neo-tree/neo-tree.nvim/issues/533#issuecomment-1287950467
+      -- TODO: dimension variables
+      popup = { -- settings that apply to float position only
+        size = { height = "60%", width = "90%" },
+        position = "50%", -- 50% means center it
+      },
+    },
+  })
+EOF
+
+lua << EOF
+  require'nvim-treesitter.configs'.setup {
+    ensure_installed = { "lua", "vim", "help", "typescript", "html", "json", "python", "tsx" },
+    -- Automatically install missing parsers when entering buffer
+    -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+    auto_install = false,
+    highlight = {
+      enable = true,
+    },
+  }
+EOF
+
+lua << EOF
+  require("indent_blankline").setup {
+    -- for example, context is off by default, use this to turn it on
+    show_current_context = true,
+    ---show_current_context_start = true,
+  }
+EOF
+
+lua << EOF
+  require("mason").setup()
+EOF
+
+" https://github.com/rcarriga/nvim-notify/wiki/Usage-Recipes#cocnvim-integration---status-and-diagnostics
+lua << EOF
+  require("notify")("My super important message")
+  vim.notify = require("notify")
+EOF
+
+" In your init.lua or init.vim
+" set termguicolors
+lua << EOF
+  require("bufferline").setup{
+    options = {
+      -- Sidebar offsets
+      -- https://github.com/akinsho/bufferline.nvim#sidebar-offsets
+      offsets = {
+        {
+          filetype = "neo-tree",
+          text = "File Explorer",
+          highlight = "Directory",
+          separator = true -- use a "true" to enable the default, or set your own character
+        }
+      }
+    }
+  }
+EOF
