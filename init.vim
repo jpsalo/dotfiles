@@ -184,7 +184,7 @@ Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 
 " Color scheme
-Plug 'chriskempson/base16-vim'
+Plug 'tinted-theming/base16-vim'
 
 " Indentation guides
 Plug 'lukas-reineke/indent-blankline.nvim'
@@ -544,7 +544,7 @@ set laststatus=3
 " Fix highlighting for spell checks in terminal
 " Colors: https://github.com/chriskempson/base16/blob/master/styling.md
 " Arguments: group, guifg, guibg, ctermfg, ctermbg, attr, guisp
-" https://github.com/chriskempson/base16-vim/#customization
+" https://github.com/tinted-theming/base16-vim?tab=readme-ov-file#customization
 " https://github.com/chriskempson/base16-vim/issues/182#issue-336531173
 "
 " TODO: if has(termguicolors) set ... else
@@ -563,10 +563,13 @@ augroup END
 
 function! SetupTheme(theme_str)
   if (a:theme_str == 'base16')
+    " 256 colorspace for base16
     let g:base16colorspace=256
     colorscheme base16-$BASE16_THEME
     let g:airline_theme = 'base16_vim'
+    " More monotonic look
     let g:airline_base16_monotone = 1
+    " Improve the contrast for the inactive statusline
     let g:airline_base16_improved_contrast = 1
     " Current selection highlight color in completion list. See also: https://github.com/neoclide/coc.nvim/discussions/3351#discussion-3555665
     " https://github.com/neoclide/coc.nvim/issues/3980
@@ -581,24 +584,19 @@ function! SetupTheme(theme_str)
       \ 'preview-bg': ['bg', 'Normal']}
 endfunction
 
-" 256 colorspace for base16
-" https://github.com/chriskempson/base16-shell#base16-vim-users
-" https://github.com/base16-manager/base16-manager#notes
-" if filereadable(expand("~/.vimrc_background"))
-"   let base16colorspace=256
-"   source ~/.vimrc_background
-" endif
-
+" https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#base16-vim-users
 if exists('$BASE16_THEME')
       \ && (!exists('g:colors_name') || g:colors_name != 'base16-$BASE16_THEME')
   call SetupTheme('base16')
 endif
 
-" let g:airline_theme = 'base16_vim'
-" More monotonic look
-" let g:airline_base16_monotone = 1
-" Improve the contrast for the inactive statusline
-" let g:airline_base16_improved_contrast = 1
+" Tmux & Vim
+" https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#tmux--vim
+" NOTE/TODO: File needs to be sourced manually after theme is changed
+if filereadable(expand("$HOME/.config/tinted-theming/set_theme.vim"))
+  let base16colorspace=256
+  source $HOME/.config/tinted-theming/set_theme.vim
+endif
 
 " TODO: max line length variable
 let g:goyo_width = 120

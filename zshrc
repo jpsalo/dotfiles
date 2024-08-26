@@ -23,17 +23,12 @@ plugins+=(
   virtualenvwrapper
 )
 
-# Base16 Shell
-# https://github.com/chriskempson/base16-shell#bashzsh
-# BASE16_SHELL="$HOME/.config/base16-shell/"
-# [ -n "$PS1" ] && \
-#     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-#         eval "$("$BASE16_SHELL/profile_helper.sh")"
-
-BASE16_SHELL="$HOME/.config/base16-shell/"
+# Tinted Shell (Base16 Shell)
+# https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#bashzsh
+BASE16_SHELL_PATH="$HOME/.config/tinted-theming/tinted-shell"
 [ -n "$PS1" ] && \
-    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-        source "$BASE16_SHELL/profile_helper.sh"
+  [ -s "$BASE16_SHELL_PATH/profile_helper.sh" ] && \
+    source "$BASE16_SHELL_PATH/profile_helper.sh"
 
 ZSH_TMUX_AUTOSTART=true
 ZSH_TMUX_AUTOQUIT=false

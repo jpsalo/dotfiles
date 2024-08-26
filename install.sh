@@ -256,7 +256,8 @@ setup_neovim() {
 }
 
 setup_ui() {
-  git clone https://github.com/chriskempson/base16-shell.git $HOME/.config/base16-shell
+  # https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#installation
+  git clone https://github.com/tinted-theming/tinted-shell.git $HOME/.config/tinted-theming/tinted-shell
   $HOME/scripts/theme.sh dark
 
   if [[ $os == "arch_linux" ]]; then

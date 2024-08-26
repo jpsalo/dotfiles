@@ -1,24 +1,22 @@
 #!/bin/bash
 
+# Setting themes from within bash scripts
 # https://github.com/chriskempson/base16-shell/issues/126#issuecomment-409990674
 # https://web.archive.org/web/20210111200639/https://github.com/chriskempson/base16-shell/issues/126
-# BASE16_SHELL=$HOME/.config/base16-shell/
-# [ -s $BASE16_SHELL/profile_helper.sh ] && \
-#               eval "$($BASE16_SHELL/profile_helper.sh)"
-
-BASE16_SHELL="$HOME/.config/base16-shell/"
-    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-        source "$BASE16_SHELL/profile_helper.sh"
+# https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#bashzsh
+BASE16_SHELL_PATH="$HOME/.config/tinted-theming/tinted-shell"
+  [ -s "$BASE16_SHELL_PATH/profile_helper.sh" ] && \
+    source "$BASE16_SHELL_PATH/profile_helper.sh"
 
 DEFAULT="default-dark"
 DEFAULT_DARK="material"
-DEFAULT_LIGHT="solarized-light"
+DEFAULT_LIGHT="catppuccin-latte"
 
 get_xres_col() {
   xrdb -query | grep $1 | cut -f 2
 }
 
-set_theme() {
+set_theme_fn() {
   theme=$1
 
   # https://github.com/tinted-theming/base16-xresources
@@ -38,8 +36,7 @@ set_theme() {
     i3-msg reload
   fi
 
-  shell_theme=${HOME}/.config/base16-shell/scripts/base16-${theme}.sh
-  _base16 $shell_theme $theme
+  set_theme $theme
 }
 
 set_wallpaper() {
@@ -97,13 +94,13 @@ set_wallpaper() {
 }
 
 if [ "$1" = "default" ]; then
-  set_theme $DEFAULT
+  set_theme_fn $DEFAULT
 elif [ "$1" = "dark" ]; then
-  set_theme $DEFAULT_DARK
+  set_theme_fn $DEFAULT_DARK
 elif [ "$1" = "light" ]; then
-  set_theme $DEFAULT_LIGHT
+  set_theme_fn $DEFAULT_LIGHT
 else
-  set_theme $1
+  set_theme_fn $1
 fi
 
 set_wallpaper
