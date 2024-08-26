@@ -34,6 +34,11 @@ install_package() {
   fi
 }
 
+install_cask_package() {
+  package=$1
+  brew install --cask $package
+}
+
 validate_directory() {
   node=$1
   mkdir -p $node
@@ -95,6 +100,7 @@ configure_os_settings() {
     echo Install Homebrew...
     install_brew
     install_command="brew install"
+    install_cask_command="brew install --cask"
   fi
 }
 
@@ -135,7 +141,7 @@ setup_base_configuration() {
 
 setup_terminal() {
   if [[ $os == "macos" ]]; then
-    brew cask install iterm2
+    install_cask_package iterm2
 
     validate_directory $HOME/.config/iterm
     backup_existing_file $HOME/.config/iterm/com.googlecode.iterm2.plist
@@ -275,9 +281,7 @@ setup_ui() {
 
   elif [[ $os == "macos" ]]; then
     brew tap homebrew/cask-fonts
-    # TODO: as custom install_command for install_package
-    # brew cask install font-source-code-pro
-    brew cask install font-sauce-code-pro-nerd-font
+    install_cask_package font-sauce-code-pro-nerd-font
   fi
 }
 
