@@ -124,7 +124,7 @@ Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
 " buffer line (with tabpage integration)
 " Plug 'nvim-tree/nvim-web-devicons' " Recommended (for coloured icons)
 " Plug 'ryanoasis/vim-devicons' Icons without colours
-Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
+Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
 
 " Fuzzy finder
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
