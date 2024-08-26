@@ -17,3 +17,4 @@ neovim
 typescript
 ts-node
 yarn
+@bitwarden/cli
