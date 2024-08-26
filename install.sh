@@ -68,7 +68,7 @@ check_prerequisites() {
   fi
 
   if [ -z "`$SHELL -c 'echo $ZSH_VERSION'`" ]; then
-    echo >&2 "Zsh is not default shell"
+    echo >&2 "Zsh is not default shell. Try to run chsh -s $(which zsh), https://github.com/ohmyzsh/ohmyzsh/wiki/Installing-ZSH#install-and-set-up-zsh-as-default"
     # NOTE: maybe check is zsh installed and try to make it default (requires password)
     has_prerequisites=0
   fi
@@ -142,7 +142,7 @@ setup_terminal() {
     create_symlink com.googlecode.iterm2.plist $HOME/.config/iterm/com.googlecode.iterm2.plist
 
     # It looks like apps need to be run before the settings can be persisted
-    echo iTerm2 will now open. Please quit it to continue the installation.
+    echo iTerm2 will now open. Please quit it to continue the installation. If it does not open automatically, then run it manually.
     open -W -a iTerm
 
     # Specify the preferences directory
@@ -196,6 +196,8 @@ setup_node() {
 
   # NOTE: directory is $ZSH_CUSTOM
   git clone https://github.com/lukechilds/zsh-nvm $HOME/.oh-my-zsh/custom/plugins/zsh-nvm
+  # Make it available inside this script
+  source $NVM_DIR/nvm.sh
 
   # NOTE: Not needed with zsh-nvm
   # export NVM_DIR="$HOME/.nvm" && (
@@ -280,7 +282,7 @@ setup_ui() {
 }
 
 finish_installation() {
-  echo "Complete. Run \"source ~/.zshenv && source ~/.zshrc\" or restart your terminal."
+  echo "Complete. Run \"source ~/.zshenv && source ~/.zshrc && source ~/.zprofile\" or restart your terminal."
   exit 0
 }
 
