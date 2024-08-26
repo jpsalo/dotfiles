@@ -78,7 +78,9 @@ check_prerequisites() {
 
 install_brew() {
   if ! is_package_installed brew; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    # Make Homebrew available by adding it to PATH. Added to .zprofile as well
+    eval "$(/opt/homebrew/bin/brew shellenv)"
   fi
 }
 
