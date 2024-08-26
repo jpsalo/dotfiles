@@ -238,7 +238,7 @@ setup_neovim() {
       )
     fi
   elif [[ $os == "macos" ]]; then
-    brew install --HEAD universal-ctags/universal-ctags/universal-ctags
+    brew install universal-ctags
   fi
 
   validate_directory $HOME/.config/nvim
