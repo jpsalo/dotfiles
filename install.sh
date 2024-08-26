@@ -280,7 +280,6 @@ setup_ui() {
     fi
 
   elif [[ $os == "macos" ]]; then
-    brew tap homebrew/cask-fonts
     install_cask_package font-sauce-code-pro-nerd-font
   fi
 }
