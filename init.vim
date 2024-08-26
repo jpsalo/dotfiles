@@ -649,7 +649,7 @@ EOF
 
 lua << EOF
   require'nvim-treesitter.configs'.setup {
-    ensure_installed = { "lua", "vim", "help", "typescript", "html", "json", "python", "tsx" },
+    ensure_installed = { "lua", "vim", "vimdoc", "typescript", "html", "json", "python", "tsx" },
     -- Automatically install missing parsers when entering buffer
     -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
     auto_install = false,
