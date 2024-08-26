@@ -71,6 +71,8 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'github/copilot.vim'
+
 Plug 'williamboman/mason.nvim'
 
 Plug 'neovim/nvim-lspconfig'
