@@ -21,13 +21,6 @@ get_xres_col() {
 set_theme() {
   theme=$1
 
-  # TODO: Xresources
-  if [[ "$theme" =~ ^catppuccin-.* ]]; then
-    shell_theme=${HOME}/scripts/base16-${theme}.sh
-    _base16 $shell_theme $theme
-    return 1
-  fi
-
   # https://github.com/tinted-theming/base16-xresources
   xresources_theme="https://raw.githubusercontent.com/base16-project/base16-xresources/main/xresources/base16-${theme}-256.Xresources"
   mkdir -p ~/.Xresources.d

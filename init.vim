@@ -185,7 +185,6 @@ Plug 'plasticboy/vim-markdown'
 
 " Color scheme
 Plug 'chriskempson/base16-vim'
-Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 
 " Indentation guides
 Plug 'lukas-reineke/indent-blankline.nvim'
@@ -550,9 +549,6 @@ set laststatus=3
 "
 " TODO: if has(termguicolors) set ... else
 function! s:base16_customize() abort
-  if stridx($BASE16_THEME, 'catppuccin') >= 0
-    return 0
-  endif
   call Base16hi("SpellBad",   "", "", g:base16_cterm08, g:base16_cterm00, "", "")
   call Base16hi("SpellCap",   "", "", g:base16_cterm0A, g:base16_cterm00, "", "")
   call Base16hi("SpellLocal", "", "", g:base16_cterm0D, g:base16_cterm00, "", "")
@@ -566,19 +562,7 @@ augroup on_change_colorschema
 augroup END
 
 function! SetupTheme(theme_str)
-  if (a:theme_str == 'catppuccin')
-    colorscheme $BASE16_THEME " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
-    let g:airline_theme = 'catppuccin'
-    " TODO i.e. execute 'AirlineRefresh'
-    " https://github.com/vim-airline/vim-airline/wiki/FAQ#colors-go-out-of-sync-when-i-source-my-vimrc
-
-    " Customize fzf colors
-    " - fzf#wrap translates this to a set of `--color` options
-    " https://github.com/junegunn/fzf/blob/master/README-VIM.md
-    " https://www.reddit.com/r/vim/comments/hstq6l/comment/fyd1ksy/?utm_source=share&utm_medium=web2x&context=3
-    " https://stackoverflow.com/a/31146436/7010222
-    hi link FzfFloat Normalfloat
-  elseif (a:theme_str == 'base16')
+  if (a:theme_str == 'base16')
     let g:base16colorspace=256
     colorscheme base16-$BASE16_THEME
     let g:airline_theme = 'base16_vim'
@@ -605,10 +589,7 @@ endfunction
 "   source ~/.vimrc_background
 " endif
 
-" colorscheme catppuccin-frappe " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
-if exists('$BASE16_THEME') && stridx($BASE16_THEME, 'catppuccin') >= 0
-  call SetupTheme('catppuccin')
-elseif exists('$BASE16_THEME')
+if exists('$BASE16_THEME')
       \ && (!exists('g:colors_name') || g:colors_name != 'base16-$BASE16_THEME')
   call SetupTheme('base16')
 endif
