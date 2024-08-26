@@ -127,7 +127,11 @@ Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
 Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
 
 " Fuzzy finder
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Command from fzf documentation did not install fzf. Left here for reference
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" https://github.com/junegunn/fzf.vim/issues/1008
+" Remember to source .zshrc
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 " Notification manager
