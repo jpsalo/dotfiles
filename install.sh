@@ -141,16 +141,23 @@ setup_base_configuration() {
 
 setup_terminal() {
   if [[ $os == "macos" ]]; then
+    is_iterm_installed=false
+    if brew list iterm2 &>/dev/null; then
+      is_iterm_installed=true
+    fi
+
     install_cask_package iterm2
 
     validate_directory $HOME/.config/iterm
     backup_existing_file $HOME/.config/iterm/com.googlecode.iterm2.plist
     create_symlink com.googlecode.iterm2.plist $HOME/.config/iterm/com.googlecode.iterm2.plist
 
-    # It looks like apps need to be run before the settings can be persisted
-    echo iTerm2 will now open. Please quit it to continue the installation. If it does not open automatically, then run it manually.
-    # FIXME: Do not do this if iTerm2 is already running
-    open -W -a iTerm
+    if [ "$is_iterm_installed" = false ] ; then
+      # It looks like apps need to be run before the settings can be persisted.
+      # Do not do this if iTerm2 is already installed.
+      echo iTerm2 will now open. Please quit it to continue the installation. If it does not open automatically, then run it manually.
+      open -W -a iTerm
+    fi
 
     # Specify the preferences directory
     defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "~/.config/iterm/"
