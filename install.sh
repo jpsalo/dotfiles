@@ -149,6 +149,7 @@ setup_terminal() {
 
     # It looks like apps need to be run before the settings can be persisted
     echo iTerm2 will now open. Please quit it to continue the installation. If it does not open automatically, then run it manually.
+    # FIXME: Do not do this if iTerm2 is already running
     open -W -a iTerm
 
     # Specify the preferences directory
@@ -167,6 +168,9 @@ setup_zsh() {
 
   backup_existing_file $HOME/.zshenv
   create_symlink zshenv
+
+  backup_existing_file $HOME/.zprofile
+  create_symlink zprofile
 }
 
 setup_python() {
