@@ -13,6 +13,3 @@ export BROWSER=/usr/bin/chromium
 # # Setting for the new UTF-8 terminal support in Lion
 # export LC_CTYPE=en_FI.UTF-8
 # export LC_ALL=en_FI.UTF-8
-
-# export https_proxy="http://suoja-proxy.vyv.fi:8080"
-# export no_proxy="nexus.soke.meta2.fi"
