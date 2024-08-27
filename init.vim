@@ -589,6 +589,7 @@ endif
 " NOTE/TODO: File needs to be sourced manually after theme is changed
 if filereadable(expand("$HOME/.config/tinted-theming/set_theme.vim"))
   let base16colorspace=256
+  " TODO: Add a keyboard shortcut to source this file
   source $HOME/.config/tinted-theming/set_theme.vim
 endif
 
