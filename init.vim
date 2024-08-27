@@ -49,7 +49,7 @@ set expandtab       " Expand TABs to space
 " Python virtualenv
 " Set static interpreter (and pynvim package) for Neovim
 " https://neovim.io/doc/user/provider.html#python-virtualenv
-let g:python3_host_prog = '$WORKON_HOME/py3nvim/bin/python3'
+let g:python3_host_prog = '$NVIM_PYTHON_VIRTUALENV_PATH/bin/python3'
 
 " NOTE:
 " g:node_host_prog is handled by neovim npm package (from `npm root -g`)
@@ -409,14 +409,8 @@ nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 " FIXME: newline
 let g:coc_global_extensions = ['coc-json', 'coc-pyright', 'coc-angular', 'coc-eslint', 'coc-stylelintplus', 'coc-tsserver', 'coc-flow', 'coc-css', 'coc-prettier']
 
-" Set dynamic interpreter for coc-pyright.
-" Typically this will be active virtual environment's python interpreter
-" https://github.com/neoclide/coc-python/issues/55#issuecomment-525352153
-call coc#config('python', {
-\  'pythonPath': split(execute('!which python'), '\n')[-1]
-\})
-
 " Resolve workspace folders from PYTHONPATH in .env file
+" NOTE: Might not be needed anymore with venv and coc-pyright
 " https://github.com/neoclide/coc.nvim/wiki/Using-workspaceFolders#resolve-workspace-folder
 " https://github.com/neoclide/coc-python/issues/26#issuecomment-489805114
 autocmd FileType python let b:coc_root_patterns = ['.git', '.env']

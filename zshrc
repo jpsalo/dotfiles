@@ -20,7 +20,7 @@ plugins+=(
   pip
   tmux
   yarn
-  virtualenvwrapper
+  virtualenv
 )
 
 # Tinted Shell (Base16 Shell)
@@ -40,12 +40,6 @@ alias pip=pip3
 
 # Fuzzy finder
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# https://virtualenvwrapper.readthedocs.io/en/latest/install.html#python-interpreter-virtualenv-and-path
-# NOTE: System Python path is not the same on Linux and on macOS
-export VIRTUALENVWRAPPER_PYTHON=`which python3`
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/devel
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f $HOME/bin/google-cloud-sdk/path.zsh.inc ]; then . $HOME/bin/google-cloud-sdk/path.zsh.inc; fi
@@ -71,3 +65,7 @@ alias eslint='eslint --config $HOME/.eslintrc.js --resolve-plugins-relative-to $
 # Load Angular CLI autocompletion.
 # https://angular.io/cli/completion
 source <(ng completion script)
+
+# Show virtualenv in prompt
+# https://stackoverflow.com/a/42287807/7010222
+export VIRTUAL_ENV_DISABLE_PROMPT=

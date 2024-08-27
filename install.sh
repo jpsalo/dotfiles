@@ -182,20 +182,6 @@ setup_python() {
     # TODO: as custom install_command for install_package
     brew list python || brew install python
   fi
-
-  # NOTE: virtualenv & virtualenvwrapper need to be in same global site-packages area
-  # TODO: use requirements.txt
-
-  python3 -m pip install virtualenv
-  python3 -m pip install virtualenvwrapper
-
-  # Make it available inside this script
-  # https://stackoverflow.com/a/7539449
-  # FIXME: Does not work, but replication would require teardown
-  source `which virtualenvwrapper.sh`
-
-  python3 -m pip install flake8
-  python3 -m pip install --upgrade autopep8
 }
 
 setup_node() {
@@ -223,7 +209,13 @@ setup_node() {
 
 setup_neovim() {
   install_package neovim nvim
-  mkvirtualenv py3nvim -i pynvim && deactivate
+
+  # Configure Python for Neovim
+  # https://neovim.io/doc/user/provider.html#python-virtualenv
+  python3 -m venv ~/.config/nvim/.py3nvim
+  source ~/.config/nvim/.py3nvim/bin/activate
+  python3 -m pip install pynvim
+  deactivate
 
   if [[ $os == "arch_linux" ]]; then
     if ! is_package_installed ctags; then
