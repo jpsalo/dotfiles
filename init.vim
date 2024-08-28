@@ -227,9 +227,10 @@ let g:vim_markdown_folding_disabled = 1
 " BUFFERS ("TABS")
 """"""""""""""""""
 
-" Next or previous buffer in the buffer list
-nnoremap <Tab> :bnext<CR>
-nnoremap <S-Tab> :bprevious<CR>
+" Next or previous buffer in the buffer list.
+" BufferLineCycleNext and BufferLineCyclePrev commands will traverse the bufferline bufferlist in order
+nnoremap <Tab> :BufferLineCycleNext<CR>
+nnoremap <S-Tab> :BufferLineCyclePrev<CR>
 
 " Delete buffer without losing the split window
 " Compatible with `set hidden`
