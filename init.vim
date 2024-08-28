@@ -107,8 +107,8 @@ Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'mobiushorizons/fugitive-stash.vim'
 
 " EditorConfig
-" TODO: https://neovim.io/doc/user/editorconfig.html
-Plug 'editorconfig/editorconfig-vim'
+" https://neovim.io/doc/user/editorconfig.html
+" Plug 'editorconfig/editorconfig-vim'
 
 " Status/tabline
 Plug 'vim-airline/vim-airline'
