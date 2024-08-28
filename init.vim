@@ -112,16 +112,12 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" Tree explorer (NERDTree)
-" Plug 'scrooloose/nerdtree'
-" Plug 'Xuyuanp/nerdtree-git-plugin'
-
 " Tree explorer (neo-tree)
 " https://www.reddit.com/r/neovim/comments/tuyzch/comment/i39x42i/?utm_source=share&utm_medium=web2x&context=3aaaaa
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'MunifTanjim/nui.nvim'
-Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
+Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v3.x' }
 
 " buffer line (with tabpage integration)
 " Plug 'nvim-tree/nvim-web-devicons' " Recommended (for coloured icons)
@@ -234,18 +230,14 @@ let g:vim_markdown_folding_disabled = 1
 " Next or previous buffer in the buffer list
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
-" autocmd FileType nerdtree nnoremap <buffer> <Tab> <NOP>
-" autocmd FileType nerdtree nnoremap <buffer> <S-Tab> <NOP>
 
 " Delete buffer without losing the split window
-" This is needed with NERDTree / netrw
 " Compatible with `set hidden`
 " http://stackoverflow.com/a/4468491/7010222
 " https://stackoverflow.com/questions/4465095/vim-delete-buffer-without-losing-the-split-window/4468491#comment42185471_4468491
 " https://vim.fandom.com/wiki/Easier_buffer_switching#Switching_to_the_previously_edited_buffer
 " TODO: sometimes goes to ghost (previously active) buffer, such as, when closing last buffer
 " nnoremap <Leader>w :b#\|bd #<CR>
-" autocmd FileType nerdtree nnoremap <buffer> <Leader>w <NOP>
 nnoremap <Leader>w :bd<CR>
 
 " LISTS
@@ -271,12 +263,10 @@ autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose <CR>:lclose<CR>
 " TREE EXPLORER
 """""""""""""""
 
-" Toggle, reveal file in NERDTree
+" Toggle, reveal file in Neo-tree
 " https://github.com/nvim-neo-tree/neo-tree.nvim#the-neotree-command
-" map <Leader>m :NERDTreeToggle<CR>
-" map <Leader>p :NERDTreeFind<CR>
-noremap <Leader>m :NeoTreeFocusToggle<CR>
-noremap <Leader>n :NeoTreeFloatToggle<CR>
+noremap <Leader>m :Neotree toggle left<CR>
+noremap <Leader>n :Neotree toggle float<CR>
 noremap <Leader>p :Neotree filesystem reveal left<CR>
 
 " Absolute width of netrw window
@@ -341,13 +331,11 @@ let $FZF_DEFAULT_OPTS = '--reverse'
 " https://github.com/junegunn/fzf.vim/issues/194#issuecomment-245031594
 let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
 
-" Don't open files in NERDtree from fzf
+" Used to be: "Don't open files in NERDtree from fzf". Now it's a general function
 " https://github.com/junegunn/fzf.vim/issues/326#issuecomment-282936932
 " https://github.com/junegunn/fzf/issues/453#issuecomment-166648024
 " https://github.com/junegunn/fzf/issues/453#issuecomment-354634207
 function! Fuz(command_str)
-  " if expand('%') =~ 'NERD_tree'
-  "   execute "normal \<c-w>\<c-w>"
   execute a:command_str
 endfunction
 
@@ -380,7 +368,6 @@ command! -bang -nargs=* Ag call fzf#vim#ag(
 
 " Only print the names of files containing matches, not the matching lines.
 " An empty query will print all files that would be searched.
-" TODO: NERDtree
 command! -bang -nargs=* Matches call fzf#run(fzf#wrap(
   \ {'source': 'ag --files-with-matches '.shellescape(<q-args>)}
   \ ))
@@ -397,7 +384,6 @@ endfunction
 autocmd VimEnter * command! -nargs=* -bang Fag call s:ag_with_opts(<q-args>, <bang>0)
 
 " Search for word under cursor
-" TODO: NERDtree
 " https://github.com/junegunn/fzf.vim/issues/50#issuecomment-161676378
 nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 
