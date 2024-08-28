@@ -71,20 +71,22 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
 
+" Copilot
 Plug 'github/copilot.vim'
 
-Plug 'williamboman/mason.nvim'
+" IntelliSense
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'neovim/nvim-lspconfig'
 
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'williamboman/mason.nvim'
+
+" Use release branch
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Management of tags files
 " NOTE: requires ctags
 Plug 'ludovicchabant/vim-gutentags'
-
-" IntelliSense. Use release branch
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Automatically save changes to disk
 Plug '907th/vim-auto-save'
@@ -120,7 +122,7 @@ Plug 'MunifTanjim/nui.nvim'
 Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v3.x' }
 
 " buffer line (with tabpage integration)
-" Plug 'nvim-tree/nvim-web-devicons' " Recommended (for coloured icons)
+" Plug 'nvim-tree/nvim-web-devicons' " Recommended (for coloured icons) (NOTE: Already installed by neo-tree.nvim)
 " Plug 'ryanoasis/vim-devicons' Icons without colours
 Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
 
@@ -241,6 +243,24 @@ nnoremap <S-Tab> :BufferLineCyclePrev<CR>
 " nnoremap <Leader>w :b#\|bd #<CR>
 nnoremap <Leader>w :bd<CR>
 
+" set termguicolors
+lua << EOF
+  require("bufferline").setup{
+    options = {
+      -- Sidebar offsets
+      -- https://github.com/akinsho/bufferline.nvim#sidebar-offsets
+      offsets = {
+        {
+          filetype = "neo-tree",
+          text = "File Explorer",
+          highlight = "Directory",
+          separator = true -- use a "true" to enable the default, or set your own character
+        }
+      }
+    }
+  }
+EOF
+
 " LISTS
 """""""
 
@@ -269,6 +289,20 @@ autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose <CR>:lclose<CR>
 noremap <Leader>m :Neotree toggle left<CR>
 noremap <Leader>n :Neotree toggle float<CR>
 noremap <Leader>p :Neotree filesystem reveal left<CR>
+
+lua << EOF
+  require('neo-tree').setup({
+    window = {
+      -- Size of floating window
+      -- https://github.com/nvim-neo-tree/neo-tree.nvim/issues/533#issuecomment-1287950467
+      -- TODO: dimension variables
+      popup = { -- settings that apply to float position only
+        size = { height = "60%", width = "90%" },
+        position = "50%", -- 50% means center it
+      },
+    },
+  })
+EOF
 
 " Absolute width of netrw window
 let g:netrw_winsize = 25
@@ -390,6 +424,22 @@ nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 
 " INTELLISENSE
 """"""""""""""
+
+lua << EOF
+  require'nvim-treesitter.configs'.setup {
+    ensure_installed = { "lua", "vim", "vimdoc", "typescript", "html", "json", "python", "tsx" },
+    -- Automatically install missing parsers when entering buffer
+    -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+    auto_install = false,
+    highlight = {
+      enable = true,
+    },
+  }
+EOF
+
+lua << EOF
+  require("mason").setup()
+EOF
 
 " Install extensions
 " https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#install-extensions
@@ -587,70 +637,7 @@ let g:goyo_width = 120
 " https://github.com/junegunn/goyo.vim/issues/159#issuecomment-342417487
 autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
 
-lua << EOF
-  require('neo-tree').setup({
-    -- event_handlers = {
-    --   {
-    --     event = "file_opened",
-    --     handler = function(args)
-    --       --auto close
-    --       print("neo_tree_window_before_close", vim.inspect(args))
-    --       require("neo-tree").close_all()
-    --     end
-    --   },
-    -- },
-    window = {
-      -- https://github.com/nvim-neo-tree/neo-tree.nvim/issues/533#issuecomment-1287950467
-      -- TODO: dimension variables
-      popup = { -- settings that apply to float position only
-        size = { height = "60%", width = "90%" },
-        position = "50%", -- 50% means center it
-      },
-    },
-  })
-EOF
-
-lua << EOF
-  require'nvim-treesitter.configs'.setup {
-    ensure_installed = { "lua", "vim", "vimdoc", "typescript", "html", "json", "python", "tsx" },
-    -- Automatically install missing parsers when entering buffer
-    -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-    auto_install = false,
-    highlight = {
-      enable = true,
-    },
-  }
-EOF
-
+" indent-blankline.nvim
 lua << EOF
   require("ibl").setup()
-EOF
-
-lua << EOF
-  require("mason").setup()
-EOF
-
-" https://github.com/rcarriga/nvim-notify/wiki/Usage-Recipes#cocnvim-integration---status-and-diagnostics
-lua << EOF
-  require("notify")("My super important message")
-  vim.notify = require("notify")
-EOF
-
-" In your init.lua or init.vim
-" set termguicolors
-lua << EOF
-  require("bufferline").setup{
-    options = {
-      -- Sidebar offsets
-      -- https://github.com/akinsho/bufferline.nvim#sidebar-offsets
-      offsets = {
-        {
-          filetype = "neo-tree",
-          text = "File Explorer",
-          highlight = "Directory",
-          separator = true -- use a "true" to enable the default, or set your own character
-        }
-      }
-    }
-  }
 EOF
