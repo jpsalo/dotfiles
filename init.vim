@@ -477,7 +477,7 @@ require('mason-lspconfig').setup({
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  ensure_installed = {'tsserver', 'angularls', 'pyright'},
+  ensure_installed = {'html', 'cssls', 'jsonls', 'eslint', 'tsserver', 'angularls', 'pyright'},
   handlers = {
     function(server_name)
       require('lspconfig')[server_name].setup({})
