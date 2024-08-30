@@ -86,6 +86,9 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v4.x'}
 
+" Formatter
+Plug 'stevearc/conform.nvim'
+
 " Use release branch
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -498,6 +501,26 @@ cmp.setup({
     end,
   },
   mapping = cmp.mapping.preset.insert({}),
+})
+EOF
+
+lua <<EOF
+local js_formatters = { "prettierd", "prettier", stop_after_first = true }
+require("conform").setup({
+  formatters_by_ft = {
+    -- TODO: python = { "isort", "black" },
+    javascript = js_formatters,
+    typescript = js_formatters,
+    typescriptreact = js_formatters,
+  },
+})
+
+-- Format on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function(args)
+    require("conform").format({ bufnr = args.buf })
+  end,
 })
 EOF
 
