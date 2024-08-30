@@ -74,7 +74,7 @@ call plug#begin('~/.config/nvim/plugged')
 " Copilot
 Plug 'github/copilot.vim'
 
-" IntelliSense
+" Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " LSP Zero & Mason
@@ -432,7 +432,7 @@ nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 
 lua << EOF
   require'nvim-treesitter.configs'.setup {
-    ensure_installed = { "lua", "vim", "vimdoc", "typescript", "html", "json", "python", "tsx" },
+    ensure_installed = { "lua", "vim", "vimdoc", "typescript", "angular", "html", "json", "python", "tsx" },
     -- Automatically install missing parsers when entering buffer
     -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
     auto_install = false,
