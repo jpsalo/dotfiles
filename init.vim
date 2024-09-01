@@ -480,6 +480,7 @@ require('mason-lspconfig').setup({
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
+  -- NOTE: Create a pyrightconfig.json file in the root of the project
   ensure_installed = {'html', 'cssls', 'jsonls', 'eslint', 'tsserver', 'angularls', 'pyright'},
   handlers = {
     function(server_name)
