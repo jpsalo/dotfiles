@@ -3,10 +3,6 @@
 # Colour Contrast Checker CLI
 colour-contrast-cli
 
-# ESLint
-eslint
-eslint-plugin-promise
-
 # Node.js integration for Neovim
 neovim
 
