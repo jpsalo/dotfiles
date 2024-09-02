@@ -57,11 +57,6 @@ fi
 # https://github.com/nvm-sh/nvm#bash-completion
 # [[ -r $NVM_DIR/bash_completion ]] && \. $NVM_DIR/bash_completion
 
-# Run global ESLint with personal configuration file and find the plugins from nvm's npm packages
-# https://eslint.org/docs/user-guide/configuring#personal-configuration-file-deprecated
-# https://eslint.org/docs/user-guide/command-line-interface
-alias eslint='eslint --config $HOME/.eslintrc.js --resolve-plugins-relative-to $(npm root -g)'
-
 # Load Angular CLI autocompletion.
 # https://angular.io/cli/completion
 source <(ng completion script)

@@ -251,10 +251,8 @@ setup_neovim() {
   # create_symlink coc-settings.json $HOME/.config/nvim/coc-settings.json
 
   backup_existing_file $HOME/.editorconfig
-  backup_existing_file $HOME/.eslintrc
   backup_existing_file $HOME/.tern-project
   create_symlink editorconfig
-  create_symlink eslintrc.js
   create_symlink tern-project
 }
 

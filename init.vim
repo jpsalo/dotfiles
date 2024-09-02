@@ -545,33 +545,6 @@ EOF
 " https://github.com/neoclide/coc-python/issues/26#issuecomment-489805114
 " autocmd FileType python let b:coc_root_patterns = ['.git', '.env']
 
-" If no local eslint config is available, coc will use personal configuration
-" file. This function resolves path to a nvm-npm directory where the plugins
-" are installed.
-" https://eslint.org/docs/developer-guide/nodejs-api#◆-new-eslint-options
-" https://eslint.org/docs/user-guide/configuring#configuration-file-formats
-" https://eslint.org/docs/user-guide/configuring#personal-configuration-file-deprecated
-" function! s:setup_global_eslint()
-"   " https://eslint.org/docs/user-guide/configuring#configuration-file-formats
-"   " FIXME: newline
-"   let configFiles = ['.eslintrc.js', '.eslintrc.cjs', '.eslintrc.yaml', '.eslintrc.yml', '.eslintrc.json', '.eslintrc']
-"   let hasLocalEslintConfig = 0
-"
-"   for i in configFiles
-"     if !empty(findfile(i))
-"       let hasLocalEslintConfig = 1
-"       break
-"     endif
-"   endfor
-"
-"   if hasLocalEslintConfig == 0
-"     " https://github.com/neoclide/coc.nvim/issues/1120#issue-486136450
-"     call coc#config("eslint.options.configFile", ($HOME . "/.eslintrc.js"))
-"     call coc#config("eslint.options.resolvePluginsRelativeTo", system('npm root -g'))
-"   endif
-" endfunction
-"
-" :call s:setup_global_eslint()
 
 " Ensure coc-angular is loaded in templates
 " https://github.com/iamcco/coc-angular/issues/56#issuecomment-1126947357
