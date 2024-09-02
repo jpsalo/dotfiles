@@ -501,7 +501,16 @@ cmp.setup({
       vim.snippet.expand(args.body)
     end,
   },
-  mapping = cmp.mapping.preset.insert({}),
+  mapping = cmp.mapping.preset.insert({
+    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete({}), { 'i', 'c' }),  -- open manually in insert mode
+    ['<C-k>'] = cmp.mapping.select_prev_item(), -- previous suggestion
+    ['<C-j>'] = cmp.mapping.select_next_item(), -- next suggestion
+    ['<CR>'] = cmp.mapping.confirm({select = true}),  -- confirm without selecting the item
+  }),
+  preselect = 'item',
+  completion = {
+    completeopt = 'menu,menuone,noinsert',
+  },
 })
 EOF
 
