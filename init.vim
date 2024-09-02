@@ -53,7 +53,6 @@ let g:python3_host_prog = '$NVIM_PYTHON_VIRTUALENV_PATH/bin/python3'
 
 " NOTE:
 " g:node_host_prog is handled by neovim npm package (from `npm root -g`)
-" g:coc_node_path picks that
 " https://neovim.io/doc/user/provider.html#g:node_host_prog
 " https://github.com/neoclide/coc.nvim/wiki/F.A.Q#environment-node-doesnt-meet-the-requirement
 
@@ -88,9 +87,6 @@ Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v4.x'}
 
 " Formatter
 Plug 'stevearc/conform.nvim'
-
-" Use release branch
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Management of tags files
 " NOTE: requires ctags
@@ -353,9 +349,6 @@ let g:airline#extensions#hunks#enabled = 0
 " https://github.com/vim-airline/vim-airline/wiki/FAQ#the-powerline-font-symbols-are-not-showing-up
 let g:airline_powerline_fonts=1
 
-" Enable coc integration
-" let g:airline#extensions#coc#enabled = 1
-
 
 " FUZZY FINDER
 """"""""""""""
@@ -533,76 +526,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 EOF
-
-" Install extensions
-" https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#install-extensions
-" FIXME: newline
-" let g:coc_global_extensions = ['coc-json', 'coc-pyright', 'coc-angular', 'coc-eslint', 'coc-stylelintplus', 'coc-tsserver', 'coc-flow', 'coc-css', 'coc-prettier']
-
-" Resolve workspace folders from PYTHONPATH in .env file
-" NOTE: Might not be needed anymore with venv and coc-pyright
-" https://github.com/neoclide/coc.nvim/wiki/Using-workspaceFolders#resolve-workspace-folder
-" https://github.com/neoclide/coc-python/issues/26#issuecomment-489805114
-" autocmd FileType python let b:coc_root_patterns = ['.git', '.env']
-
-
-" Ensure coc-angular is loaded in templates
-" https://github.com/iamcco/coc-angular/issues/56#issuecomment-1126947357
-" https://github.com/neoclide/coc.nvim/issues/1183#issuecomment-842550700
-" https://github.com/neoclide/coc.nvim/issues/132#issuecomment-433637296
-" autocmd FileType html :call CocActionAsync('activeExtension', 'coc-angular')
-
-" Show all diagnostics.
-" nnoremap <silent><nowait> <leader>e  :<C-u>CocList diagnostics<cr>
-
-" Remap for rename current word
-" https://github.com/neoclide/coc.nvim#example-vim-configuration
-" nnoremap <leader>rn <Plug>(coc-rename)
-
-" Use K to show documentation in preview window
-" nnoremap <silent> K :call <SID>show_documentation()<CR>
-"
-" function! s:show_documentation()
-"   if (index(['vim','help'], &filetype) >= 0)
-"     execute 'h '.expand('<cword>')
-"   else
-"     call CocActionAsync('doHover')
-"   endif
-" endfunction
-
-" Use <c-space> to trigger completion.
-" inoremap <silent><expr> <c-space> coc#refresh()
-
-" GoTo
-" nnoremap <silent> <leader>jd <Plug>(coc-definition)
-" nnoremap <silent> gr <Plug>(coc-references)
 nnoremap <leader>fd :FlowJumpToDef<cr>
-
-" Use `:OR` for organize import of current buffer
-" command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" Setup `Prettier` command
-" command! -nargs=0 Prettier :CocCommand prettier.formatFile
-
-" Navigate through autocomplete suggestions and add them
-" https://github.com/neoclide/coc.nvim/wiki/Completion-with-sources#use-tab-and-s-tab-to-navigate-the-completion-list
-" inoremap <expr> <C-j> coc#pum#visible() ? coc#pum#next(1) : "\<Down>"
-" inoremap <expr> <C-k> coc#pum#visible() ? coc#pum#prev(1) : "\<Up>"
-" https://github.com/Shougo/deoplete.nvim/issues/246#issuecomment-344463696
-" inoremap <expr><C-j> pum#visible() ? "\<C-n>" : "\<Down>"
-" inoremap <expr><C-k> pum#visible() ? "\<C-p>" : "\<Up>"
-" inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" :"<S-Tab>"
-" inoremap <Down> <C-k>=pumvisible() ? "\<lt>C-N>" : "\<lt>Down>"<CR>
-
-" cnoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<Down>"
-" cnoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<Up>"
-" inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-
-
-" Use <cr> to confirm completion
-" https://github.com/neoclide/coc.nvim/wiki/Completion-with-sources#use-cr-to-confirm-completion
-" https://github.com/neoclide/coc-pairs/issues/83#issuecomment-1073263345
-" inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Skip delimitMate on pop-up menus
 "
