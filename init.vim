@@ -474,7 +474,7 @@ require('mason-lspconfig').setup({
 require('mason').setup({})
 require('mason-lspconfig').setup({
   -- NOTE: Create a pyrightconfig.json file in the root of the project
-  ensure_installed = {'html', 'cssls', 'jsonls', 'eslint', 'tsserver', 'angularls', 'pyright'},
+  ensure_installed = {'html', 'cssls', 'jsonls', 'eslint', 'tsserver', 'angularls', 'pyright', 'ruff'},
   handlers = {
     function(server_name)
       require('lspconfig')[server_name].setup({})
@@ -511,10 +511,10 @@ lua <<EOF
 local js_formatters = { "prettierd", "prettier", stop_after_first = true }
 require("conform").setup({
   formatters_by_ft = {
-    -- TODO: python = { "isort", "black" },
     javascript = js_formatters,
     typescript = js_formatters,
     typescriptreact = js_formatters,
+    python = { "ruff_format" },
   },
 })
 
