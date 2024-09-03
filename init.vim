@@ -470,6 +470,25 @@ require('mason-lspconfig').setup({
     function(server_name)
       require('lspconfig')[server_name].setup({})
     end,
+
+    -- Use Ruff exclusively for linting, formatting and organizing imports, and disable those capabilities in Pyright
+    -- https://github.com/astral-sh/ruff-lsp?tab=readme-ov-file#example-neovim
+    pyright = function()
+      require('lspconfig').pyright.setup({
+        settings = {
+          pyright = {
+            -- Using Ruff's import organizer
+            disableOrganizeImports = true,
+          },
+          python = {
+            analysis = {
+              -- Ignore all files for analysis to exclusively use Ruff for linting
+              ignore = { '*' },
+            },
+          },
+        },
+      })
+    end,
   }
 })
 
@@ -505,7 +524,7 @@ require("conform").setup({
     javascript = js_formatters,
     typescript = js_formatters,
     typescriptreact = js_formatters,
-    python = { "ruff_format" },
+    python = { "ruff_fix", "ruff_format" },
   },
 })
 
