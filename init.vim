@@ -110,10 +110,6 @@ Plug 'shumphrey/fugitive-gitlab.vim'
 " Stash extension for fugitive.vim
 Plug 'mobiushorizons/fugitive-stash.vim'
 
-" EditorConfig
-" https://neovim.io/doc/user/editorconfig.html
-" Plug 'editorconfig/editorconfig-vim'
-
 " Status/tabline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -150,40 +146,17 @@ Plug 'airblade/vim-gitgutter'
 " Toggle the display of the quickfix list and the location-list
 Plug 'Valloric/ListToggle'
 
-" Javascript indentation and syntax
-Plug 'pangloss/vim-javascript'
-
-" React (jsx, tsx) syntax highlighting and indenting
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'maxmellon/vim-jsx-pretty'
-
-" Flow completion and type error checking
-Plug 'flowtype/vim-flow'
-
-" TypeSript syntax
-Plug 'leafgarland/typescript-vim'
-
-" CoffeeScript
-Plug 'kchmck/vim-coffee-script'
-
-" GraphQL
-Plug 'jparise/vim-graphql'
-
-" Pug (Jade) syntax highlighting
-Plug 'digitaltoad/vim-pug'
-
 " Auto-close brackets
 Plug 'raimondi/delimitmate'
 
+" CSS colors
 Plug 'ap/vim-css-color'
-Plug 'cakebaker/scss-syntax.vim'
 
 " Distraction-free writing
 Plug 'junegunn/goyo.vim'
 
 " Markdown
 Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
 
 " Color scheme
 Plug 'tinted-theming/base16-vim'
@@ -226,9 +199,6 @@ let g:gutentags_ctags_exclude = [
       \ 'node_modules',
       \ 'xeno',
       \ ]
-
-" Disable folding
-let g:vim_markdown_folding_disabled = 1
 
 " BUFFERS ("TABS")
 """"""""""""""""""
@@ -428,7 +398,7 @@ nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 
 lua << EOF
   require'nvim-treesitter.configs'.setup {
-    ensure_installed = { "lua", "vim", "vimdoc", "typescript", "angular", "html", "json", "python", "tsx" },
+    ensure_installed = { "lua", "vim", "vimdoc", "markdown", "typescript", "angular", "html", "json", "python", "tsx" },
     -- Automatically install missing parsers when entering buffer
     -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
     auto_install = false,
@@ -465,7 +435,7 @@ lsp_zero.extend_lspconfig({
 require('mason').setup({})
 require('mason-lspconfig').setup({
   -- NOTE: Create a pyrightconfig.json file in the root of the project
-  ensure_installed = {'html', 'cssls', 'jsonls', 'eslint', 'tsserver', 'angularls', 'pyright', 'ruff'},
+  ensure_installed = {'marksman', 'html', 'cssls', 'jsonls', 'eslint', 'tsserver', 'angularls', 'pyright', 'ruff'},
   handlers = {
     function(server_name)
       require('lspconfig')[server_name].setup({})
@@ -536,7 +506,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 EOF
-nnoremap <leader>fd :FlowJumpToDef<cr>
 
 " Skip delimitMate on pop-up menus
 "
@@ -549,18 +518,6 @@ nnoremap <leader>fd :FlowJumpToDef<cr>
 "                  \ ? "\<C-Y>"
 "                  \ : "<Plug>delimitMateCR"
 
-" Colorful jsx config
-let g:vim_jsx_pretty_colorful_config = 1 " default 0
-
-" Enables syntax highlighting for Flow (vim-javascript)
-let g:javascript_plugin_flow = 1
-
-" Do not open quickfix when no errors
-let g:flow#autoclose = 1
-
-" Max line lenght highlight
-" https://github.com/editorconfig/editorconfig-vim/blob/1d54632f7fcad38df8e428f349bc58b15af4b206/doc/editorconfig.txt#L125
-let g:EditorConfig_max_line_indicator = "fillexceeding"
 
 " UI
 """"
