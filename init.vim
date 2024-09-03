@@ -219,20 +219,20 @@ nnoremap <Leader>w :bd<CR>
 
 " set termguicolors
 lua << EOF
-  require("bufferline").setup{
-    options = {
-      -- Sidebar offsets
-      -- https://github.com/akinsho/bufferline.nvim#sidebar-offsets
-      offsets = {
-        {
-          filetype = "neo-tree",
-          text = "File Explorer",
-          highlight = "Directory",
-          separator = true -- use a "true" to enable the default, or set your own character
-        }
+require("bufferline").setup{
+  options = {
+    -- Sidebar offsets
+    -- https://github.com/akinsho/bufferline.nvim#sidebar-offsets
+    offsets = {
+      {
+        filetype = "neo-tree",
+        text = "File Explorer",
+        highlight = "Directory",
+        separator = true -- use a "true" to enable the default, or set your own character
       }
     }
   }
+}
 EOF
 
 " LISTS
@@ -265,17 +265,17 @@ noremap <Leader>n :Neotree toggle float<CR>
 noremap <Leader>p :Neotree filesystem reveal left<CR>
 
 lua << EOF
-  require('neo-tree').setup({
-    window = {
-      -- Size of floating window
-      -- https://github.com/nvim-neo-tree/neo-tree.nvim/issues/533#issuecomment-1287950467
-      -- TODO: dimension variables
-      popup = { -- settings that apply to float position only
-        size = { height = "60%", width = "90%" },
-        position = "50%", -- 50% means center it
-      },
+require('neo-tree').setup({
+  window = {
+    -- Size of floating window
+    -- https://github.com/nvim-neo-tree/neo-tree.nvim/issues/533#issuecomment-1287950467
+    -- TODO: dimension variables
+    popup = { -- settings that apply to float position only
+      size = { height = "60%", width = "90%" },
+      position = "50%", -- 50% means center it
     },
-  })
+  },
+})
 EOF
 
 " Absolute width of netrw window
@@ -397,15 +397,15 @@ nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
 """"""""""""""
 
 lua << EOF
-  require'nvim-treesitter.configs'.setup {
-    ensure_installed = { "lua", "vim", "vimdoc", "markdown", "typescript", "angular", "html", "json", "python", "tsx" },
-    -- Automatically install missing parsers when entering buffer
-    -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-    auto_install = false,
-    highlight = {
-      enable = true,
-    },
-  }
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = { "lua", "vim", "vimdoc", "markdown", "typescript", "angular", "html", "json", "python", "tsx" },
+  -- Automatically install missing parsers when entering buffer
+  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+  auto_install = false,
+  highlight = {
+    enable = true,
+  },
+}
 EOF
 
 " LSP configuration
@@ -596,7 +596,7 @@ autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
 
 " indent-blankline.nvim
 lua << EOF
-  require("ibl").setup()
+require("ibl").setup()
 EOF
 
 lua << EOF
