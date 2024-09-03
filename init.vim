@@ -598,3 +598,17 @@ autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
 lua << EOF
   require("ibl").setup()
 EOF
+
+lua << EOF
+-- Set nvim-notify as default notify function and hide "No information available" messages from language servers.
+-- https://github.com/neovim/nvim-lspconfig/issues/1931#issuecomment-1297599534
+local banned_messages = { "No information available" }
+vim.notify = function(msg, ...)
+  for _, banned in ipairs(banned_messages) do
+    if msg == banned then
+      return
+    end
+  end
+  return require("notify")(msg, ...)
+end
+EOF
