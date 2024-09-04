@@ -150,7 +150,7 @@ Plug 'Valloric/ListToggle'
 Plug 'raimondi/delimitmate'
 
 " CSS colors
-Plug 'ap/vim-css-color'
+Plug 'brenoprata10/nvim-highlight-colors'
 
 " Distraction-free writing
 Plug 'junegunn/goyo.vim'
@@ -484,6 +484,9 @@ cmp.setup({
   completion = {
     completeopt = 'menu,menuone,noinsert',
   },
+  formatting = {
+    format = require("nvim-highlight-colors").format
+  }
 })
 EOF
 
@@ -611,4 +614,12 @@ vim.notify = function(msg, ...)
   end
   return require("notify")(msg, ...)
 end
+EOF
+
+lua << EOF
+require('nvim-highlight-colors').setup({
+  -- Render style
+  -- @usage 'background'|'foreground'|'virtual'
+  render = 'background',
+})
 EOF
