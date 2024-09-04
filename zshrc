@@ -38,8 +38,8 @@ source $ZSH/oh-my-zsh.sh
 alias python='python3'
 alias pip=pip3
 
-# Fuzzy finder
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Set up fzf key bindings and fuzzy completion
+[ -f ~/.fzf.zsh ] && source <(fzf --zsh)
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f $HOME/bin/google-cloud-sdk/path.zsh.inc ]; then . $HOME/bin/google-cloud-sdk/path.zsh.inc; fi

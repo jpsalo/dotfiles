@@ -125,6 +125,10 @@ setup_base_configuration() {
   backup_existing_file $HOME/tmux.conf
   create_symlink tmux.conf
 
+  install_package fzf
+
+  install_package ripgrep
+
   install_package the_silver_searcher ag
   backup_existing_file $HOME/.ignore
   create_symlink ignore

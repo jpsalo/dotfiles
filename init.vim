@@ -126,13 +126,10 @@ Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v3.x' }
 " Plug 'ryanoasis/vim-devicons' Icons without colours
 Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
 
-" Fuzzy finder
-" Command from fzf documentation did not install fzf. Left here for reference
-" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" https://github.com/junegunn/fzf.vim/issues/1008
-" Remember to source .zshrc
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+" Fuzzy finder & live grep with args
+" Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
+Plug 'nvim-telescope/telescope-live-grep-args.nvim'
 
 " Notification manager
 Plug 'rcarriga/nvim-notify'
@@ -323,75 +320,56 @@ let g:airline_powerline_fonts=1
 " FUZZY FINDER
 """"""""""""""
 
-" Float
-" https://github.com/junegunn/fzf/blob/master/README-VIM.md#starting-fzf-in-a-popup-window
-" https://github.com/junegunn/fzf.vim/issues/821#issuecomment-581481211
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'border': 'none' } }
+lua << EOF
+local telescope = require("telescope")
+local actions = require("telescope.actions")
+local lga_actions = require("telescope-live-grep-args.actions")
+require("telescope").setup{
+  defaults = {
+    file_ignore_patterns = {
+      "tags"
+    },
+    mappings = {
+      i = {
+        ["<esc>"] = actions.close,
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+      },
+    },
+  },
+  extensions = {
+    live_grep_args = {
+      auto_quoting = true, -- enable/disable auto-quoting
+      mappings = {
+        i = {
+          -- Quote prompt and add -t. Example: foo → "foo" -t
+          ["<C-t>"] = lga_actions.quote_prompt({ postfix = ' -t' }),
+          -- freeze the current list and start a fuzzy search in the frozen list
+          ["<C-space>"] = actions.to_fuzzy_refine,
+        },
+      },
+      }
+  }
+}
+telescope.load_extension('live_grep_args')
 
-" Reverse layout (with float)
-" https://github.com/junegunn/fzf.vim/issues/317#issuecomment-281287381
-let $FZF_DEFAULT_OPTS = '--reverse'
+local builtin = require('telescope.builtin')
+local extensions = require('telescope').extensions
+vim.keymap.set('n', '<Leader><Leader>', builtin.find_files, {})
+vim.keymap.set('n', '<leader>g', extensions.live_grep_args.live_grep_args, {})
+vim.keymap.set('n', '<leader>b', builtin.buffers, {})
+vim.keymap.set('n', '<leader>t', builtin.help_tags, {})
 
-" Respecting .gitignore
-" https://github.com/junegunn/fzf#respecting-gitignore
-" https://github.com/junegunn/fzf.vim/issues/194#issuecomment-245031594
-let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+-- Print the paths with at least one match and suppress match contents.
+-- Inspiration: https://github.com/nvim-telescope/telescope.nvim/issues/647#issuecomment-1536456802
+-- NOTE: live_grep_args supports additional_args, but it doesn't work with --files-with-matches. See https://github.com/nvim-telescope/telescope-live-grep-args.nvim/issues/65#issuecomment-2093181733
+vim.keymap.set('n', '<leader>7', function() builtin.live_grep({ additional_args = { '--files-with-matches' } }) end)
 
-" Used to be: "Don't open files in NERDtree from fzf". Now it's a general function
-" https://github.com/junegunn/fzf.vim/issues/326#issuecomment-282936932
-" https://github.com/junegunn/fzf/issues/453#issuecomment-166648024
-" https://github.com/junegunn/fzf/issues/453#issuecomment-354634207
-function! Fuz(command_str)
-  execute a:command_str
-endfunction
+-- Live grep for the word under the cursor
+local live_grep_args_shortcuts = require('telescope-live-grep-args.shortcuts')
+vim.keymap.set('n', '<leader>gc', live_grep_args_shortcuts.grep_word_under_cursor)
 
-nnoremap <silent> <Leader><Leader> :call Fuz(':Files')<CR>
-" Invoke fzf in find buffer
-nnoremap <Leader>b :call Fuz(':Buffers')<CR>
-" Ag
-nnoremap <Leader>7 :call Fuz(':Ag')<CR>
-" Tags
-nnoremap <Leader>t :call Fuz(':Tags')<CR>
-
-" Syntax highlighting in preview
-" NOTE: Requires bat
-" https://github.com/junegunn/fzf.vim/blob/master/README.md#example-customizing-files-command
-command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-
-" Global .ignore (local .ignore is enabled by default)
-" Make :Ag not match file names, only the file content
-"
-" https://github.com/junegunn/fzf.vim/issues/346#issuecomment-288483704
-" https://github.com/ggreer/the_silver_searcher/wiki/Advanced-Usage#ignore
-" https://github.com/junegunn/fzf.vim/issues/582
-" https://github.com/junegunn/fzf.vim/issues/475#issuecomment-339979974
-command! -bang -nargs=* Ag call fzf#vim#ag(
-  \ <q-args>,
-  \ '--path-to-ignore ~/.ignore --hidden --ignore .git',
-  \ {'options': '--delimiter : --nth 4..'},
-  \ <bang>0)
-
-" Only print the names of files containing matches, not the matching lines.
-" An empty query will print all files that would be searched.
-command! -bang -nargs=* Matches call fzf#run(fzf#wrap(
-  \ {'source': 'ag --files-with-matches '.shellescape(<q-args>)}
-  \ ))
-
-" i.e. Fag --ts heading, Fag --sass button
-" https://github.com/junegunn/fzf.vim/issues/92
-function! s:ag_with_opts(arg, bang)
-  let tokens  = split(a:arg)
-  let ag_opts = join(filter(copy(tokens), 'v:val =~ "^-"'))
-  let query   = join(filter(copy(tokens), 'v:val !~ "^-"'))
-  call fzf#vim#ag(query, ag_opts, {})
-endfunction
-
-autocmd VimEnter * command! -nargs=* -bang Fag call s:ag_with_opts(<q-args>, <bang>0)
-
-" Search for word under cursor
-" https://github.com/junegunn/fzf.vim/issues/50#issuecomment-161676378
-nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
+EOF
 
 " INTELLISENSE
 """"""""""""""
@@ -562,17 +540,7 @@ function! SetupTheme(theme_str)
     let g:airline_base16_monotone = 1
     " Improve the contrast for the inactive statusline
     let g:airline_base16_improved_contrast = 1
-    " Current selection highlight color in completion list. See also: https://github.com/neoclide/coc.nvim/discussions/3351#discussion-3555665
-    " https://github.com/neoclide/coc.nvim/issues/3980
-    " https://vi.stackexchange.com/q/9675
-    " https://github.com/chriskempson/base16/blob/main/styling.md
-    " execute 'highlight CocFloating ctermbg=' . g:base16_cterm08
-    " execute 'highlight CocMenuSel ctermbg=' . g:base16_cterm02
-    " hi link FzfFloat CocFloating
   endif
-  " let g:fzf_colors = {
-  " \ 'bg': ['bg', 'FzfFloat'],
-  "     \ 'preview-bg': ['bg', 'Normal']}
 endfunction
 
 " https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#base16-vim-users
