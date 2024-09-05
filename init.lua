@@ -1,6 +1,6 @@
---[[
-BASE
---]]
+-- Notation modeled from https://github.com/nvim-lua/kickstart.nvim
+
+-- [[ Base ]]
 
 -- Set <space> as the leader key
 -- See `:help mapleader`
@@ -24,10 +24,6 @@ vim.opt.smartcase = true
 -- Configure how new splits should be opened
 vim.opt.splitright = true
 vim.opt.splitbelow = true
-
--- Map ctrl-c to Esc to trigger InsertLeave
--- https://github.com/neoclide/coc.nvim/issues/1197#issuecomment-534361825
-vim.keymap.set('i', '<C-c>', '<Esc>')
 
 vim.opt.tabstop = 2       -- The width of a TAB is set to 4.
                           -- Still it is a \t. It is just that
@@ -56,9 +52,7 @@ vim.cmd([[
 " https://github.com/neoclide/coc.nvim/wiki/F.A.Q#environment-node-doesnt-meet-the-requirement
 ]])
 
---[[
-PLUGINS
---]]
+-- [[ Plugins ]]
 
 vim.cmd([[
 " https://github.com/junegunn/vim-plug
@@ -114,8 +108,8 @@ Plug('nvim-tree/nvim-web-devicons')
 Plug('MunifTanjim/nui.nvim')
 Plug('nvim-neo-tree/neo-tree.nvim', { ['branch'] = 'v3.x' })
 
--- buffer line (with tabpage integration)
---- Plug('nvim-tree/nvim-web-devicons' " Recommended (for coloured icons) (NOTE: Already installed by neo-tree.nvim)
+-- Bufferline (with tabpage integration)
+-- Plug('nvim-tree/nvim-web-devicons') -- Recommended (for coloured icons) (NOTE: Already installed by neo-tree.nvim)
 -- Plug('ryanoasis/vim-devicons' Icons without colours
 Plug('akinsho/bufferline.nvim', { ['tag'] = '*' })
 
@@ -153,11 +147,13 @@ Plug('lukas-reineke/indent-blankline.nvim')
 
 vim.call('plug#end')
 
---[[
-SETTINGS
---]]
+-- [[ Settings ]]
 
--- Clear highlights on search when pressing <Esc> in normal mode
+-- Map ctrl-c to Esc to trigger InsertLeave
+-- https://github.com/neoclide/coc.nvim/issues/1197#issuecomment-534361825
+vim.keymap.set('i', '<C-c>', '<Esc>')
+
+-- Clear highlights on search when pressing Enter in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<CR>', '<cmd>nohlsearch<CR>')
 
@@ -166,9 +162,7 @@ vim.keymap.set('n', '<CR>', '<cmd>nohlsearch<CR>')
 -- http://vim.wikia.com/wiki/Search_for_visually_selected_text#Simple
 vim.keymap.set('v', '//', 'y/\\V<C-R>"<CR>')
 
--- Diagnostic keymaps
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-
+-- Autopairs
 local npairs = require'nvim-autopairs'
 npairs.setup {}
 local Rule = require'nvim-autopairs.rule'
@@ -222,148 +216,7 @@ vim.keymap.set('n', '<Leader>gp', '<Plug>(GitGutterPrevHunk)', { noremap = true,
 
 vim.g.gutentags_ctags_exclude = { 'dist', '*-lock.json', 'build', 'dist', 'node_modules', 'xeno' }
 
---[[
-BUFFERS
---]]
-
-require("bufferline").setup{
-  options = {
-    -- Sidebar offsets
-    -- https://github.com/akinsho/bufferline.nvim#sidebar-offsets
-    offsets = {
-      {
-        filetype = "neo-tree",
-        text = "File Explorer",
-        highlight = "Directory",
-        separator = true -- use a "true" to enable the default, or set your own character
-      }
-    }
-  }
-}
-
--- Next or previous buffer in the buffer list.
--- BufferLineCycleNext and BufferLineCyclePrev commands will traverse the bufferline bufferlist in order
-vim.keymap.set('n', '<Tab>', ':BufferLineCycleNext<CR>', { noremap = true, silent = true, desc = 'Next buffer' })
-vim.keymap.set('n', '<S-Tab>', ':BufferLineCyclePrev<CR>', { noremap = true, silent = true, desc = 'Previous buffer' })
-
--- Delete buffer without losing the split window
--- Compatible with `set hidden`
--- http://stackoverflow.com/a/4468491/7010222
--- https://stackoverflow.com/questions/4465095/vim-delete-buffer-without-losing-the-split-window/4468491#comment42185471_4468491
--- https://vim.fandom.com/wiki/Easier_buffer_switching#Switching_to_the_previously_edited_buffer
--- TODO: sometimes goes to ghost (previously active) buffer, such as, when closing last buffer
-vim.keymap.set('n', '<Leader>bd', ':bd<CR>', { noremap = true, silent = true, desc = 'Delete buffer without losing the split window' })
-
---[[
-LISTS
---]]
-
--- Diagnostic keymaps
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-
--- Close quickfix menu after selecting choice
--- https://stackoverflow.com/a/75039844/7010222
-vim.api.nvim_create_autocmd(
-  "FileType", {
-  pattern={"qf"},
-  command=[[nnoremap <buffer> <CR> <CR>:cclose<CR>]]})
-
---[[
-TREE EXPLORER
---]]
-
-require('neo-tree').setup({
-  window = {
-    -- Size of floating window
-    -- https://github.com/nvim-neo-tree/neo-tree.nvim/issues/533#issuecomment-1287950467
-    -- TODO: dimension variables
-    popup = { -- settings that apply to float position only
-      size = { height = "60%", width = "90%" },
-      position = "50%", -- 50% means center it
-    },
-  },
-})
-
--- Toggle, reveal file in Neo-tree
-vim.keymap.set('n', '<Leader>m', ':Neotree toggle left<CR>')
-vim.keymap.set('n', '<Leader>n', ':Neotree toggle float<CR>')
-vim.keymap.set('n', '<Leader>p', ':Neotree filesystem reveal left<CR>')
-
---[[
-STATUSLINE
---]]
-
--- Use bufferline instead of tabline
-vim.g['airline#extensions#tabline#enabled'] = 0
-
--- Use straight statusline
-vim.g.airline_left_sep = ''
-vim.g.airline_right_sep = ''
-
--- Show git branch from statusline
--- https://github.com/vim-airline/vim-airline/issues/605#issue-43567680
-vim.g['airline#extensions#branch#enabled'] = 1
-
--- Disable git hunks
-vim.g['airline#extensions#hunks#enabled'] = 0
-
--- Powerline font symbols
--- https://github.com/vim-airline/vim-airline/wiki/FAQ#the-powerline-font-symbols-are-not-showing-up
-vim.g.airline_powerline_fonts = 1
-
---[[
-FUZZY FINDER
---]]
-
-local telescope = require("telescope")
-local actions = require("telescope.actions")
-local lga_actions = require("telescope-live-grep-args.actions")
-require("telescope").setup{
-  defaults = {
-    file_ignore_patterns = {
-      "tags"
-    },
-    mappings = {
-      i = {
-        ["<esc>"] = actions.close,
-        ["<C-j>"] = actions.move_selection_next,
-        ["<C-k>"] = actions.move_selection_previous,
-      },
-    },
-  },
-  extensions = {
-    live_grep_args = {
-      auto_quoting = true, -- enable/disable auto-quoting
-      mappings = {
-        i = {
-          -- Quote prompt and add -t. Example: foo → "foo" -t
-          ["<C-t>"] = lga_actions.quote_prompt({ postfix = ' -t' }),
-          -- freeze the current list and start a fuzzy search in the frozen list
-          ["<C-space>"] = actions.to_fuzzy_refine,
-        },
-      },
-      }
-  }
-}
-telescope.load_extension('live_grep_args')
-
-local builtin = require('telescope.builtin')
-local extensions = require('telescope').extensions
-vim.keymap.set('n', '<Leader><Leader>', builtin.find_files, {})
-vim.keymap.set('n', '<leader>g', extensions.live_grep_args.live_grep_args, {})
-vim.keymap.set('n', '<leader>b', builtin.buffers, {})
-vim.keymap.set('n', '<leader>t', builtin.help_tags, {})
-
--- Print the paths with at least one match and suppress match contents.
--- Inspiration: https://github.com/nvim-telescope/telescope.nvim/issues/647#issuecomment-1536456802
--- NOTE: live_grep_args supports additional_args, but it doesn't work with --files-with-matches. See https://github.com/nvim-telescope/telescope-live-grep-args.nvim/issues/65#issuecomment-2093181733
-vim.keymap.set('n', '<leader>7', function() builtin.live_grep({ additional_args = { '--files-with-matches' } }) end)
-
--- Live grep for the word under the cursor
-local live_grep_args_shortcuts = require('telescope-live-grep-args.shortcuts')
-vim.keymap.set('n', '<leader>gc', live_grep_args_shortcuts.grep_word_under_cursor)
-
--- INTELLISENSE
+-- [[ Intellisense ]]
 
 require'nvim-treesitter.configs'.setup {
   ensure_installed = { "lua", "vim", "vimdoc", "markdown", "typescript", "angular", "html", "json", "python", "tsx" },
@@ -443,6 +296,7 @@ require('mason-lspconfig').setup({
   }
 })
 
+-- A completion plugin
 local cmp = require('cmp')
 
 cmp.setup({
@@ -470,6 +324,7 @@ cmp.setup({
   }
 })
 
+-- Formatter plugin
 local js_formatters = { "prettierd", "prettier", stop_after_first = true }
 require("conform").setup({
   formatters_by_ft = {
@@ -488,9 +343,152 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
---[[
-UI
---]]
+-- [[ Fuzzy finder ]]
+
+local telescope = require("telescope")
+local actions = require("telescope.actions")
+local lga_actions = require("telescope-live-grep-args.actions")
+require("telescope").setup{
+  defaults = {
+    file_ignore_patterns = {
+      "tags"
+    },
+    mappings = {
+      i = {
+        ["<esc>"] = actions.close,
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+      },
+    },
+  },
+  extensions = {
+    live_grep_args = {
+      auto_quoting = true, -- enable/disable auto-quoting
+      mappings = {
+        i = {
+          -- Quote prompt and add -t. Example: foo → "foo" -t
+          ["<C-t>"] = lga_actions.quote_prompt({ postfix = ' -t' }),
+          -- freeze the current list and start a fuzzy search in the frozen list
+          ["<C-space>"] = actions.to_fuzzy_refine,
+        },
+      },
+      }
+  }
+}
+telescope.load_extension('live_grep_args')
+
+local builtin = require('telescope.builtin')
+local extensions = require('telescope').extensions
+vim.keymap.set('n', '<Leader><Leader>', builtin.find_files, {})
+vim.keymap.set('n', '<leader>g', extensions.live_grep_args.live_grep_args, {})
+vim.keymap.set('n', '<leader>b', builtin.buffers, {})
+vim.keymap.set('n', '<leader>t', builtin.help_tags, {})
+
+-- Print the paths with at least one match and suppress match contents.
+-- Inspiration: https://github.com/nvim-telescope/telescope.nvim/issues/647#issuecomment-1536456802
+-- NOTE: live_grep_args supports additional_args, but it doesn't work with --files-with-matches. See https://github.com/nvim-telescope/telescope-live-grep-args.nvim/issues/65#issuecomment-2093181733
+vim.keymap.set('n', '<leader>7', function() builtin.live_grep({ additional_args = { '--files-with-matches' } }) end)
+
+-- Live grep for the word under the cursor
+local live_grep_args_shortcuts = require('telescope-live-grep-args.shortcuts')
+vim.keymap.set('n', '<leader>gc', live_grep_args_shortcuts.grep_word_under_cursor)
+
+-- [[ Buffers ]]
+
+require("bufferline").setup{
+  options = {
+    -- Sidebar offsets
+    -- https://github.com/akinsho/bufferline.nvim#sidebar-offsets
+    offsets = {
+      {
+        filetype = "neo-tree",
+        text = "File Explorer",
+        highlight = "Directory",
+        separator = true -- use a "true" to enable the default, or set your own character
+      }
+    }
+  }
+}
+
+-- Next or previous buffer in the buffer list.
+-- BufferLineCycleNext and BufferLineCyclePrev commands will traverse the bufferline bufferlist in order
+vim.keymap.set('n', '<Tab>', ':BufferLineCycleNext<CR>', { noremap = true, silent = true, desc = 'Next buffer' })
+vim.keymap.set('n', '<S-Tab>', ':BufferLineCyclePrev<CR>', { noremap = true, silent = true, desc = 'Previous buffer' })
+
+-- Delete buffer without losing the split window
+-- Compatible with `set hidden`
+-- http://stackoverflow.com/a/4468491/7010222
+-- https://stackoverflow.com/questions/4465095/vim-delete-buffer-without-losing-the-split-window/4468491#comment42185471_4468491
+-- https://vim.fandom.com/wiki/Easier_buffer_switching#Switching_to_the_previously_edited_buffer
+-- TODO: sometimes goes to ghost (previously active) buffer, such as, when closing last buffer
+vim.keymap.set('n', '<Leader>bd', ':bd<CR>', { noremap = true, silent = true, desc = 'Delete buffer without losing the split window' })
+
+-- [[ Lists ]]
+
+-- Diagnostic keymaps
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+
+-- Close quickfix menu after selecting choice
+-- https://stackoverflow.com/a/75039844/7010222
+vim.api.nvim_create_autocmd(
+  "FileType", {
+  pattern={"qf"},
+  command=[[nnoremap <buffer> <CR> <CR>:cclose<CR>]]})
+
+-- [[ Tree explorer ]]
+
+require('neo-tree').setup({
+  window = {
+    -- Size of floating window
+    -- https://github.com/nvim-neo-tree/neo-tree.nvim/issues/533#issuecomment-1287950467
+    -- TODO: dimension variables
+    popup = { -- settings that apply to float position only
+      size = { height = "60%", width = "90%" },
+      position = "50%", -- 50% means center it
+    },
+  },
+})
+
+-- Toggle, reveal file in Neo-tree
+vim.keymap.set('n', '<Leader>m', ':Neotree toggle left<CR>')
+vim.keymap.set('n', '<Leader>n', ':Neotree toggle float<CR>')
+vim.keymap.set('n', '<Leader>p', ':Neotree filesystem reveal left<CR>')
+
+-- [[ Statusline ]]
+
+-- Use bufferline instead of tabline
+vim.g['airline#extensions#tabline#enabled'] = 0
+
+-- Use straight statusline
+vim.g.airline_left_sep = ''
+vim.g.airline_right_sep = ''
+
+-- Show git branch from statusline
+-- https://github.com/vim-airline/vim-airline/issues/605#issue-43567680
+vim.g['airline#extensions#branch#enabled'] = 1
+
+-- Disable git hunks
+vim.g['airline#extensions#hunks#enabled'] = 0
+
+-- Powerline font symbols
+-- https://github.com/vim-airline/vim-airline/wiki/FAQ#the-powerline-font-symbols-are-not-showing-up
+vim.g.airline_powerline_fonts = 1
+
+-- [[ Notifications ]]
+
+-- Set nvim-notify as default notify function and hide "No information available" messages from language servers.
+-- https://github.com/neovim/nvim-lspconfig/issues/1931#issuecomment-1297599534
+local banned_messages = { "No information available" }
+vim.notify = function(msg, ...)
+  for _, banned in ipairs(banned_messages) do
+    if msg == banned then
+      return
+    end
+  end
+  return require("notify")(msg, ...)
+end
+
+-- [[ UI and theme ]]
 
 -- Use true color
 -- https://github.com/neovim/neovim/wiki/FAQ#how-can-i-use-true-color-in-the-terminal
@@ -552,21 +550,10 @@ vim.cmd([[
 autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
 ]])
 
--- indent-blankline.nvim
+-- Indent guides
 require("ibl").setup()
 
--- Set nvim-notify as default notify function and hide "No information available" messages from language servers.
--- https://github.com/neovim/nvim-lspconfig/issues/1931#issuecomment-1297599534
-local banned_messages = { "No information available" }
-vim.notify = function(msg, ...)
-  for _, banned in ipairs(banned_messages) do
-    if msg == banned then
-      return
-    end
-  end
-  return require("notify")(msg, ...)
-end
-
+-- Highlight colors
 require('nvim-highlight-colors').setup({
   -- Render style
   -- @usage 'background'|'foreground'|'virtual'
