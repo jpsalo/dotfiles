@@ -1,5 +1,5 @@
 --[[
-GENERAL
+BASE
 --]]
 
 -- Set <space> as the leader key
@@ -8,68 +8,59 @@ GENERAL
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- Make line numbers default
+vim.opt.number = true
+
+-- Enable mouse mode, can be useful for resizing splits for example!
+vim.opt.mouse = 'a'
+
+-- Don't show the mode, since it's already in the status line
+vim.opt.showmode = false
+
+-- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
+-- Configure how new splits should be opened
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+
+-- Map ctrl-c to Esc to trigger InsertLeave
+-- https://github.com/neoclide/coc.nvim/issues/1197#issuecomment-534361825
+vim.keymap.set('i', '<C-c>', '<Esc>')
+
+vim.opt.tabstop = 2       -- The width of a TAB is set to 4.
+                          -- Still it is a \t. It is just that
+                          -- Vim will interpret it to be having
+                          -- a width of 2.
+vim.opt.shiftwidth = 2    -- Indents will have a width of 2
+vim.opt.expandtab = true  -- Sets the number of columns for a TAB
+vim.bo.softtabstop = 2    -- Expand TABs to space
+
+-- Python virtualenv
+-- Set static interpreter (and pynvim package) for Neovim
+-- https://neovim.io/doc/user/provider.html#python-virtualenv
+vim.g.python3_host_prog = '$NVIM_PYTHON_VIRTUALENV_PATH/bin/python3'
+
 vim.cmd([[
-" GENERAL
-"""""""""
-
-" Map the Leader key to SPACE
-" let mapleader="\<SPACE>"
-
-" Map ctrl-c to Esc to trigger InsertLeave
-" https://github.com/neoclide/coc.nvim/issues/1197#issuecomment-534361825
-inoremap <C-c> <Esc>
-
-" Enable mouse
-set mouse=a
-
-" Enable syntax and keep color settings
-" https://stackoverflow.com/questions/11272501/enable-vim-syntax-highlighting-by-default#comment40203854_11272512
-syntax enable
-
-" Line numbers
-set number
-
 " Hide buffers instead of closing them
 " Works good with buffer tags and tabline
-set hidden
-
-" Use more natural splitting
-set splitbelow
-set splitright
-
-" Case insensitive on lower case, case sensitive on upper case
-set ignorecase
-set smartcase
+" set hidden
 
 " Ignore case on file and directory completion
-set wildignorecase
-
-" TAB and indent to 2 spaces
-" http://stackoverflow.com/a/1878984/7010222
-set tabstop=2       " The width of a TAB is set to 4.
-                    " Still it is a \t. It is just that
-                    " Vim will interpret it to be having
-                    " a width of 2.
-
-set shiftwidth=2    " Indents will have a width of 2
-
-set softtabstop=2   " Sets the number of columns for a TAB
-
-set expandtab       " Expand TABs to space
-
-" Python virtualenv
-" Set static interpreter (and pynvim package) for Neovim
-" https://neovim.io/doc/user/provider.html#python-virtualenv
-let g:python3_host_prog = '$NVIM_PYTHON_VIRTUALENV_PATH/bin/python3'
+" set wildignorecase
 
 " NOTE:
 " g:node_host_prog is handled by neovim npm package (from `npm root -g`)
 " https://neovim.io/doc/user/provider.html#g:node_host_prog
 " https://github.com/neoclide/coc.nvim/wiki/F.A.Q#environment-node-doesnt-meet-the-requirement
+]])
 
-" PLUGINS
-"""""""""
+--[[
+PLUGINS
+--]]
 
+vim.cmd([[
 " https://github.com/junegunn/vim-plug
 " Automatic installation
 " https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
@@ -78,153 +69,167 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
   silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
+]])
 
-call plug#begin('~/.config/nvim/plugged')
+local Plug = vim.fn['plug#']
 
-" Copilot
-Plug 'github/copilot.vim'
+vim.call('plug#begin')
 
-" Treesitter
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+-- Copilot
+Plug('github/copilot.vim')
 
-" LSP Zero & Mason
-Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/mason.nvim'
-Plug 'williamboman/mason-lspconfig.nvim'
-Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v4.x'}
+-- Treesitter
+Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
 
-" Formatter
-Plug 'stevearc/conform.nvim'
+-- LSP Zero & Mason
+Plug('neovim/nvim-lspconfig')
+Plug('williamboman/mason.nvim')
+Plug('williamboman/mason-lspconfig.nvim')
+Plug('hrsh7th/nvim-cmp')
+Plug('hrsh7th/cmp-nvim-lsp')
+Plug('hrsh7th/cmp-buffer')
+Plug('VonHeikemen/lsp-zero.nvim', {['branch'] = 'v4.x'})
 
-" Management of tags files
-" NOTE: requires ctags
-Plug 'ludovicchabant/vim-gutentags'
+-- Formatter
+Plug('stevearc/conform.nvim')
 
-" Automatically save changes to disk
-Plug '907th/vim-auto-save'
+-- Management of tags files
+-- NOTE: requires ctags
+Plug('ludovicchabant/vim-gutentags')
 
-" Close all buffers except current
-Plug 'vim-scripts/BufOnly.vim'
+-- Automatically save changes to disk
+Plug('907th/vim-auto-save')
 
-" Git wrapper
-Plug 'tpope/vim-fugitive'
+-- Close all buffers except current
+Plug('vim-scripts/BufOnly.vim')
 
-" GitHub extension for fugitive.vim
-Plug 'tpope/vim-rhubarb'
+-- Status/tabline
+Plug('vim-airline/vim-airline')
+Plug('vim-airline/vim-airline-themes')
 
-" GitLab extension for fugitive.vim
-Plug 'shumphrey/fugitive-gitlab.vim'
+-- Tree explorer (neo-tree)
+-- https://www.reddit.com/r/neovim/comments/tuyzch/comment/i39x42i/?utm_source=share&utm_medium=web2x&context=3aaaaa
+Plug('nvim-lua/plenary.nvim')
+Plug('nvim-tree/nvim-web-devicons')
+Plug('MunifTanjim/nui.nvim')
+Plug('nvim-neo-tree/neo-tree.nvim', { ['branch'] = 'v3.x' })
 
-" Stash extension for fugitive.vim
-Plug 'mobiushorizons/fugitive-stash.vim'
+-- buffer line (with tabpage integration)
+--- Plug('nvim-tree/nvim-web-devicons' " Recommended (for coloured icons) (NOTE: Already installed by neo-tree.nvim)
+-- Plug('ryanoasis/vim-devicons' Icons without colours
+Plug('akinsho/bufferline.nvim', { ['tag'] = '*' })
 
-" Status/tabline
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+-- Fuzzy finder & live grep with args
+-- Plug('nvim-lua/plenary.nvim'
+Plug('nvim-telescope/telescope.nvim', { ['branch'] = '0.1.x' })
+Plug('nvim-telescope/telescope-live-grep-args.nvim')
 
-" Tree explorer (neo-tree)
-" https://www.reddit.com/r/neovim/comments/tuyzch/comment/i39x42i/?utm_source=share&utm_medium=web2x&context=3aaaaa
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-tree/nvim-web-devicons'
-Plug 'MunifTanjim/nui.nvim'
-Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v3.x' }
+-- Notification manager
+Plug('rcarriga/nvim-notify')
 
-" buffer line (with tabpage integration)
-" Plug 'nvim-tree/nvim-web-devicons' " Recommended (for coloured icons) (NOTE: Already installed by neo-tree.nvim)
-" Plug 'ryanoasis/vim-devicons' Icons without colours
-Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
+-- Toggle, display and navigate marks
+Plug('kshenoy/vim-signature')
 
-" Fuzzy finder & live grep with args
-" Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
-Plug 'nvim-telescope/telescope-live-grep-args.nvim'
+-- Git gutter
+Plug('airblade/vim-gitgutter')
 
-" Notification manager
-Plug 'rcarriga/nvim-notify'
+-- Auto-close brackets
+Plug('windwp/nvim-autopairs')
 
-" Toggle, display and navigate marks
-Plug 'kshenoy/vim-signature'
+-- CSS colors
+Plug('brenoprata10/nvim-highlight-colors')
 
-" Git gutter
-Plug 'airblade/vim-gitgutter'
+-- Distraction-free writing
+Plug('junegunn/goyo.vim')
 
-" Toggle the display of the quickfix list and the location-list
-Plug 'Valloric/ListToggle'
+-- Markdown
+Plug('godlygeek/tabular')
 
-" Auto-close brackets
-Plug 'raimondi/delimitmate'
+-- Color scheme
+Plug('tinted-theming/base16-vim')
 
-" CSS colors
-Plug 'brenoprata10/nvim-highlight-colors'
+-- Indentation guides
+Plug('lukas-reineke/indent-blankline.nvim')
 
-" Distraction-free writing
-Plug 'junegunn/goyo.vim'
+vim.call('plug#end')
 
-" Markdown
-Plug 'godlygeek/tabular'
+--[[
+SETTINGS
+--]]
 
-" Color scheme
-Plug 'tinted-theming/base16-vim'
+-- Clear highlights on search when pressing <Esc> in normal mode
+--  See `:help hlsearch`
+vim.keymap.set('n', '<CR>', '<cmd>nohlsearch<CR>')
 
-" Indentation guides
-Plug 'lukas-reineke/indent-blankline.nvim'
+-- Diagnostic keymaps
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
-call plug#end()
+local npairs = require'nvim-autopairs'
+npairs.setup {}
+local Rule = require'nvim-autopairs.rule'
+local cond = require 'nvim-autopairs.conds'
 
-" SETTINGS
-""""""""""
+-- Add spaces between parentheses
+-- https://github.com/windwp/nvim-autopairs/wiki/Custom-rules#add-spaces-between-parentheses
+local brackets = { { '(', ')' }, { '[', ']' }, { '{', '}' } }
+npairs.add_rules {
+  -- Rule for a pair with left-side ' ' and right side ' '
+  Rule(' ', ' ')
+    -- Pair will only occur if the conditional function returns true
+    :with_pair(function(opts)
+      -- We are checking if we are inserting a space in (), [], or {}
+      local pair = opts.line:sub(opts.col - 1, opts.col)
+      return vim.tbl_contains({
+        brackets[1][1] .. brackets[1][2],
+        brackets[2][1] .. brackets[2][2],
+        brackets[3][1] .. brackets[3][2]
+      }, pair)
+    end)
+    :with_move(cond.none())
+    :with_cr(cond.none())
+    -- We only want to delete the pair of spaces when the cursor is as such: ( | )
+    :with_del(function(opts)
+      local col = vim.api.nvim_win_get_cursor(0)[2]
+      local context = opts.line:sub(col - 1, col + 2)
+      return vim.tbl_contains({
+        brackets[1][1] .. '  ' .. brackets[1][2],
+        brackets[2][1] .. '  ' .. brackets[2][2],
+        brackets[3][1] .. '  ' .. brackets[3][2]
+      }, context)
+    end)
+}
+-- For each pair of brackets we will add another rule
+for _, bracket in pairs(brackets) do
+  npairs.add_rules {
+    -- Each of these rules is for a pair with left-side '( ' and right-side ' )' for each bracket type
+    Rule(bracket[1] .. ' ', ' ' .. bracket[2])
+      :with_pair(cond.none())
+      :with_move(function(opts) return opts.char == bracket[2] end)
+      :with_del(cond.none())
+      :use_key(bracket[2])
+      -- Removes the trailing whitespace that can occur without this
+      :replace_map_cr(function(_) return '<C-c>2xi<CR><C-c>O' end)
+  }
+end
+
+vim.keymap.set('n', '<Leader>gn', '<Plug>(GitGutterNextHunk)', { noremap = true, silent = true, desc = 'Next git hunk' })
+vim.keymap.set('n', '<Leader>gp', '<Plug>(GitGutterPrevHunk)', { noremap = true, silent = true, desc = 'Previous git hunk' })
+
+vim.g.gutentags_ctags_exclude = { 'dist', '*-lock.json', 'build', 'dist', 'node_modules', 'xeno' }
+
+vim.cmd([[
 
 " Exact search for visually selected text (without backslashes)
 " http://vim.wikia.com/wiki/Search_for_visually_selected_text#Simple
 vnoremap // y/\V<C-R>"<CR>
 
-" Clear last search highlighting by hitting return
-" https://stackoverflow.com/a/662914/7010222
-noremap <CR> :noh<CR><CR>
-
 " Switch to current directory
-nnoremap <Leader>cd :cd %:p:h<CR>
-
-" Expand space carriage returns in delimitMate
-" https://github.com/Raimondi/delimitMate/blob/master/doc/delimitMate.txt
-let delimitMate_expand_space = 1
-let delimitMate_expand_cr=1
-
-nnoremap <Leader>gn <Plug>(GitGutterNextHunk)
-nnoremap <Leader>gp <Plug>(GitGutterPrevHunk)
-
-" TODO: From environment variable (zshenv)?
-let g:fugitive_gitlab_domains = ['https://gitlab.siilicloud.com']
-let g:fugitive_stash_domains = ['http://buildtools.bisnode.com/stash/']
-
-let g:gutentags_ctags_exclude = [
-      \ '*-lock.json',
-      \ 'build',
-      \ 'dist',
-      \ 'node_modules',
-      \ 'xeno',
-      \ ]
-
-" BUFFERS ("TABS")
-""""""""""""""""""
-
-" Next or previous buffer in the buffer list.
-" BufferLineCycleNext and BufferLineCyclePrev commands will traverse the bufferline bufferlist in order
-nnoremap <Tab> :BufferLineCycleNext<CR>
-nnoremap <S-Tab> :BufferLineCyclePrev<CR>
-
-" Delete buffer without losing the split window
-" Compatible with `set hidden`
-" http://stackoverflow.com/a/4468491/7010222
-" https://stackoverflow.com/questions/4465095/vim-delete-buffer-without-losing-the-split-window/4468491#comment42185471_4468491
-" https://vim.fandom.com/wiki/Easier_buffer_switching#Switching_to_the_previously_edited_buffer
-" TODO: sometimes goes to ghost (previously active) buffer, such as, when closing last buffer
-" nnoremap <Leader>w :b#\|bd #<CR>
-nnoremap <Leader>w :bd<CR>
+" nnoremap <Leader>cd :cd %:p:h<CR>
 ]])
+
+--[[
+BUFFERS
+--]]
 
 require("bufferline").setup{
   options = {
@@ -241,22 +246,27 @@ require("bufferline").setup{
   }
 }
 
+-- Next or previous buffer in the buffer list.
+-- BufferLineCycleNext and BufferLineCyclePrev commands will traverse the bufferline bufferlist in order
+vim.keymap.set('n', '<Tab>', ':BufferLineCycleNext<CR>', { noremap = true, silent = true, desc = 'Next buffer' })
+vim.keymap.set('n', '<S-Tab>', ':BufferLineCyclePrev<CR>', { noremap = true, silent = true, desc = 'Previous buffer' })
+
+-- Delete buffer without losing the split window
+-- Compatible with `set hidden`
+-- http://stackoverflow.com/a/4468491/7010222
+-- https://stackoverflow.com/questions/4465095/vim-delete-buffer-without-losing-the-split-window/4468491#comment42185471_4468491
+-- https://vim.fandom.com/wiki/Easier_buffer_switching#Switching_to_the_previously_edited_buffer
+-- TODO: sometimes goes to ghost (previously active) buffer, such as, when closing last buffer
+vim.keymap.set('n', '<Leader>bd', ':bd<CR>', { noremap = true, silent = true, desc = 'Delete buffer without losing the split window' })
+
+--[[
+LISTS
+--]]
+
+-- Diagnostic keymaps
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+
 vim.cmd([[
-" LISTS
-"""""""
-
-" Key mappings for toggling locationlist and quickfix
-let g:lt_location_list_toggle_map = '<Leader>l'
-let g:lt_quickfix_list_toggle_map = '<Leader>q'
-
-" Automatically open the location/quickfix window after :make, :grep, :lvimgrep and friends if there are valid locations/errors
-" http://stackoverflow.com/a/39010855/7010222
-augroup myvimrc
-  autocmd!
-  autocmd QuickFixCmdPost [^l]* cwindow
-  autocmd QuickFixCmdPost l*    lwindow
-augroup END
-
 " Close quickfix and location-list when selecting file
 " http://stackoverflow.com/a/21326968/7010222
 " http://stackoverflow.com/a/10850835/7010222
@@ -415,7 +425,7 @@ lsp_zero.extend_lspconfig({
 require('mason').setup({})
 require('mason-lspconfig').setup({
   -- NOTE: Create a pyrightconfig.json file in the root of the project
-  ensure_installed = {'vimls', 'lua_ls', 'marksman', 'html', 'cssls', 'jsonls', 'eslint', 'tsserver', 'angularls', 'pyright', 'ruff'},
+  ensure_installed = {'vimls', 'lua_ls', 'marksman', 'html', 'cssls', 'jsonls', 'eslint', 'angularls', 'pyright', 'ruff'},
   handlers = {
     function(server_name)
       require('lspconfig')[server_name].setup({})
@@ -503,17 +513,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 vim.cmd([[
-" Skip delimitMate on pop-up menus
-"
-" Select an option from popup menu with CR (Enter) without doing a return.
-" When no entry selected, <CR> closes pum (default)
-" Otherwise, use delimitMate <CR> expansion
-"
-" https://github.com/Raimondi/delimitMate/blob/master/doc/delimitMate.txt
-" imap <expr> <CR> pumvisible()
-"                  \ ? "\<C-Y>"
-"                  \ : "<Plug>delimitMateCR"
-
 
 " UI
 """"
