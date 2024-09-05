@@ -1,8 +1,19 @@
+--[[
+GENERAL
+--]]
+
+-- Set <space> as the leader key
+-- See `:help mapleader`
+--  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
+vim.cmd([[
 " GENERAL
 """""""""
 
 " Map the Leader key to SPACE
-let mapleader="\<SPACE>"
+" let mapleader="\<SPACE>"
 
 " Map ctrl-c to Esc to trigger InsertLeave
 " https://github.com/neoclide/coc.nvim/issues/1197#issuecomment-534361825
@@ -213,9 +224,8 @@ nnoremap <S-Tab> :BufferLineCyclePrev<CR>
 " TODO: sometimes goes to ghost (previously active) buffer, such as, when closing last buffer
 " nnoremap <Leader>w :b#\|bd #<CR>
 nnoremap <Leader>w :bd<CR>
+]])
 
-" set termguicolors
-lua << EOF
 require("bufferline").setup{
   options = {
     -- Sidebar offsets
@@ -230,8 +240,8 @@ require("bufferline").setup{
     }
   }
 }
-EOF
 
+vim.cmd([[
 " LISTS
 """""""
 
@@ -260,8 +270,8 @@ autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose <CR>:lclose<CR>
 noremap <Leader>m :Neotree toggle left<CR>
 noremap <Leader>n :Neotree toggle float<CR>
 noremap <Leader>p :Neotree filesystem reveal left<CR>
+]])
 
-lua << EOF
 require('neo-tree').setup({
   window = {
     -- Size of floating window
@@ -273,8 +283,8 @@ require('neo-tree').setup({
     },
   },
 })
-EOF
 
+vim.cmd([[
 " Absolute width of netrw window
 let g:netrw_winsize = 25
 
@@ -315,12 +325,10 @@ let g:airline#extensions#hunks#enabled = 0
 " Powerline font symbols
 " https://github.com/vim-airline/vim-airline/wiki/FAQ#the-powerline-font-symbols-are-not-showing-up
 let g:airline_powerline_fonts=1
+]])
 
+-- FUZZY FINDER
 
-" FUZZY FINDER
-""""""""""""""
-
-lua << EOF
 local telescope = require("telescope")
 local actions = require("telescope.actions")
 local lga_actions = require("telescope-live-grep-args.actions")
@@ -369,12 +377,8 @@ vim.keymap.set('n', '<leader>7', function() builtin.live_grep({ additional_args 
 local live_grep_args_shortcuts = require('telescope-live-grep-args.shortcuts')
 vim.keymap.set('n', '<leader>gc', live_grep_args_shortcuts.grep_word_under_cursor)
 
-EOF
+-- INTELLISENSE
 
-" INTELLISENSE
-""""""""""""""
-
-lua << EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = { "lua", "vim", "vimdoc", "markdown", "typescript", "angular", "html", "json", "python", "tsx" },
   -- Automatically install missing parsers when entering buffer
@@ -384,10 +388,8 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
   },
 }
-EOF
 
-" LSP configuration
-lua <<EOF
+-- LSP configuration
 local lsp_zero = require('lsp-zero')
 
 local lsp_attach = function(client, bufnr)
@@ -417,6 +419,21 @@ require('mason-lspconfig').setup({
   handlers = {
     function(server_name)
       require('lspconfig')[server_name].setup({})
+    end,
+
+    lua_ls = function()
+      require('lspconfig').lua_ls.setup({
+        on_init = function(client)
+          lsp_zero.nvim_lua_settings(client, {})
+        end,
+        settings = {
+          Lua = {
+            diagnostics = {
+              globals = { 'vim' }
+            },
+          },
+        },
+      })
     end,
 
     -- Use Ruff exclusively for linting, formatting and organizing imports, and disable those capabilities in Pyright
@@ -466,9 +483,7 @@ cmp.setup({
     format = require("nvim-highlight-colors").format
   }
 })
-EOF
 
-lua <<EOF
 local js_formatters = { "prettierd", "prettier", stop_after_first = true }
 require("conform").setup({
   formatters_by_ft = {
@@ -486,8 +501,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     require("conform").format({ bufnr = args.buf })
   end,
 })
-EOF
 
+vim.cmd([[
 " Skip delimitMate on pop-up menus
 "
 " Select an option from popup menu with CR (Enter) without doing a return.
@@ -502,6 +517,7 @@ EOF
 
 " UI
 """"
+" set termguicolors
 
 " Global statusline
 set laststatus=3
@@ -564,13 +580,11 @@ let g:goyo_width = 120
 " On window resize, if goyo is active, do <c-w>= to resize the window
 " https://github.com/junegunn/goyo.vim/issues/159#issuecomment-342417487
 autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
+]])
 
-" indent-blankline.nvim
-lua << EOF
+-- indent-blankline.nvim
 require("ibl").setup()
-EOF
 
-lua << EOF
 -- Set nvim-notify as default notify function and hide "No information available" messages from language servers.
 -- https://github.com/neovim/nvim-lspconfig/issues/1931#issuecomment-1297599534
 local banned_messages = { "No information available" }
@@ -582,12 +596,9 @@ vim.notify = function(msg, ...)
   end
   return require("notify")(msg, ...)
 end
-EOF
 
-lua << EOF
 require('nvim-highlight-colors').setup({
   -- Render style
   -- @usage 'background'|'foreground'|'virtual'
   render = 'background',
 })
-EOF
