@@ -161,6 +161,11 @@ SETTINGS
 --  See `:help hlsearch`
 vim.keymap.set('n', '<CR>', '<cmd>nohlsearch<CR>')
 
+-- Visually select the word then double tap // to search what’s been selected
+-- https://www.reddit.com/r/vim/comments/10k690h/comment/j5qz9j0/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+-- http://vim.wikia.com/wiki/Search_for_visually_selected_text#Simple
+vim.keymap.set('v', '//', 'y/\\V<C-R>"<CR>')
+
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
@@ -216,15 +221,6 @@ vim.keymap.set('n', '<Leader>gn', '<Plug>(GitGutterNextHunk)', { noremap = true,
 vim.keymap.set('n', '<Leader>gp', '<Plug>(GitGutterPrevHunk)', { noremap = true, silent = true, desc = 'Previous git hunk' })
 
 vim.g.gutentags_ctags_exclude = { 'dist', '*-lock.json', 'build', 'dist', 'node_modules', 'xeno' }
-
-vim.cmd([[
-" Exact search for visually selected text (without backslashes)
-" http://vim.wikia.com/wiki/Search_for_visually_selected_text#Simple
-vnoremap // y/\V<C-R>"<CR>
-
-" Switch to current directory
-" nnoremap <Leader>cd :cd %:p:h<CR>
-]])
 
 --[[
 BUFFERS
