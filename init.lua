@@ -218,7 +218,6 @@ vim.keymap.set('n', '<Leader>gp', '<Plug>(GitGutterPrevHunk)', { noremap = true,
 vim.g.gutentags_ctags_exclude = { 'dist', '*-lock.json', 'build', 'dist', 'node_modules', 'xeno' }
 
 vim.cmd([[
-
 " Exact search for visually selected text (without backslashes)
 " http://vim.wikia.com/wiki/Search_for_visually_selected_text#Simple
 vnoremap // y/\V<C-R>"<CR>
@@ -266,21 +265,16 @@ LISTS
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
-vim.cmd([[
-" Close quickfix and location-list when selecting file
-" http://stackoverflow.com/a/21326968/7010222
-" http://stackoverflow.com/a/10850835/7010222
-autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose <CR>:lclose<CR>
+-- Close quickfix menu after selecting choice
+-- https://stackoverflow.com/a/75039844/7010222
+vim.api.nvim_create_autocmd(
+  "FileType", {
+  pattern={"qf"},
+  command=[[nnoremap <buffer> <CR> <CR>:cclose<CR>]]})
 
-" TREE EXPLORER
-"""""""""""""""
-
-" Toggle, reveal file in Neo-tree
-" https://github.com/nvim-neo-tree/neo-tree.nvim#the-neotree-command
-noremap <Leader>m :Neotree toggle left<CR>
-noremap <Leader>n :Neotree toggle float<CR>
-noremap <Leader>p :Neotree filesystem reveal left<CR>
-]])
+--[[
+TREE EXPLORER
+--]]
 
 require('neo-tree').setup({
   window = {
@@ -294,50 +288,36 @@ require('neo-tree').setup({
   },
 })
 
-vim.cmd([[
-" Absolute width of netrw window
-let g:netrw_winsize = 25
+-- Toggle, reveal file in Neo-tree
+vim.keymap.set('n', '<Leader>m', ':Neotree toggle left<CR>')
+vim.keymap.set('n', '<Leader>n', ':Neotree toggle float<CR>')
+vim.keymap.set('n', '<Leader>p', ':Neotree filesystem reveal left<CR>')
 
-" Do not display info on the top of window
-let g:netrw_banner = 0
+--[[
+STATUSLINE
+--]]
 
-" tree-view
-let g:netrw_liststyle = 3
+-- Use bufferline instead of tabline
+vim.g['airline#extensions#tabline#enabled'] = 0
 
-" STATUS/TABLINE
-""""""""""""""""
+-- Use straight statusline
+vim.g.airline_left_sep = ''
+vim.g.airline_right_sep = ''
 
-" Tab line
-" let g:airline#extensions#tabline#enabled = 2
-let g:airline#extensions#tabline#enabled = 0
+-- Show git branch from statusline
+-- https://github.com/vim-airline/vim-airline/issues/605#issue-43567680
+vim.g['airline#extensions#branch#enabled'] = 1
 
-" Just show the filename (no path) in the tab
-let g:airline#extensions#tabline#fnamemod = ':t'
+-- Disable git hunks
+vim.g['airline#extensions#hunks#enabled'] = 0
 
-" Uniquify buffers names with similar filename, suppressing common parts of paths
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+-- Powerline font symbols
+-- https://github.com/vim-airline/vim-airline/wiki/FAQ#the-powerline-font-symbols-are-not-showing-up
+vim.g.airline_powerline_fonts = 1
 
-" Use straight statusline
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-
-" Use straight tabs
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-
-" Show git branch from statusline
-" https://github.com/vim-airline/vim-airline/issues/605#issue-43567680
-let g:airline#extensions#branch#enabled = 1
-
-" Disable git hunks
-let g:airline#extensions#hunks#enabled = 0
-
-" Powerline font symbols
-" https://github.com/vim-airline/vim-airline/wiki/FAQ#the-powerline-font-symbols-are-not-showing-up
-let g:airline_powerline_fonts=1
-]])
-
--- FUZZY FINDER
+--[[
+FUZZY FINDER
+--]]
 
 local telescope = require("telescope")
 local actions = require("telescope.actions")
@@ -512,19 +492,45 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
+--[[
+UI
+--]]
+
+-- Use true color
+-- https://github.com/neovim/neovim/wiki/FAQ#how-can-i-use-true-color-in-the-terminal
+vim.o.termguicolors = true
+
+-- Statusline always and ONLY the last window
+vim.opt.laststatus = 3
+
+-- The BASE16_THEME environment variable (from tinted-shell) will set to your current colorscheme
+-- https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#base16-vim-users
+local current_theme_name = os.getenv('BASE16_THEME')
+if current_theme_name and vim.g.colors_name ~= 'base16-'..current_theme_name then
+  vim.cmd('let base16colorspace=256')
+  vim.cmd('colorscheme base16-'..current_theme_name)
+    vim.g.airline_theme = 'base16_vim'
+    -- More monotonic look
+    vim.g.airline_base16_monotone = 1
+    -- Improve the contrast for the inactive statusline
+    vim.g.airline_base16_improved_contrast = 1
+end
+
+-- Source the set_theme scripts to initialise the Vim theme
+-- https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#tmux--vim
+local set_theme_path = "$HOME/.config/tinted-theming/set_theme.lua"
+local is_set_theme_file_readable = vim.fn.filereadable(vim.fn.expand(set_theme_path)) == 1 and true or false
+
+if is_set_theme_file_readable then
+  vim.cmd("let base16colorspace=256")
+  -- TODO: Add a keyboard shortcut to source this file
+  vim.cmd("source " .. set_theme_path)
+end
+
+-- TODO: max line length variable
+vim.g.goyo_width = 120
+
 vim.cmd([[
-
-" UI
-""""
-" set termguicolors
-
-" Global statusline
-set laststatus=3
-
-" Use true color
-" https://github.com/neovim/neovim/wiki/FAQ#how-can-i-use-true-color-in-the-terminal
-" set termguicolors
-
 " Fix highlighting for spell checks in terminal
 " Colors: https://github.com/chriskempson/base16/blob/master/styling.md
 " Arguments: group, guifg, guibg, ctermfg, ctermbg, attr, guisp
@@ -532,49 +538,18 @@ set laststatus=3
 " https://github.com/chriskempson/base16-vim/issues/182#issue-336531173
 "
 " TODO: if has(termguicolors) set ... else
-function! s:base16_customize() abort
-  call Base16hi("SpellBad",   "", "", g:base16_cterm08, g:base16_cterm00, "", "")
-  call Base16hi("SpellCap",   "", "", g:base16_cterm0A, g:base16_cterm00, "", "")
-  call Base16hi("SpellLocal", "", "", g:base16_cterm0D, g:base16_cterm00, "", "")
-  call Base16hi("SpellRare",  "", "", g:base16_cterm0B, g:base16_cterm00, "", "")
-endfunction
+" function! s:base16_customize() abort
+"   call Base16hi("SpellBad",   "", "", g:base16_cterm08, g:base16_cterm00, "", "")
+"   call Base16hi("SpellCap",   "", "", g:base16_cterm0A, g:base16_cterm00, "", "")
+"   call Base16hi("SpellLocal", "", "", g:base16_cterm0D, g:base16_cterm00, "", "")
+"   call Base16hi("SpellRare",  "", "", g:base16_cterm0B, g:base16_cterm00, "", "")
+" endfunction
 
 " See also: https://github.com/junegunn/goyo.vim#faq
-augroup on_change_colorschema
-  autocmd!
-  autocmd ColorScheme * call s:base16_customize()
-augroup END
-
-function! SetupTheme(theme_str)
-  if (a:theme_str == 'base16')
-    " 256 colorspace for base16
-    let g:base16colorspace=256
-    colorscheme base16-$BASE16_THEME
-    let g:airline_theme = 'base16_vim'
-    " More monotonic look
-    let g:airline_base16_monotone = 1
-    " Improve the contrast for the inactive statusline
-    let g:airline_base16_improved_contrast = 1
-  endif
-endfunction
-
-" https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#base16-vim-users
-if exists('$BASE16_THEME')
-      \ && (!exists('g:colors_name') || g:colors_name != 'base16-$BASE16_THEME')
-  call SetupTheme('base16')
-endif
-
-" Tmux & Vim
-" https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#tmux--vim
-" NOTE/TODO: File needs to be sourced manually after theme is changed
-if filereadable(expand("$HOME/.config/tinted-theming/set_theme.vim"))
-  let base16colorspace=256
-  " TODO: Add a keyboard shortcut to source this file
-  source $HOME/.config/tinted-theming/set_theme.vim
-endif
-
-" TODO: max line length variable
-let g:goyo_width = 120
+" augroup on_change_colorschema
+"   autocmd!
+"   autocmd ColorScheme * call s:base16_customize()
+" augroup END
 
 " On window resize, if goyo is active, do <c-w>= to resize the window
 " https://github.com/junegunn/goyo.vim/issues/159#issuecomment-342417487
