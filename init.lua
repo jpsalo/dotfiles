@@ -521,9 +521,6 @@ if is_set_theme_file_readable then
   vim.cmd("source " .. set_theme_path)
 end
 
--- TODO: max line length variable
-vim.g.goyo_width = 120
-
 vim.cmd([[
 " Fix highlighting for spell checks in terminal
 " Colors: https://github.com/chriskempson/base16/blob/master/styling.md
@@ -544,11 +541,21 @@ vim.cmd([[
 "   autocmd!
 "   autocmd ColorScheme * call s:base16_customize()
 " augroup END
-
-" On window resize, if goyo is active, do <c-w>= to resize the window
-" https://github.com/junegunn/goyo.vim/issues/159#issuecomment-342417487
-autocmd VimResized * if exists('#goyo') | exe "normal \<c-w>=" | endif
 ]])
+
+-- Zen mode
+vim.g.goyo_width = 120 -- TODO: max line length variable from ~/.editorconfig
+
+ -- On window resize, if goyo is active, do <c-w>= to resize the window
+ -- https://github.com/junegunn/goyo.vim/issues/159#issuecomment-342417487
+vim.api.nvim_create_autocmd("VimResized", {
+  pattern = "*",
+  callback = function()
+    if vim.fn.exists('#goyo') ~= 0 then
+      vim.cmd("normal <c-w>=")
+    end
+  end,
+})
 
 -- Indent guides
 require("ibl").setup()
