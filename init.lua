@@ -380,18 +380,18 @@ telescope.load_extension('live_grep_args')
 local builtin = require('telescope.builtin')
 local extensions = require('telescope').extensions
 vim.keymap.set('n', '<Leader><Leader>', builtin.find_files, {})
-vim.keymap.set('n', '<leader>g', extensions.live_grep_args.live_grep_args, {})
-vim.keymap.set('n', '<leader>b', builtin.buffers, {})
-vim.keymap.set('n', '<leader>t', builtin.help_tags, {})
+vim.keymap.set('n', '<Leader>g', extensions.live_grep_args.live_grep_args, {})
+vim.keymap.set('n', '<Leader>b', builtin.buffers, {})
+vim.keymap.set('n', '<Leader>t', builtin.help_tags, {})
 
 -- Print the paths with at least one match and suppress match contents.
 -- Inspiration: https://github.com/nvim-telescope/telescope.nvim/issues/647#issuecomment-1536456802
 -- NOTE: live_grep_args supports additional_args, but it doesn't work with --files-with-matches. See https://github.com/nvim-telescope/telescope-live-grep-args.nvim/issues/65#issuecomment-2093181733
-vim.keymap.set('n', '<leader>7', function() builtin.live_grep({ additional_args = { '--files-with-matches' } }) end)
+vim.keymap.set('n', '<Leader>7', function() builtin.live_grep({ additional_args = { '--files-with-matches' } }) end)
 
 -- Live grep for the word under the cursor
 local live_grep_args_shortcuts = require('telescope-live-grep-args.shortcuts')
-vim.keymap.set('n', '<leader>gc', live_grep_args_shortcuts.grep_word_under_cursor)
+vim.keymap.set('n', '<Leader>gc', live_grep_args_shortcuts.grep_word_under_cursor)
 
 -- [[ Buffers ]]
 
@@ -426,7 +426,7 @@ vim.keymap.set('n', '<Leader>bd', ':bd<CR>', { noremap = true, silent = true, de
 -- [[ Lists ]]
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<Leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Close quickfix menu after selecting choice
 -- https://stackoverflow.com/a/75039844/7010222
