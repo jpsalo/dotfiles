@@ -127,7 +127,7 @@ setup_base_configuration() {
 
   install_package fzf
 
-  install_package ripgrep
+  install_package ripgrep rg
 
   install_package the_silver_searcher ag
   backup_existing_file $HOME/.ignore
@@ -249,9 +249,9 @@ setup_neovim() {
   fi
 
   validate_directory $HOME/.config/nvim
-  backup_existing_file $HOME/.config/nvim/init.vim
+  backup_existing_file $HOME/.config/nvim/init.lua
   # backup_existing_file $HOME/.config/nvim/coc-settings.json
-  create_symlink init.vim $HOME/.config/nvim/init.vim
+  create_symlink init.lua $HOME/.config/nvim/init.lua
   # create_symlink coc-settings.json $HOME/.config/nvim/coc-settings.json
 
   backup_existing_file $HOME/.editorconfig
