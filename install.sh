@@ -253,9 +253,7 @@ setup_neovim() {
   create_symlink init.lua $HOME/.config/nvim/init.lua
 
   backup_existing_file $HOME/.editorconfig
-  backup_existing_file $HOME/.tern-project
   create_symlink editorconfig
-  create_symlink tern-project
 }
 
 setup_ui() {
