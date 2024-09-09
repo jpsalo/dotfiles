@@ -254,7 +254,7 @@ lsp_zero.extend_lspconfig({
 require('mason').setup({})
 require('mason-lspconfig').setup({
   -- NOTE: Create a pyrightconfig.json file in the root of the project
-  ensure_installed = {'vimls', 'lua_ls', 'marksman', 'html', 'cssls', 'jsonls', 'eslint', 'angularls', 'pyright', 'ruff'},
+  ensure_installed = {'vimls', 'lua_ls', 'marksman', 'html', 'cssls', 'jsonls', 'ts_ls', 'eslint', 'angularls', 'pyright', 'ruff'},
   handlers = {
     function(server_name)
       require('lspconfig')[server_name].setup({})
