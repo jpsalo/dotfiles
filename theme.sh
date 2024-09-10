@@ -17,7 +17,15 @@ get_xres_col() {
 }
 
 set_theme_fn() {
-  theme=$1
+  if [ "$1" = "default" ]; then
+    theme=$DEFAULT
+  elif [ "$1" = "dark" ]; then
+    theme=$DEFAULT_DARK
+  elif [ "$1" = "light" ]; then
+    theme=$DEFAULT_LIGHT
+  else
+    theme=$1
+  fi
 
   # https://github.com/tinted-theming/base16-xresources
   xresources_theme="https://raw.githubusercontent.com/base16-project/base16-xresources/main/xresources/base16-${theme}-256.Xresources"
@@ -32,6 +40,14 @@ set_theme_fn() {
 
     sed --in-place --follow-symlinks '/color_good /s/=.*$/= "'"$color_good"'"/' $HOME/.config/i3status/config
     sed --in-place --follow-symlinks '/color_bad /s/=.*$/= "'"$color_bad"'"/'   $HOME/.config/i3status/config
+
+    if [ -f ~/.config/gtk-3.0/settings.ini ]; then
+      if [ "$1" = "dark" ]; then
+        sed --in-place 's/gtk-application-prefer-dark-theme=.*/gtk-application-prefer-dark-theme=true/' ~/.config/gtk-3.0/settings.ini
+      elif [ "$1" = "light" ]; then
+        sed --in-place 's/gtk-application-prefer-dark-theme=.*/gtk-application-prefer-dark-theme=false/' ~/.config/gtk-3.0/settings.ini
+      fi
+    fi
 
     i3-msg reload
   fi
@@ -93,14 +109,6 @@ set_wallpaper() {
   feh --bg-scale $HOME/.wallpaper.png
 }
 
-if [ "$1" = "default" ]; then
-  set_theme_fn $DEFAULT
-elif [ "$1" = "dark" ]; then
-  set_theme_fn $DEFAULT_DARK
-elif [ "$1" = "light" ]; then
-  set_theme_fn $DEFAULT_LIGHT
-else
-  set_theme_fn $1
-fi
+set_theme_fn $1
 
 set_wallpaper
