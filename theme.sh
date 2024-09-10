@@ -10,7 +10,7 @@ BASE16_SHELL_PATH="$HOME/.config/tinted-theming/tinted-shell"
 
 DEFAULT="default-dark"
 DEFAULT_DARK="material"
-DEFAULT_LIGHT="catppuccin-latte"
+DEFAULT_LIGHT="solarized-light"
 
 get_xres_col() {
   xrdb -query | grep $1 | cut -f 2
