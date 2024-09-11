@@ -235,14 +235,6 @@ local lsp_zero = require('lsp-zero')
 
 local lsp_attach = function(client, bufnr)
   local opts = {buffer = bufnr}
-
-  -- TODO: https://github.com/jpsalo/dotfiles/issues/13
-  vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   vim.keymap.set('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   vim.keymap.set({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<CR>', opts)
   vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
@@ -433,19 +425,29 @@ telescope.load_extension('live_grep_args')
 
 local builtin = require('telescope.builtin')
 local extensions = require('telescope').extensions
-vim.keymap.set('n', '<Leader><Leader>', builtin.find_files, {})
-vim.keymap.set('n', '<Leader>g', extensions.live_grep_args.live_grep_args, {})
-vim.keymap.set('n', '<Leader>b', builtin.buffers, {})
-vim.keymap.set('n', '<Leader>t', builtin.help_tags, {})
+local live_grep_args_shortcuts = require('telescope-live-grep-args.shortcuts')
 
+-- File pickers
+vim.keymap.set('n', '<Leader><Leader>', builtin.find_files, {})
+vim.keymap.set('n', '<Leader>fg', extensions.live_grep_args.live_grep_args, {})
 -- Print the paths with at least one match and suppress match contents.
 -- Inspiration: https://github.com/nvim-telescope/telescope.nvim/issues/647#issuecomment-1536456802
 -- NOTE: live_grep_args supports additional_args, but it doesn't work with --files-with-matches. See https://github.com/nvim-telescope/telescope-live-grep-args.nvim/issues/65#issuecomment-2093181733
 vim.keymap.set('n', '<Leader>7', function() builtin.live_grep({ additional_args = { '--files-with-matches' } }) end)
-
 -- Live grep for the word under the cursor
-local live_grep_args_shortcuts = require('telescope-live-grep-args.shortcuts')
 vim.keymap.set('n', '<Leader>gc', live_grep_args_shortcuts.grep_word_under_cursor)
+
+-- Vim pickers
+vim.keymap.set('n', '<Leader>b', builtin.buffers, {})
+vim.keymap.set('n', '<Leader>t', builtin.help_tags, {})
+-- TODO: command_history
+-- TODO: search_history
+
+-- LSP pickers
+vim.keymap.set('n', '<Leader>gd', builtin.lsp_definitions, {})
+vim.keymap.set('n', '<Leader>gi', builtin.lsp_implementations, {})
+vim.keymap.set('n', '<Leader>go', builtin.lsp_type_definitions, {})
+vim.keymap.set('n', '<Leader>gr', builtin.lsp_references, {})
 
 -- [[ Buffers ]]
 
