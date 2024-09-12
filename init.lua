@@ -263,7 +263,6 @@ lsp_zero.extend_lspconfig({
 
 require("mason").setup({})
 require("mason-lspconfig").setup({
-  -- NOTE: Create a pyrightconfig.json file in the root of the project for pyright
   ensure_installed = {
     "vimls",
     "lua_ls",
@@ -274,7 +273,7 @@ require("mason-lspconfig").setup({
     "ts_ls",
     "eslint",
     "angularls",
-    "pyright",
+    "pyright", -- NOTE: Create a pyrightconfig.json file in the root of the project for pyright
     "ruff",
   },
   handlers = {
@@ -401,7 +400,7 @@ cmp.setup.cmdline(":", {
 local js_formatters = { "prettierd", "prettier", stop_after_first = true }
 require("conform").setup({
   formatters_by_ft = {
-    lua = { "stylua" },
+    lua = { "stylua" }, -- Basic settings are defined in ~/.editorconfig
     javascript = js_formatters,
     typescript = js_formatters,
     typescriptreact = js_formatters,
