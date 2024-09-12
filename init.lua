@@ -79,6 +79,7 @@ Plug("nvim-treesitter/nvim-treesitter", { ["do"] = ":TSUpdate" })
 Plug("neovim/nvim-lspconfig")
 Plug("williamboman/mason.nvim")
 Plug("williamboman/mason-lspconfig.nvim")
+Plug("WhoIsSethDaniel/mason-tool-installer.nvim")
 Plug("hrsh7th/nvim-cmp")
 Plug("hrsh7th/cmp-nvim-lsp")
 Plug("hrsh7th/cmp-buffer")
@@ -88,7 +89,6 @@ Plug("VonHeikemen/lsp-zero.nvim", { ["branch"] = "v4.x" })
 
 -- Formatter
 Plug("stevearc/conform.nvim")
-Plug("zapling/mason-conform.nvim")
 
 -- Management of tags files
 -- NOTE: requires ctags
@@ -263,19 +263,6 @@ lsp_zero.extend_lspconfig({
 
 require("mason").setup({})
 require("mason-lspconfig").setup({
-  ensure_installed = {
-    "vimls",
-    "lua_ls",
-    "marksman",
-    "html",
-    "cssls",
-    "jsonls",
-    "ts_ls",
-    "eslint",
-    "angularls",
-    "pyright", -- NOTE: Create a pyrightconfig.json file in the root of the project for pyright
-    "ruff",
-  },
   handlers = {
     function(server_name)
       require("lspconfig")[server_name].setup({})
@@ -314,6 +301,26 @@ require("mason-lspconfig").setup({
         },
       })
     end,
+  },
+})
+
+require("mason-tool-installer").setup({
+  ensure_installed = {
+    "vimls",
+    "lua_ls",
+    "stylua",
+    "marksman",
+    "html",
+    "cssls",
+    "jsonls",
+    "ts_ls",
+    "eslint",
+    "angularls",
+    "pyright", -- NOTE: Create a pyrightconfig.json file in the root of the project for pyright
+    "ruff",
+  },
+  integrations = {
+    ["mason-lspconfig"] = true,
   },
 })
 
@@ -407,8 +414,6 @@ require("conform").setup({
     python = { "ruff_fix", "ruff_format" },
   },
 })
-
-require("mason-conform").setup()
 
 -- Format on save
 vim.api.nvim_create_autocmd("BufWritePre", {
