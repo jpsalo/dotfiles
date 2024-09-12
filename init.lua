@@ -88,6 +88,7 @@ Plug('VonHeikemen/lsp-zero.nvim', {['branch'] = 'v4.x'})
 
 -- Formatter
 Plug('stevearc/conform.nvim')
+Plug('zapling/mason-conform.nvim')
 
 -- Management of tags files
 -- NOTE: requires ctags
@@ -248,7 +249,7 @@ lsp_zero.extend_lspconfig({
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  -- NOTE: Create a pyrightconfig.json file in the root of the project
+  -- NOTE: Create a pyrightconfig.json file in the root of the project for pyright
   ensure_installed = {'vimls', 'lua_ls', 'marksman', 'html', 'cssls', 'jsonls', 'ts_ls', 'eslint', 'angularls', 'pyright', 'ruff'},
   handlers = {
     function(server_name)
@@ -374,12 +375,15 @@ cmp.setup.cmdline(':', {
 local js_formatters = { "prettierd", "prettier", stop_after_first = true }
 require("conform").setup({
   formatters_by_ft = {
+    lua = { 'stylua' },
     javascript = js_formatters,
     typescript = js_formatters,
     typescriptreact = js_formatters,
     python = { "ruff_fix", "ruff_format" },
   },
 })
+
+require('mason-conform').setup()
 
 -- Format on save
 vim.api.nvim_create_autocmd("BufWritePre", {
