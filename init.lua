@@ -175,60 +175,60 @@ local cond = require("nvim-autopairs.conds")
 -- https://github.com/windwp/nvim-autopairs/wiki/Custom-rules#add-spaces-between-parentheses
 local brackets = { { "(", ")" }, { "[", "]" }, { "{", "}" } }
 npairs.add_rules({
-	-- Rule for a pair with left-side ' ' and right side ' '
-	Rule(" ", " ")
-		-- Pair will only occur if the conditional function returns true
-		:with_pair(function(opts)
-			-- We are checking if we are inserting a space in (), [], or {}
-			local pair = opts.line:sub(opts.col - 1, opts.col)
-			return vim.tbl_contains({
-				brackets[1][1] .. brackets[1][2],
-				brackets[2][1] .. brackets[2][2],
-				brackets[3][1] .. brackets[3][2],
-			}, pair)
-		end)
-		:with_move(cond.none())
-		:with_cr(cond.none())
-		-- We only want to delete the pair of spaces when the cursor is as such: ( | )
-		:with_del(function(opts)
-			local col = vim.api.nvim_win_get_cursor(0)[2]
-			local context = opts.line:sub(col - 1, col + 2)
-			return vim.tbl_contains({
-				brackets[1][1] .. "  " .. brackets[1][2],
-				brackets[2][1] .. "  " .. brackets[2][2],
-				brackets[3][1] .. "  " .. brackets[3][2],
-			}, context)
-		end),
+  -- Rule for a pair with left-side ' ' and right side ' '
+  Rule(" ", " ")
+    -- Pair will only occur if the conditional function returns true
+    :with_pair(function(opts)
+      -- We are checking if we are inserting a space in (), [], or {}
+      local pair = opts.line:sub(opts.col - 1, opts.col)
+      return vim.tbl_contains({
+        brackets[1][1] .. brackets[1][2],
+        brackets[2][1] .. brackets[2][2],
+        brackets[3][1] .. brackets[3][2],
+      }, pair)
+    end)
+    :with_move(cond.none())
+    :with_cr(cond.none())
+    -- We only want to delete the pair of spaces when the cursor is as such: ( | )
+    :with_del(function(opts)
+      local col = vim.api.nvim_win_get_cursor(0)[2]
+      local context = opts.line:sub(col - 1, col + 2)
+      return vim.tbl_contains({
+        brackets[1][1] .. "  " .. brackets[1][2],
+        brackets[2][1] .. "  " .. brackets[2][2],
+        brackets[3][1] .. "  " .. brackets[3][2],
+      }, context)
+    end),
 })
 -- For each pair of brackets we will add another rule
 for _, bracket in pairs(brackets) do
-	npairs.add_rules({
-		-- Each of these rules is for a pair with left-side '( ' and right-side ' )' for each bracket type
-		Rule(bracket[1] .. " ", " " .. bracket[2])
-			:with_pair(cond.none())
-			:with_move(function(opts)
-				return opts.char == bracket[2]
-			end)
-			:with_del(cond.none())
-			:use_key(bracket[2])
-			-- Removes the trailing whitespace that can occur without this
-			:replace_map_cr(function(_)
-				return "<C-c>2xi<CR><C-c>O"
-			end),
-	})
+  npairs.add_rules({
+    -- Each of these rules is for a pair with left-side '( ' and right-side ' )' for each bracket type
+    Rule(bracket[1] .. " ", " " .. bracket[2])
+      :with_pair(cond.none())
+      :with_move(function(opts)
+        return opts.char == bracket[2]
+      end)
+      :with_del(cond.none())
+      :use_key(bracket[2])
+      -- Removes the trailing whitespace that can occur without this
+      :replace_map_cr(function(_)
+        return "<C-c>2xi<CR><C-c>O"
+      end),
+  })
 end
 
 vim.keymap.set(
-	"n",
-	"<Leader>gn",
-	"<Plug>(GitGutterNextHunk)",
-	{ noremap = true, silent = true, desc = "Next git hunk" }
+  "n",
+  "<Leader>gn",
+  "<Plug>(GitGutterNextHunk)",
+  { noremap = true, silent = true, desc = "Next git hunk" }
 )
 vim.keymap.set(
-	"n",
-	"<Leader>gp",
-	"<Plug>(GitGutterPrevHunk)",
-	{ noremap = true, silent = true, desc = "Previous git hunk" }
+  "n",
+  "<Leader>gp",
+  "<Plug>(GitGutterPrevHunk)",
+  { noremap = true, silent = true, desc = "Previous git hunk" }
 )
 
 vim.g.gutentags_ctags_exclude = { "dist", "*-lock.json", "build", "dist", "node_modules", "xeno" }
@@ -236,187 +236,187 @@ vim.g.gutentags_ctags_exclude = { "dist", "*-lock.json", "build", "dist", "node_
 -- [[ Intellisense ]]
 
 require("nvim-treesitter.configs").setup({
-	ensure_installed = { "lua", "vim", "vimdoc", "markdown", "typescript", "angular", "html", "json", "python", "tsx" },
-	-- Automatically install missing parsers when entering buffer
-	-- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-	auto_install = false,
-	highlight = {
-		enable = true,
-	},
+  ensure_installed = { "lua", "vim", "vimdoc", "markdown", "typescript", "angular", "html", "json", "python", "tsx" },
+  -- Automatically install missing parsers when entering buffer
+  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+  auto_install = false,
+  highlight = {
+    enable = true,
+  },
 })
 
 -- LSP configuration
 local lsp_zero = require("lsp-zero")
 
 local lsp_attach = function(client, bufnr)
-	local opts = { buffer = bufnr }
-	vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-	vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts)
-	vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  local opts = { buffer = bufnr }
+  vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+  vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts)
+  vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 end
 
 lsp_zero.extend_lspconfig({
-	sign_text = true,
-	lsp_attach = lsp_attach,
-	capabilities = require("cmp_nvim_lsp").default_capabilities(),
+  sign_text = true,
+  lsp_attach = lsp_attach,
+  capabilities = require("cmp_nvim_lsp").default_capabilities(),
 })
 
 require("mason").setup({})
 require("mason-lspconfig").setup({
-	-- NOTE: Create a pyrightconfig.json file in the root of the project for pyright
-	ensure_installed = {
-		"vimls",
-		"lua_ls",
-		"marksman",
-		"html",
-		"cssls",
-		"jsonls",
-		"ts_ls",
-		"eslint",
-		"angularls",
-		"pyright",
-		"ruff",
-	},
-	handlers = {
-		function(server_name)
-			require("lspconfig")[server_name].setup({})
-		end,
+  -- NOTE: Create a pyrightconfig.json file in the root of the project for pyright
+  ensure_installed = {
+    "vimls",
+    "lua_ls",
+    "marksman",
+    "html",
+    "cssls",
+    "jsonls",
+    "ts_ls",
+    "eslint",
+    "angularls",
+    "pyright",
+    "ruff",
+  },
+  handlers = {
+    function(server_name)
+      require("lspconfig")[server_name].setup({})
+    end,
 
-		lua_ls = function()
-			require("lspconfig").lua_ls.setup({
-				on_init = function(client)
-					lsp_zero.nvim_lua_settings(client, {})
-				end,
-				settings = {
-					Lua = {
-						diagnostics = {
-							globals = { "vim" },
-						},
-					},
-				},
-			})
-		end,
+    lua_ls = function()
+      require("lspconfig").lua_ls.setup({
+        on_init = function(client)
+          lsp_zero.nvim_lua_settings(client, {})
+        end,
+        settings = {
+          Lua = {
+            diagnostics = {
+              globals = { "vim" },
+            },
+          },
+        },
+      })
+    end,
 
-		-- Use Ruff exclusively for linting, formatting and organizing imports, and disable those capabilities in Pyright
-		-- https://github.com/astral-sh/ruff-lsp?tab=readme-ov-file#example-neovim
-		pyright = function()
-			require("lspconfig").pyright.setup({
-				settings = {
-					pyright = {
-						-- Using Ruff's import organizer
-						disableOrganizeImports = true,
-					},
-					python = {
-						analysis = {
-							-- Ignore all files for analysis to exclusively use Ruff for linting
-							ignore = { "*" },
-						},
-					},
-				},
-			})
-		end,
-	},
+    -- Use Ruff exclusively for linting, formatting and organizing imports, and disable those capabilities in Pyright
+    -- https://github.com/astral-sh/ruff-lsp?tab=readme-ov-file#example-neovim
+    pyright = function()
+      require("lspconfig").pyright.setup({
+        settings = {
+          pyright = {
+            -- Using Ruff's import organizer
+            disableOrganizeImports = true,
+          },
+          python = {
+            analysis = {
+              -- Ignore all files for analysis to exclusively use Ruff for linting
+              ignore = { "*" },
+            },
+          },
+        },
+      })
+    end,
+  },
 })
 
 -- A completion plugin
 local cmp = require("cmp")
 
 cmp.setup({
-	sources = {
-		{ name = "nvim_lsp" },
-		{ name = "buffer" },
-		{ name = "path" },
-	},
-	snippet = {
-		expand = function(args)
-			vim.snippet.expand(args.body)
-		end,
-	},
-	mapping = cmp.mapping.preset.insert({
-		["<C-Space>"] = cmp.mapping(cmp.mapping.complete({}), { "i", "c" }), -- open manually in insert mode
-		["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
-		["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
-		["<CR>"] = cmp.mapping.confirm({ select = true }), -- confirm without selecting the item
-	}),
-	preselect = "item",
-	completion = {
-		completeopt = "menu,menuone,noinsert",
-	},
-	formatting = {
-		format = require("nvim-highlight-colors").format,
-	},
+  sources = {
+    { name = "nvim_lsp" },
+    { name = "buffer" },
+    { name = "path" },
+  },
+  snippet = {
+    expand = function(args)
+      vim.snippet.expand(args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ["<C-Space>"] = cmp.mapping(cmp.mapping.complete({}), { "i", "c" }), -- open manually in insert mode
+    ["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
+    ["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
+    ["<CR>"] = cmp.mapping.confirm({ select = true }), -- confirm without selecting the item
+  }),
+  preselect = "item",
+  completion = {
+    completeopt = "menu,menuone,noinsert",
+  },
+  formatting = {
+    format = require("nvim-highlight-colors").format,
+  },
 })
 
 -- https://github.com/hrsh7th/cmp-cmdline/issues/70#issuecomment-1927004734
 local cmp_cmdline_select_prev_item = {
-	c = function()
-		if cmp.visible() then
-			cmp.select_prev_item()
-		else
-			cmp.complete()
-		end
-	end,
+  c = function()
+    if cmp.visible() then
+      cmp.select_prev_item()
+    else
+      cmp.complete()
+    end
+  end,
 }
 
 local cmp_cmdline_select_next_item = {
-	c = function()
-		if cmp.visible() then
-			cmp.select_next_item()
-		else
-			cmp.complete()
-		end
-	end,
+  c = function()
+    if cmp.visible() then
+      cmp.select_next_item()
+    else
+      cmp.complete()
+    end
+  end,
 }
 
 -- `/` cmdline setup.
 cmp.setup.cmdline("/", {
-	mapping = cmp.mapping.preset.cmdline({
-		["<C-k>"] = cmp_cmdline_select_prev_item,
-		["<C-j>"] = cmp_cmdline_select_next_item,
-	}),
-	sources = {
-		{ name = "buffer" },
-	},
+  mapping = cmp.mapping.preset.cmdline({
+    ["<C-k>"] = cmp_cmdline_select_prev_item,
+    ["<C-j>"] = cmp_cmdline_select_next_item,
+  }),
+  sources = {
+    { name = "buffer" },
+  },
 })
 
 -- `:` cmdline setup.
 cmp.setup.cmdline(":", {
-	mapping = cmp.mapping.preset.cmdline({
-		["<C-k>"] = cmp_cmdline_select_prev_item,
-		["<C-j>"] = cmp_cmdline_select_next_item,
-	}),
-	sources = cmp.config.sources({
-		{ name = "path" },
-	}, {
-		{
-			name = "cmdline",
-			option = {
-				ignore_cmds = { "Man", "!" },
-			},
-		},
-	}),
+  mapping = cmp.mapping.preset.cmdline({
+    ["<C-k>"] = cmp_cmdline_select_prev_item,
+    ["<C-j>"] = cmp_cmdline_select_next_item,
+  }),
+  sources = cmp.config.sources({
+    { name = "path" },
+  }, {
+    {
+      name = "cmdline",
+      option = {
+        ignore_cmds = { "Man", "!" },
+      },
+    },
+  }),
 })
 
 -- Formatter plugin
 local js_formatters = { "prettierd", "prettier", stop_after_first = true }
 require("conform").setup({
-	formatters_by_ft = {
-		lua = { "stylua" },
-		javascript = js_formatters,
-		typescript = js_formatters,
-		typescriptreact = js_formatters,
-		python = { "ruff_fix", "ruff_format" },
-	},
+  formatters_by_ft = {
+    lua = { "stylua" },
+    javascript = js_formatters,
+    typescript = js_formatters,
+    typescriptreact = js_formatters,
+    python = { "ruff_fix", "ruff_format" },
+  },
 })
 
 require("mason-conform").setup()
 
 -- Format on save
 vim.api.nvim_create_autocmd("BufWritePre", {
-	pattern = "*",
-	callback = function(args)
-		require("conform").format({ bufnr = args.buf })
-	end,
+  pattern = "*",
+  callback = function(args)
+    require("conform").format({ bufnr = args.buf })
+  end,
 })
 
 -- [[ Fuzzy finder ]]
@@ -425,31 +425,31 @@ local telescope = require("telescope")
 local actions = require("telescope.actions")
 local lga_actions = require("telescope-live-grep-args.actions")
 require("telescope").setup({
-	defaults = {
-		file_ignore_patterns = {
-			"tags",
-		},
-		mappings = {
-			i = {
-				["<Esc>"] = actions.close,
-				["<C-j>"] = actions.move_selection_next,
-				["<C-k>"] = actions.move_selection_previous,
-			},
-		},
-	},
-	extensions = {
-		live_grep_args = {
-			auto_quoting = true, -- enable/disable auto-quoting
-			mappings = {
-				i = {
-					-- Quote prompt and add -t. Example: foo → "foo" -t
-					["<C-t>"] = lga_actions.quote_prompt({ postfix = " -t" }),
-					-- freeze the current list and start a fuzzy search in the frozen list
-					["<C-Space>"] = actions.to_fuzzy_refine,
-				},
-			},
-		},
-	},
+  defaults = {
+    file_ignore_patterns = {
+      "tags",
+    },
+    mappings = {
+      i = {
+        ["<Esc>"] = actions.close,
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+      },
+    },
+  },
+  extensions = {
+    live_grep_args = {
+      auto_quoting = true, -- enable/disable auto-quoting
+      mappings = {
+        i = {
+          -- Quote prompt and add -t. Example: foo → "foo" -t
+          ["<C-t>"] = lga_actions.quote_prompt({ postfix = " -t" }),
+          -- freeze the current list and start a fuzzy search in the frozen list
+          ["<C-Space>"] = actions.to_fuzzy_refine,
+        },
+      },
+    },
+  },
 })
 telescope.load_extension("live_grep_args")
 
@@ -464,7 +464,7 @@ vim.keymap.set("n", "<Leader>fg", extensions.live_grep_args.live_grep_args, {})
 -- Inspiration: https://github.com/nvim-telescope/telescope.nvim/issues/647#issuecomment-1536456802
 -- NOTE: live_grep_args supports additional_args, but it doesn't work with --files-with-matches. See https://github.com/nvim-telescope/telescope-live-grep-args.nvim/issues/65#issuecomment-2093181733
 vim.keymap.set("n", "<Leader>7", function()
-	builtin.live_grep({ additional_args = { "--files-with-matches" } })
+  builtin.live_grep({ additional_args = { "--files-with-matches" } })
 end)
 -- Live grep for the word under the cursor
 vim.keymap.set("n", "<Leader>gc", live_grep_args_shortcuts.grep_word_under_cursor)
@@ -484,18 +484,18 @@ vim.keymap.set("n", "<Leader>gr", builtin.lsp_references, {})
 -- [[ Buffers ]]
 
 require("bufferline").setup({
-	options = {
-		-- Sidebar offsets
-		-- https://github.com/akinsho/bufferline.nvim#sidebar-offsets
-		offsets = {
-			{
-				filetype = "neo-tree",
-				text = "File Explorer",
-				highlight = "Directory",
-				separator = true, -- use a "true" to enable the default, or set your own character
-			},
-		},
-	},
+  options = {
+    -- Sidebar offsets
+    -- https://github.com/akinsho/bufferline.nvim#sidebar-offsets
+    offsets = {
+      {
+        filetype = "neo-tree",
+        text = "File Explorer",
+        highlight = "Directory",
+        separator = true, -- use a "true" to enable the default, or set your own character
+      },
+    },
+  },
 })
 
 -- Next or previous buffer in the buffer list.
@@ -510,10 +510,10 @@ vim.keymap.set("n", "<S-Tab>", ":BufferLineCyclePrev<CR>", { noremap = true, sil
 -- https://vim.fandom.com/wiki/Easier_buffer_switching#Switching_to_the_previously_edited_buffer
 -- TODO: sometimes goes to ghost (previously active) buffer, such as, when closing last buffer
 vim.keymap.set(
-	"n",
-	"<Leader>bd",
-	":bd<CR>",
-	{ noremap = true, silent = true, desc = "Delete buffer without losing the split window" }
+  "n",
+  "<Leader>bd",
+  ":bd<CR>",
+  { noremap = true, silent = true, desc = "Delete buffer without losing the split window" }
 )
 
 -- [[ Lists ]]
@@ -524,22 +524,22 @@ vim.keymap.set("n", "<Leader>q", vim.diagnostic.setloclist, { desc = "Open diagn
 -- Close quickfix menu after selecting choice
 -- https://stackoverflow.com/a/75039844/7010222
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "qf" },
-	command = [[nnoremap <buffer> <CR> <CR>:cclose<CR>]],
+  pattern = { "qf" },
+  command = [[nnoremap <buffer> <CR> <CR>:cclose<CR>]],
 })
 
 -- [[ Tree explorer ]]
 
 require("neo-tree").setup({
-	window = {
-		-- Size of floating window
-		-- https://github.com/nvim-neo-tree/neo-tree.nvim/issues/533#issuecomment-1287950467
-		-- TODO: dimension variables
-		popup = { -- settings that apply to float position only
-			size = { height = "60%", width = "90%" },
-			position = "50%", -- 50% means center it
-		},
-	},
+  window = {
+    -- Size of floating window
+    -- https://github.com/nvim-neo-tree/neo-tree.nvim/issues/533#issuecomment-1287950467
+    -- TODO: dimension variables
+    popup = { -- settings that apply to float position only
+      size = { height = "60%", width = "90%" },
+      position = "50%", -- 50% means center it
+    },
+  },
 })
 
 -- Toggle, reveal file in Neo-tree
@@ -573,12 +573,12 @@ vim.g.airline_powerline_fonts = 1
 -- https://github.com/neovim/nvim-lspconfig/issues/1931#issuecomment-1297599534
 local banned_messages = { "No information available" }
 vim.notify = function(msg, ...)
-	for _, banned in ipairs(banned_messages) do
-		if msg == banned then
-			return
-		end
-	end
-	return require("notify")(msg, ...)
+  for _, banned in ipairs(banned_messages) do
+    if msg == banned then
+      return
+    end
+  end
+  return require("notify")(msg, ...)
 end
 
 -- [[ UI and theme ]]
@@ -594,13 +594,13 @@ vim.opt.laststatus = 3
 -- https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#base16-vim-users
 local current_theme_name = os.getenv("BASE16_THEME")
 if current_theme_name and vim.g.colors_name ~= "base16-" .. current_theme_name then
-	vim.cmd("let base16colorspace=256")
-	vim.cmd("colorscheme base16-" .. current_theme_name)
-	vim.g.airline_theme = "base16_vim"
-	-- More monotonic look
-	vim.g.airline_base16_monotone = 1
-	-- Improve the contrast for the inactive statusline
-	vim.g.airline_base16_improved_contrast = 1
+  vim.cmd("let base16colorspace=256")
+  vim.cmd("colorscheme base16-" .. current_theme_name)
+  vim.g.airline_theme = "base16_vim"
+  -- More monotonic look
+  vim.g.airline_base16_monotone = 1
+  -- Improve the contrast for the inactive statusline
+  vim.g.airline_base16_improved_contrast = 1
 end
 
 -- Source the set_theme scripts to initialise the Vim theme
@@ -609,9 +609,9 @@ local set_theme_path = "$HOME/.config/tinted-theming/set_theme.lua"
 local is_set_theme_file_readable = vim.fn.filereadable(vim.fn.expand(set_theme_path)) == 1 and true or false
 
 if is_set_theme_file_readable then
-	vim.cmd("let base16colorspace=256")
-	-- TODO: Add a keyboard shortcut to source this file
-	vim.cmd("source " .. set_theme_path)
+  vim.cmd("let base16colorspace=256")
+  -- TODO: Add a keyboard shortcut to source this file
+  vim.cmd("source " .. set_theme_path)
 end
 
 vim.cmd([[
@@ -642,12 +642,12 @@ vim.g.goyo_width = 120 -- TODO: max line length variable from ~/.editorconfig
 -- On window resize, if goyo is active, do <c-w>= to resize the window
 -- https://github.com/junegunn/goyo.vim/issues/159#issuecomment-342417487
 vim.api.nvim_create_autocmd("VimResized", {
-	pattern = "*",
-	callback = function()
-		if vim.fn.exists("#goyo") ~= 0 then
-			vim.cmd("normal <c-w>=")
-		end
-	end,
+  pattern = "*",
+  callback = function()
+    if vim.fn.exists("#goyo") ~= 0 then
+      vim.cmd("normal <c-w>=")
+    end
+  end,
 })
 
 -- Indent guides
@@ -655,7 +655,7 @@ require("ibl").setup()
 
 -- Highlight colors
 require("nvim-highlight-colors").setup({
-	-- Render style
-	-- @usage 'background'|'foreground'|'virtual'
-	render = "background",
+  -- Render style
+  -- @usage 'background'|'foreground'|'virtual'
+  render = "background",
 })
