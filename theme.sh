@@ -13,7 +13,7 @@ DEFAULT_DARK="material"
 DEFAULT_LIGHT="solarized-light"
 
 get_xres_col() {
-  xrdb -query | grep $1 | cut -f 2
+  xrdb -query | grep "$1" | cut -f 2
 }
 
 set_theme_fn() {
@@ -28,18 +28,18 @@ set_theme_fn() {
   fi
 
   # https://github.com/tinted-theming/base16-xresources
-  xresources_theme="https://raw.githubusercontent.com/base16-project/base16-xresources/main/xresources/base16-${theme}-256.Xresources"
+  xresources_theme="https://raw.githubusercontent.com/tinted-theming/tinted-xresources/main/xresources/base16-${theme}.Xresources"
   mkdir -p ~/.Xresources.d
-  curl $xresources_theme > ~/.Xresources.d/colors
-  xrdb -load -I$HOME ~/.Xresources
+  curl "$xresources_theme" > ~/.Xresources.d/colors
+  xrdb -load -I"$HOME" ~/.Xresources
 
   if [ "$XDG_CURRENT_DESKTOP" = "i3" ]
   then
     color_good="$(get_xres_col color2:)"
     color_bad="$(get_xres_col color1:)"
 
-    sed --in-place --follow-symlinks '/color_good /s/=.*$/= "'"$color_good"'"/' $HOME/.config/i3status/config
-    sed --in-place --follow-symlinks '/color_bad /s/=.*$/= "'"$color_bad"'"/'   $HOME/.config/i3status/config
+    sed --in-place --follow-symlinks '/color_good /s/=.*$/= "'"$color_good"'"/' "$HOME"/.config/i3status/config
+    sed --in-place --follow-symlinks '/color_bad /s/=.*$/= "'"$color_bad"'"/'   "$HOME"/.config/i3status/config
 
     if [ -f ~/.config/gtk-3.0/settings.ini ]; then
       if [ "$1" = "dark" ]; then
@@ -52,7 +52,7 @@ set_theme_fn() {
     i3-msg reload
   fi
 
-  set_theme $theme
+  set_theme "$theme"
 }
 
 set_wallpaper() {
@@ -80,7 +80,7 @@ set_wallpaper() {
   color20="$(get_xres_col color20:)"
   color21="$(get_xres_col color21:)"
 
-  convert -size 1920x1080 xc:$bg \
+  magick -size 1920x1080 xc:"$bg" \
      -draw "fill '$color1'  rectangle 50,   100   100,  150"  \
      -draw "fill '$color2'  rectangle 100,  100   150,  150"  \
      -draw "fill '$color3'  rectangle 150,  100   200,  150"  \
@@ -104,11 +104,11 @@ set_wallpaper() {
      -draw "fill '$color19' rectangle 250,  200   300,  250" \
      -draw "fill '$color20' rectangle 300,  200   350,  250" \
      -draw "fill '$color21' rectangle 350,  200   400,  250" \
-     $HOME/.wallpaper.png
+     "$HOME"/.wallpaper.png
 
-  feh --bg-scale $HOME/.wallpaper.png
+  feh --bg-scale "$HOME"/.wallpaper.png
 }
 
-set_theme_fn $1
+set_theme_fn "$1"
 
 set_wallpaper
