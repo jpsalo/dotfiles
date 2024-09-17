@@ -282,7 +282,7 @@ exec --no-startup-id pamac-tray
 #exec --no-startup-id clipit
 
 # https://wiki.archlinux.org/index.php/redshift#Automatic_location_based_on_GeoClue2
-exec --no-startup-id /usr/lib/geoclue-2.0/demos/agent
+# exec --no-startup-id /usr/lib/geoclue-2.0/demos/agent
 exec --no-startup-id redshift-gtk
 
 # exec --no-startup-id blueman-applet

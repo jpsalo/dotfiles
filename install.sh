@@ -120,6 +120,14 @@ setup_base_configuration() {
   backup_existing_file "$HOME"/.Xresources
   create_symlink Xresources
 
+  validate_directory "$HOME"/.config/i3
+  backup_existing_file "$HOME"/.config/i3/config
+  create_symlink i3_config "$HOME"/.config/i3/config
+
+  validate_directory "$HOME"/.config/i3status
+  backup_existing_file "$HOME"/.config/i3status/config
+  create_symlink i3status_config "$HOME"/.config/i3status/config
+
   install_package tmux
   backup_existing_file "$HOME"/tmux.conf
   create_symlink tmux.conf
