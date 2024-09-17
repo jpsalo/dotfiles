@@ -268,6 +268,10 @@ require("mason-lspconfig").setup({
       require("lspconfig")[server_name].setup({})
     end,
 
+    bashls = function()
+      require("lspconfig").bashls.setup({})
+    end,
+
     lua_ls = function()
       require("lspconfig").lua_ls.setup({
         on_init = function(client)
@@ -306,6 +310,8 @@ require("mason-lspconfig").setup({
 
 require("mason-tool-installer").setup({
   ensure_installed = {
+    "bashls",
+    "shellcheck",
     "vimls",
     "lua_ls",
     "stylua",
@@ -407,6 +413,7 @@ cmp.setup.cmdline(":", {
 local js_formatters = { "prettierd", "prettier", stop_after_first = true }
 require("conform").setup({
   formatters_by_ft = {
+    sh = { "shellcheck" },
     lua = { "stylua" }, -- Basic settings are defined in ~/.editorconfig
     javascript = js_formatters,
     typescript = js_formatters,
