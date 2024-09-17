@@ -108,10 +108,11 @@ setup_base_configuration() {
   backup_existing_file "$HOME"/ssh/config
   create_symlink ssh_config "$HOME"/.ssh/config
 
-  backup_existing_file "$HOME"/.gitconfig
-  create_symlink gitconfig
+  validate_directory "$HOME"/.config/git
+  backup_existing_file "$HOME"/.config/git/config
+  create_symlink gitconfig "$HOME"/.config/git/config
 
-  backup_existing_file "$HOME"/.gitignore
+  backup_existing_file "$HOME"/.gitignore # Probably best leave it here for root directory lookup
   create_symlink gitignore
 
   validate_directory "$HOME"/scripts
@@ -129,8 +130,9 @@ setup_base_configuration() {
   create_symlink i3status_config "$HOME"/.config/i3status/config
 
   install_package tmux
-  backup_existing_file "$HOME"/tmux.conf
-  create_symlink tmux.conf
+  validate_directory "$HOME"/.config/tmux
+  backup_existing_file "$HOME"/.config/tmux/tmux.conf
+  create_symlink tmux.conf "$HOME"/.config/tmux/tmux.conf
 
   install_package fzf
 
@@ -141,8 +143,9 @@ setup_base_configuration() {
   create_symlink ignore
 
   install_package tig
-  backup_existing_file "$HOME"/.tigrc
-  create_symlink tigrc
+  validate_directory "$HOME"/.config/tig
+  backup_existing_file "$HOME"/.config/tig/config
+  create_symlink tigrc "$HOME"/.config/tig/config
 
   validate_directory "$HOME"/.config/bat
   install_package bat
