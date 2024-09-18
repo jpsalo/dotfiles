@@ -329,6 +329,8 @@ require("mason-tool-installer").setup({
     "jsonls",
     "lua_ls",
     "marksman",
+    "prettier",
+    "prettierd",
     "pyright", -- NOTE: Create a pyrightconfig.json file in the root of the project for pyright
     "ruff",
     "shellcheck",
