@@ -236,7 +236,18 @@ vim.g.gutentags_ctags_exclude = { "dist", "*-lock.json", "build", "dist", "node_
 -- [[ Intellisense ]]
 
 require("nvim-treesitter.configs").setup({
-  ensure_installed = { "lua", "vim", "vimdoc", "markdown", "typescript", "angular", "html", "json", "python", "tsx" },
+  ensure_installed = {
+    "angular",
+    "html",
+    "json",
+    "lua",
+    "markdown",
+    "python",
+    "tsx",
+    "typescript",
+    "vim",
+    "vimdoc",
+  },
   -- Automatically install missing parsers when entering buffer
   -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
   auto_install = false,
@@ -310,20 +321,20 @@ require("mason-lspconfig").setup({
 
 require("mason-tool-installer").setup({
   ensure_installed = {
-    "bashls",
-    "shellcheck",
-    "vimls",
-    "lua_ls",
-    "stylua",
-    "marksman",
-    "html",
-    "cssls",
-    "jsonls",
-    "ts_ls",
-    "eslint",
     "angularls",
+    "bashls",
+    "cssls",
+    "eslint",
+    "html",
+    "jsonls",
+    "lua_ls",
+    "marksman",
     "pyright", -- NOTE: Create a pyrightconfig.json file in the root of the project for pyright
     "ruff",
+    "shellcheck",
+    "stylua",
+    "ts_ls",
+    "vimls",
   },
   integrations = {
     ["mason-lspconfig"] = true,
