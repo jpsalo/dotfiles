@@ -117,18 +117,6 @@ setup_base_configuration() {
 
   validate_directory "$HOME"/scripts
   create_symlink theme.sh "$HOME"/scripts/theme.sh
-
-  backup_existing_file "$HOME"/.Xresources
-  create_symlink Xresources
-
-  validate_directory "$HOME"/.config/i3
-  backup_existing_file "$HOME"/.config/i3/config
-  create_symlink i3_config "$HOME"/.config/i3/config
-
-  validate_directory "$HOME"/.config/i3status
-  backup_existing_file "$HOME"/.config/i3status/config
-  create_symlink i3status_config "$HOME"/.config/i3status/config
-
   install_package tmux
   validate_directory "$HOME"/.config/tmux
   backup_existing_file "$HOME"/.config/tmux/tmux.conf
@@ -151,6 +139,19 @@ setup_base_configuration() {
   install_package bat
   backup_existing_file "$HOME"/.config/bat/config
   create_symlink bat_config "$HOME"/.config/bat/config
+
+  if [[ $os == "arch_linux" ]]; then
+    backup_existing_file "$HOME"/.Xresources
+    create_symlink Xresources
+
+    validate_directory "$HOME"/.config/i3
+    backup_existing_file "$HOME"/.config/i3/config
+    create_symlink i3_config "$HOME"/.config/i3/config
+
+    validate_directory "$HOME"/.config/i3status
+    backup_existing_file "$HOME"/.config/i3status/config
+    create_symlink i3status_config "$HOME"/.config/i3status/config
+  fi
 }
 
 setup_terminal() {
