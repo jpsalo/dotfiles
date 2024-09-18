@@ -151,6 +151,11 @@ setup_base_configuration() {
     validate_directory "$HOME"/.config/i3status
     backup_existing_file "$HOME"/.config/i3status/config
     create_symlink i3status_config "$HOME"/.config/i3status/config
+
+    install_package redshift
+    validate_directory "$HOME"/.config/redshift
+    backup_existing_file "$HOME"/.config/redshift/redshift.conf
+    create_symlink redshift.conf "$HOME"/.config/redshift/redshift.conf
   fi
 }
 
