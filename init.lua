@@ -33,6 +33,9 @@ vim.opt.shiftwidth = 2 -- Indents will have a width of 2
 vim.opt.expandtab = true -- Sets the number of columns for a TAB
 vim.bo.softtabstop = 2 -- Expand TABs to space
 
+-- Decrease update time
+vim.opt.updatetime = 500
+
 -- Python virtualenv
 -- Set static interpreter (and pynvim package) for Neovim
 -- https://neovim.io/doc/user/provider.html#python-virtualenv
@@ -271,6 +274,10 @@ local lsp_attach = function(client, bufnr)
   vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts)
   vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 end
+
+-- Show line diagnostics
+-- https://lsp-zero.netlify.app/docs/guide/migrate-from-v1-branch.html#configure-diagnostics
+vim.keymap.set("n", "<Leader>e", "<cmd>lua vim.diagnostic.open_float()<cr>")
 
 lsp_zero.extend_lspconfig({
   sign_text = true,
