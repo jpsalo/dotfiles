@@ -133,6 +133,9 @@ Plug("airblade/vim-gitgutter")
 -- Auto-close brackets
 Plug("windwp/nvim-autopairs")
 
+-- tabout
+Plug("abecodes/tabout.nvim")
+
 -- CSS colors
 Plug("brenoprata10/nvim-highlight-colors")
 
@@ -217,6 +220,9 @@ for _, bracket in pairs(brackets) do
       end),
   })
 end
+
+-- tabout
+require("tabout").setup({})
 
 vim.keymap.set(
   "n",
