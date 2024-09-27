@@ -441,6 +441,7 @@ require("conform").setup({
   formatters_by_ft = {
     sh = { "shellcheck" },
     lua = { "stylua" }, -- Basic settings are defined in ~/.editorconfig
+    css = { "prettierd", "prettier" },
     javascript = js_formatters,
     typescript = js_formatters,
     typescriptreact = js_formatters,
