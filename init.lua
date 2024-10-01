@@ -154,6 +154,9 @@ Plug("tinted-theming/base16-vim")
 -- Indentation guides
 Plug("lukas-reineke/indent-blankline.nvim")
 
+-- Obsidian
+Plug("epwalsh/obsidian.nvim", { ["tag"] = "*" })
+
 vim.call("plug#end")
 
 -- [[ Settings ]]
@@ -698,4 +701,14 @@ require("nvim-highlight-colors").setup({
   -- Render style
   -- @usage 'background'|'foreground'|'virtual'
   render = "background",
+})
+
+-- Obsidian
+require("obsidian").setup({
+  workspaces = {
+    {
+      name = "Work",
+      path = "~/Documents/Wault",
+    },
+  },
 })
