@@ -436,16 +436,18 @@ cmp.setup.cmdline(":", {
 })
 
 -- Formatter plugin
-local js_formatters = { "prettierd", "prettier", stop_after_first = true }
+local prettier_formatters = { "prettierd", "prettier", stop_after_first = true }
 require("conform").setup({
   formatters_by_ft = {
-    sh = { "shellcheck" },
+    css = prettier_formatters,
+    javascript = prettier_formatters,
+    json = prettier_formatters,
     lua = { "stylua" }, -- Basic settings are defined in ~/.editorconfig
-    css = { "prettierd", "prettier" },
-    javascript = js_formatters,
-    typescript = js_formatters,
-    typescriptreact = js_formatters,
+    markdown = prettier_formatters,
     python = { "ruff_fix", "ruff_format" },
+    sh = { "shellcheck" },
+    typescript = prettier_formatters,
+    typescriptreact = prettier_formatters,
   },
 })
 
