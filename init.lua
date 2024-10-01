@@ -274,7 +274,7 @@ local lsp_zero = require("lsp-zero")
 local lsp_attach = function(client, bufnr)
   local opts = { buffer = bufnr }
   vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts)
+  -- vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts) -- Use conform.nvim instead
   vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 end
 
@@ -438,9 +438,11 @@ cmp.setup.cmdline(":", {
   }),
 })
 
+local conform = require("conform")
+
 -- Formatter plugin
 local prettier_formatters = { "prettierd", "prettier", stop_after_first = true }
-require("conform").setup({
+conform.setup({
   formatters_by_ft = {
     css = prettier_formatters,
     javascript = prettier_formatters,
@@ -458,9 +460,15 @@ require("conform").setup({
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   callback = function(args)
-    require("conform").format({ bufnr = args.buf })
+    conform.format({ bufnr = args.buf })
   end,
 })
+
+-- Format on demand. NOTE: Visual mode does not work
+-- https://github.com/stevearc/conform.nvim/issues/40#issuecomment-1719629250
+vim.keymap.set({ "n", "x" }, "<F3>", function()
+  require("conform").format({ async = true, lsp_fallback = true })
+end)
 
 -- [[ Fuzzy finder ]]
 
