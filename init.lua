@@ -355,6 +355,7 @@ require("mason-tool-installer").setup({
     "ruff",
     "shellcheck",
     "stylua",
+    "tailwindcss",
     "ts_ls",
     "vimls",
   },
@@ -449,13 +450,14 @@ local prettier_formatters = { "prettierd", "prettier", stop_after_first = true }
 conform.setup({
   formatters_by_ft = {
     astro = { "prettier" }, --NOTE: prettierd does not seem to work
-    css = prettier_formatters,
+    css = { "prettier" }, --NOTE: prettierd does not seem to work
     javascript = prettier_formatters,
     json = prettier_formatters,
     lua = { "stylua" }, -- Basic settings are defined in ~/.editorconfig
     markdown = prettier_formatters,
     python = { "ruff_fix", "ruff_format" },
     sh = { "shellcheck" },
+    tailwind = prettier_formatters,
     typescript = prettier_formatters,
     typescriptreact = prettier_formatters,
   },
