@@ -1,3 +1,3 @@
 i3_config merge=ours
-i3status.conf merge=ours
-i3status.conf filter=ignoreColor
+i3status_config merge=ours
+i3status_config filter=ignoreColor
