@@ -250,6 +250,8 @@ vim.g.gutentags_ctags_exclude = { "dist", "*-lock.json", "build", "dist", "node_
 require("nvim-treesitter.configs").setup({
   ensure_installed = {
     "angular",
+    "bash",
+    "css",
     "html",
     "json",
     "lua",
