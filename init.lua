@@ -250,6 +250,7 @@ vim.g.gutentags_ctags_exclude = { "dist", "*-lock.json", "build", "dist", "node_
 require("nvim-treesitter.configs").setup({
   ensure_installed = {
     "angular",
+    "astro",
     "bash",
     "css",
     "html",
@@ -340,6 +341,7 @@ require("mason-lspconfig").setup({
 require("mason-tool-installer").setup({
   ensure_installed = {
     "angularls",
+    "astro",
     "bashls",
     "cssls",
     "eslint",
@@ -446,6 +448,7 @@ local conform = require("conform")
 local prettier_formatters = { "prettierd", "prettier", stop_after_first = true }
 conform.setup({
   formatters_by_ft = {
+    astro = { "prettier" }, --NOTE: prettierd does not seem to work
     css = prettier_formatters,
     javascript = prettier_formatters,
     json = prettier_formatters,
