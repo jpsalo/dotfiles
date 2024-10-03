@@ -449,7 +449,7 @@ local conform = require("conform")
 local prettier_formatters = { "prettierd", "prettier", stop_after_first = true }
 conform.setup({
   formatters_by_ft = {
-    astro = { "prettier" }, --NOTE: prettierd does not seem to work
+    astro = prettier_formatters,
     css = { "prettier" }, --NOTE: prettierd does not seem to work
     javascript = prettier_formatters,
     json = prettier_formatters,
