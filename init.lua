@@ -85,6 +85,7 @@ Plug("williamboman/mason-lspconfig.nvim")
 Plug("WhoIsSethDaniel/mason-tool-installer.nvim")
 Plug("hrsh7th/nvim-cmp")
 Plug("hrsh7th/cmp-nvim-lsp")
+Plug("hrsh7th/cmp-nvim-lsp-signature-help")
 Plug("hrsh7th/cmp-buffer")
 Plug("hrsh7th/cmp-path")
 Plug("hrsh7th/cmp-cmdline")
@@ -370,6 +371,7 @@ local cmp = require("cmp")
 cmp.setup({
   sources = {
     { name = "nvim_lsp" },
+    { name = "nvim_lsp_signature_help" },
     { name = "buffer" },
     { name = "path" },
   },
