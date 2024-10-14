@@ -542,8 +542,8 @@ vim.keymap.set("n", "<Leader>gc", live_grep_args_shortcuts.grep_word_under_curso
 -- Vim pickers
 vim.keymap.set("n", "<Leader>b", builtin.buffers, {})
 vim.keymap.set("n", "<Leader>t", builtin.help_tags, {})
--- TODO: command_history
--- TODO: search_history
+vim.keymap.set("n", "<Leader>c", builtin.command_history, {})
+vim.keymap.set("n", "<Leader>h", builtin.search_history, {})
 
 -- LSP pickers
 vim.keymap.set("n", "<Leader>gd", builtin.lsp_definitions, {})
@@ -553,7 +553,8 @@ vim.keymap.set("n", "<Leader>gr", builtin.lsp_references, {})
 
 -- [[ Buffers ]]
 
-require("bufferline").setup({
+local bufferline = require("bufferline")
+bufferline.setup({
   options = {
     -- Sidebar offsets
     -- https://github.com/akinsho/bufferline.nvim#sidebar-offsets
@@ -572,6 +573,18 @@ require("bufferline").setup({
 -- BufferLineCycleNext and BufferLineCyclePrev commands will traverse the bufferline bufferlist in order
 vim.keymap.set("n", "<Tab>", ":BufferLineCycleNext<CR>", { noremap = true, silent = true, desc = "Next buffer" })
 vim.keymap.set("n", "<S-Tab>", ":BufferLineCyclePrev<CR>", { noremap = true, silent = true, desc = "Previous buffer" })
+
+-- Go to buffer in position
+for i = 1, 9 do
+  vim.keymap.set("n", "<Leader>" .. i, function()
+    bufferline.go_to(i, true)
+  end, { noremap = true, silent = true, desc = "Go to buffer in position " .. i })
+end
+
+-- Go to last visible buffer
+vim.keymap.set("n", "<Leader>0", function()
+  bufferline.go_to(-1, true)
+end, { noremap = true, silent = true, desc = "Go to last visible buffer" })
 
 -- Delete buffer without losing the split window
 -- Compatible with `set hidden`
