@@ -264,6 +264,8 @@ require("nvim-treesitter.configs").setup({
     "typescript",
     "vim",
     "vimdoc",
+    "xresources",
+    "yaml",
   },
   -- Automatically install missing parsers when entering buffer
   -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
@@ -360,6 +362,8 @@ require("mason-tool-installer").setup({
     "tailwindcss",
     "ts_ls",
     "vimls",
+    "yamlfmt",
+    "yamlls",
   },
   integrations = {
     ["mason-lspconfig"] = true,
@@ -472,6 +476,7 @@ conform.setup({
     tailwind = prettier_formatters,
     typescript = prettier_formatters,
     typescriptreact = prettier_formatters,
+    yaml = { "yamlfmt" },
   },
 })
 
