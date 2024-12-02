@@ -117,7 +117,7 @@ Plug("MunifTanjim/nui.nvim")
 Plug("nvim-neo-tree/neo-tree.nvim", { ["branch"] = "v3.x" })
 
 -- Bufferline (with tabpage integration)
--- Plug('nvim-tree/nvim-web-devicons') -- Recommended (for coloured icons) (NOTE: Already installed by neo-tree.nvim)
+Plug("nvim-tree/nvim-web-devicons") -- Recommended (for coloured icons)
 -- Plug('ryanoasis/vim-devicons' Icons without colours
 Plug("akinsho/bufferline.nvim", { ["tag"] = "*" })
 
