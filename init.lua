@@ -151,7 +151,7 @@ Plug("junegunn/goyo.vim")
 Plug("godlygeek/tabular")
 
 -- Color scheme
-Plug("tinted-theming/base16-vim")
+Plug("tinted-theming/tinted-vim")
 
 -- Indentation guides
 Plug("lukas-reineke/indent-blankline.nvim")
