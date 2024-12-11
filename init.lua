@@ -574,8 +574,133 @@ vim.keymap.set("n", "<Leader>gi", builtin.lsp_implementations, {})
 vim.keymap.set("n", "<Leader>go", builtin.lsp_type_definitions, {})
 vim.keymap.set("n", "<Leader>gr", builtin.lsp_references, {})
 
+-- [[ UI and theme ]]
+
+-- Use true color
+-- https://github.com/neovim/neovim/wiki/FAQ#how-can-i-use-true-color-in-the-terminal
+vim.o.termguicolors = true
+
+-- Statusline always and ONLY the last window
+vim.opt.laststatus = 3
+
+-- tinted-vim does not have base16_* variables anymore, so they are mapped manually from tinted_* variables for vim-airline
+-- Commit where the variables were removed tinted-vim: https://github.com/tinted-theming/tinted-vim/commit/1366fdf52ba6e29d466e5ffad460d19aefef4c43
+-- How they are used in vim-airline: https://github.com/vim-airline/vim-airline-themes/blob/master/autoload/airline/themes/base16_vim.vim
+local function sync_tinted_to_base16_vars()
+  local tinted_vars = vim.fn.getcompletion("g:tinted_", "var")
+  for _, var in ipairs(tinted_vars) do
+    local name = var:gsub("g:", "") -- Remove g: prefix
+    local new_name = name:gsub("^tinted_", "base16_")
+    if vim.g[name] ~= nil then
+      vim.g[new_name] = vim.g[name]
+    end
+  end
+end
+
+local function initialise_colorspace_vars()
+  vim.cmd([[
+    let g:base16colorspace=256  " For vim-airline-themes
+    let g:base16_colorspace=256 " Legacy: https://github.com/tinted-theming/tinted-vim/commit/9d50944461665124a9b93e58450718ffb1ae6a11
+    let g:tinted_colorspace=256 " Current
+  ]])
+end
+
+-- The BASE16_THEME environment variable (from tinted-shell) will set to your current colorscheme
+-- https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#base16-vim-users
+local current_theme_name = os.getenv("BASE16_THEME")
+if current_theme_name and vim.g.colors_name ~= "base16-" .. current_theme_name then
+  initialise_colorspace_vars()
+  vim.cmd("colorscheme base16-" .. current_theme_name)
+  sync_tinted_to_base16_vars()
+end
+
+-- Source the set_theme scripts to initialise the Vim theme. (Tmux may not handle environment variables correctly)
+-- https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#tmux--vim
+local set_theme_path = "$HOME/.config/tinted-theming/set_theme.lua"
+local is_set_theme_file_readable = vim.fn.filereadable(vim.fn.expand(set_theme_path)) == 1 and true or false
+if is_set_theme_file_readable then
+  initialise_colorspace_vars()
+  -- TODO: Add a keyboard shortcut to source this file
+  vim.cmd("source " .. set_theme_path)
+  sync_tinted_to_base16_vars()
+end
+
+vim.cmd([[
+" Fix highlighting for spell checks in terminal
+" Colors: https://github.com/chriskempson/base16/blob/master/styling.md
+" Arguments: group, guifg, guibg, ctermfg, ctermbg, attr, guisp
+" https://github.com/tinted-theming/base16-vim?tab=readme-ov-file#customization
+" https://github.com/chriskempson/base16-vim/issues/182#issue-336531173
+"
+" TODO: if has(termguicolors) set ... else
+" function! s:base16_customize() abort
+"   call Base16hi("SpellBad",   "", "", g:base16_cterm08, g:base16_cterm00, "", "")
+"   call Base16hi("SpellCap",   "", "", g:base16_cterm0A, g:base16_cterm00, "", "")
+"   call Base16hi("SpellLocal", "", "", g:base16_cterm0D, g:base16_cterm00, "", "")
+"   call Base16hi("SpellRare",  "", "", g:base16_cterm0B, g:base16_cterm00, "", "")
+" endfunction
+
+" See also: https://github.com/junegunn/goyo.vim#faq
+" augroup on_change_colorschema
+"   autocmd!
+"   autocmd ColorScheme * call s:base16_customize()
+" augroup END
+]])
+
+-- Zen mode
+vim.g.goyo_width = 120 -- TODO: max line length variable from ~/.editorconfig
+
+-- On window resize, if goyo is active, do <c-w>= to resize the window
+-- https://github.com/junegunn/goyo.vim/issues/159#issuecomment-342417487
+vim.api.nvim_create_autocmd("VimResized", {
+  pattern = "*",
+  callback = function()
+    if vim.fn.exists("#goyo") ~= 0 then
+      vim.cmd("normal <c-w>=")
+    end
+  end,
+})
+
+-- Indent guides
+require("ibl").setup()
+
+-- Highlight colors
+require("nvim-highlight-colors").setup({
+  -- Render style
+  -- @usage 'background'|'foreground'|'virtual'
+  render = "background",
+})
+
+-- [[ Statusline ]]
+
+-- Use bufferline instead of tabline
+vim.g["airline#extensions#tabline#enabled"] = 0
+
+-- Use straight statusline
+vim.g.airline_left_sep = ""
+vim.g.airline_right_sep = ""
+
+-- Show git branch from statusline
+-- https://github.com/vim-airline/vim-airline/issues/605#issue-43567680
+vim.g["airline#extensions#branch#enabled"] = 1
+
+-- Disable git hunks
+vim.g["airline#extensions#hunks#enabled"] = 0
+
+-- Powerline font symbols
+-- https://github.com/vim-airline/vim-airline/wiki/FAQ#the-powerline-font-symbols-are-not-showing-up
+vim.g.airline_powerline_fonts = 1
+
+-- This will expect sync_tinted_to_base16_vars to be called after the tinted-vim theme is set
+vim.g.airline_theme = "base16_vim"
+-- More monotonic look
+vim.g.airline_base16_monotone = 1
+-- Improve the contrast for the inactive statusline
+vim.g.airline_base16_improved_contrast = 1
+
 -- [[ Buffers ]]
 
+-- bufferline.nvim requires termguicolors and colorscheme to be set
 local bufferline = require("bufferline")
 bufferline.setup({
   options = {
@@ -653,26 +778,6 @@ vim.keymap.set("n", "<Leader>m", ":Neotree toggle left<CR>")
 vim.keymap.set("n", "<Leader>n", ":Neotree toggle float<CR>")
 vim.keymap.set("n", "<Leader>p", ":Neotree filesystem reveal left<CR>")
 
--- [[ Statusline ]]
-
--- Use bufferline instead of tabline
-vim.g["airline#extensions#tabline#enabled"] = 0
-
--- Use straight statusline
-vim.g.airline_left_sep = ""
-vim.g.airline_right_sep = ""
-
--- Show git branch from statusline
--- https://github.com/vim-airline/vim-airline/issues/605#issue-43567680
-vim.g["airline#extensions#branch#enabled"] = 1
-
--- Disable git hunks
-vim.g["airline#extensions#hunks#enabled"] = 0
-
--- Powerline font symbols
--- https://github.com/vim-airline/vim-airline/wiki/FAQ#the-powerline-font-symbols-are-not-showing-up
-vim.g.airline_powerline_fonts = 1
-
 -- [[ Notifications ]]
 
 -- Set nvim-notify as default notify function and hide "No information available" messages from language servers.
@@ -686,110 +791,6 @@ vim.notify = function(msg, ...)
   end
   return require("notify")(msg, ...)
 end
-
--- [[ UI and theme ]]
-
--- Use true color
--- https://github.com/neovim/neovim/wiki/FAQ#how-can-i-use-true-color-in-the-terminal
-vim.o.termguicolors = true
-
--- Statusline always and ONLY the last window
-vim.opt.laststatus = 3
-
--- tinted-vim does not have base16_* variables anymore, so they are mapped manually from tinted_* variables for vim-airline
--- Commit where the variables were removed tinted-vim: https://github.com/tinted-theming/tinted-vim/commit/1366fdf52ba6e29d466e5ffad460d19aefef4c43
--- How they are used in vim-airline: https://github.com/vim-airline/vim-airline-themes/blob/master/autoload/airline/themes/base16_vim.vim
-local function sync_tinted_to_base16_vars()
-  local tinted_vars = vim.fn.getcompletion("g:tinted_", "var")
-  for _, var in ipairs(tinted_vars) do
-    local name = var:gsub("g:", "") -- Remove g: prefix
-    local new_name = name:gsub("^tinted_", "base16_")
-    if vim.g[name] ~= nil then
-      vim.g[new_name] = vim.g[name]
-    end
-  end
-end
-
-local function initialise_colorspace_vars()
-  vim.cmd([[
-    let g:base16colorspace=256  " For vim-airline-themes
-    let g:base16_colorspace=256 " Legacy: https://github.com/tinted-theming/tinted-vim/commit/9d50944461665124a9b93e58450718ffb1ae6a11
-    let g:tinted_colorspace=256 " Current
-  ]])
-end
-
--- The BASE16_THEME environment variable (from tinted-shell) will set to your current colorscheme
--- https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#base16-vim-users
-local current_theme_name = os.getenv("BASE16_THEME")
-if current_theme_name and vim.g.colors_name ~= "base16-" .. current_theme_name then
-  initialise_colorspace_vars()
-  vim.cmd("colorscheme base16-" .. current_theme_name)
-  sync_tinted_to_base16_vars()
-end
-
--- Source the set_theme scripts to initialise the Vim theme. (Tmux may not handle environment variables correctly)
--- https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#tmux--vim
-local set_theme_path = "$HOME/.config/tinted-theming/set_theme.lua"
-local is_set_theme_file_readable = vim.fn.filereadable(vim.fn.expand(set_theme_path)) == 1 and true or false
-if is_set_theme_file_readable then
-  initialise_colorspace_vars()
-  -- TODO: Add a keyboard shortcut to source this file
-  vim.cmd("source " .. set_theme_path)
-  sync_tinted_to_base16_vars()
-end
-
--- This will expect sync_tinted_to_base16_vars to be called after the theme is set
-vim.g.airline_theme = "base16_vim"
--- More monotonic look
-vim.g.airline_base16_monotone = 1
--- Improve the contrast for the inactive statusline
-vim.g.airline_base16_improved_contrast = 1
-
-vim.cmd([[
-" Fix highlighting for spell checks in terminal
-" Colors: https://github.com/chriskempson/base16/blob/master/styling.md
-" Arguments: group, guifg, guibg, ctermfg, ctermbg, attr, guisp
-" https://github.com/tinted-theming/base16-vim?tab=readme-ov-file#customization
-" https://github.com/chriskempson/base16-vim/issues/182#issue-336531173
-"
-" TODO: if has(termguicolors) set ... else
-" function! s:base16_customize() abort
-"   call Base16hi("SpellBad",   "", "", g:base16_cterm08, g:base16_cterm00, "", "")
-"   call Base16hi("SpellCap",   "", "", g:base16_cterm0A, g:base16_cterm00, "", "")
-"   call Base16hi("SpellLocal", "", "", g:base16_cterm0D, g:base16_cterm00, "", "")
-"   call Base16hi("SpellRare",  "", "", g:base16_cterm0B, g:base16_cterm00, "", "")
-" endfunction
-
-" See also: https://github.com/junegunn/goyo.vim#faq
-" augroup on_change_colorschema
-"   autocmd!
-"   autocmd ColorScheme * call s:base16_customize()
-" augroup END
-]])
-
--- Zen mode
-vim.g.goyo_width = 120 -- TODO: max line length variable from ~/.editorconfig
-
--- On window resize, if goyo is active, do <c-w>= to resize the window
--- https://github.com/junegunn/goyo.vim/issues/159#issuecomment-342417487
-vim.api.nvim_create_autocmd("VimResized", {
-  pattern = "*",
-  callback = function()
-    if vim.fn.exists("#goyo") ~= 0 then
-      vim.cmd("normal <c-w>=")
-    end
-  end,
-})
-
--- Indent guides
-require("ibl").setup()
-
--- Highlight colors
-require("nvim-highlight-colors").setup({
-  -- Render style
-  -- @usage 'background'|'foreground'|'virtual'
-  render = "background",
-})
 
 -- Obsidian
 require("obsidian").setup({
