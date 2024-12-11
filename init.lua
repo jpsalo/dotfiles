@@ -696,29 +696,54 @@ vim.o.termguicolors = true
 -- Statusline always and ONLY the last window
 vim.opt.laststatus = 3
 
+-- tinted-vim does not have base16_* variables anymore, so they are mapped manually from tinted_* variables for vim-airline
+-- Commit where the variables were removed tinted-vim: https://github.com/tinted-theming/tinted-vim/commit/1366fdf52ba6e29d466e5ffad460d19aefef4c43
+-- How they are used in vim-airline: https://github.com/vim-airline/vim-airline-themes/blob/master/autoload/airline/themes/base16_vim.vim
+local function sync_tinted_to_base16_vars()
+  local tinted_vars = vim.fn.getcompletion("g:tinted_", "var")
+  for _, var in ipairs(tinted_vars) do
+    local name = var:gsub("g:", "") -- Remove g: prefix
+    local new_name = name:gsub("^tinted_", "base16_")
+    if vim.g[name] ~= nil then
+      vim.g[new_name] = vim.g[name]
+    end
+  end
+end
+
+local function initialise_colorspace_vars()
+  vim.cmd([[
+    let g:base16colorspace=256  " For vim-airline-themes
+    let g:base16_colorspace=256 " Legacy: https://github.com/tinted-theming/tinted-vim/commit/9d50944461665124a9b93e58450718ffb1ae6a11
+    let g:tinted_colorspace=256 " Current
+  ]])
+end
+
 -- The BASE16_THEME environment variable (from tinted-shell) will set to your current colorscheme
 -- https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#base16-vim-users
 local current_theme_name = os.getenv("BASE16_THEME")
 if current_theme_name and vim.g.colors_name ~= "base16-" .. current_theme_name then
-  vim.cmd("let base16colorspace=256")
+  initialise_colorspace_vars()
   vim.cmd("colorscheme base16-" .. current_theme_name)
-  vim.g.airline_theme = "base16_vim"
-  -- More monotonic look
-  vim.g.airline_base16_monotone = 1
-  -- Improve the contrast for the inactive statusline
-  vim.g.airline_base16_improved_contrast = 1
+  sync_tinted_to_base16_vars()
 end
 
--- Source the set_theme scripts to initialise the Vim theme
+-- Source the set_theme scripts to initialise the Vim theme. (Tmux may not handle environment variables correctly)
 -- https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#tmux--vim
 local set_theme_path = "$HOME/.config/tinted-theming/set_theme.lua"
 local is_set_theme_file_readable = vim.fn.filereadable(vim.fn.expand(set_theme_path)) == 1 and true or false
-
 if is_set_theme_file_readable then
-  vim.cmd("let base16colorspace=256")
+  initialise_colorspace_vars()
   -- TODO: Add a keyboard shortcut to source this file
   vim.cmd("source " .. set_theme_path)
+  sync_tinted_to_base16_vars()
 end
+
+-- This will expect sync_tinted_to_base16_vars to be called after the theme is set
+vim.g.airline_theme = "base16_vim"
+-- More monotonic look
+vim.g.airline_base16_monotone = 1
+-- Improve the contrast for the inactive statusline
+vim.g.airline_base16_improved_contrast = 1
 
 vim.cmd([[
 " Fix highlighting for spell checks in terminal
