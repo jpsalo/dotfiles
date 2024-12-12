@@ -79,7 +79,7 @@ Plug("zbirenbaum/copilot-cmp")
 -- Treesitter
 Plug("nvim-treesitter/nvim-treesitter", { ["do"] = ":TSUpdate" })
 
--- LSP Zero & Mason
+-- LSP & Mason
 Plug("neovim/nvim-lspconfig")
 Plug("williamboman/mason.nvim")
 Plug("williamboman/mason-lspconfig.nvim")
@@ -90,7 +90,6 @@ Plug("hrsh7th/cmp-nvim-lsp-signature-help")
 Plug("hrsh7th/cmp-buffer")
 Plug("hrsh7th/cmp-path")
 Plug("hrsh7th/cmp-cmdline")
-Plug("VonHeikemen/lsp-zero.nvim", { ["branch"] = "v4.x" })
 
 -- Formatter
 Plug("stevearc/conform.nvim")
@@ -276,30 +275,35 @@ require("nvim-treesitter.configs").setup({
 })
 
 -- LSP configuration
-local lsp_zero = require("lsp-zero")
 
-local lsp_attach = function(client, bufnr)
-  local opts = { buffer = bufnr }
-  vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  -- vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts) -- Use conform.nvim instead
-  vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-end
+-- Reserve a space in the gutter (note that vim-gitgutter will occupy the gutter)
+vim.opt.signcolumn = "yes"
+
+-- This is where you enable features that only work if there is a language server active in the file
+vim.api.nvim_create_autocmd("LspAttach", {
+  desc = "LSP actions",
+  callback = function(event)
+    local opts = { buffer = event.buf }
+    vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+    -- vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts) -- Use conform.nvim instead
+    vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  end,
+})
 
 -- Show line diagnostics
+-- NOTE: diagnostics are not exclusive to lsp servers so these can be global keybindings
 -- https://lsp-zero.netlify.app/docs/guide/migrate-from-v1-branch.html#configure-diagnostics
 vim.keymap.set("n", "<Leader>e", "<cmd>lua vim.diagnostic.open_float()<cr>")
 
-lsp_zero.extend_lspconfig({
-  sign_text = true,
-  lsp_attach = lsp_attach,
-  capabilities = require("cmp_nvim_lsp").default_capabilities(),
-})
+local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 require("mason").setup({})
 require("mason-lspconfig").setup({
   handlers = {
     function(server_name)
-      require("lspconfig")[server_name].setup({})
+      require("lspconfig")[server_name].setup({
+        capabilities = lsp_capabilities,
+      })
     end,
 
     bashls = function()
@@ -307,10 +311,10 @@ require("mason-lspconfig").setup({
     end,
 
     lua_ls = function()
+      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls
+      -- https://lsp-zero.netlify.app/docs/guide/neovim-lua-ls.html#lua-config
       require("lspconfig").lua_ls.setup({
-        on_init = function(client)
-          lsp_zero.nvim_lua_settings(client, {})
-        end,
+        capabilities = lsp_capabilities,
         settings = {
           Lua = {
             diagnostics = {
@@ -318,6 +322,35 @@ require("mason-lspconfig").setup({
             },
           },
         },
+        on_init = function(client)
+          if client.workspace_folders then
+            local path = client.workspace_folders[1].name
+            if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc") then
+              return
+            end
+          end
+
+          local nvim_settings = {
+            runtime = {
+              -- Tell the language server which version of Lua you're using
+              -- (most likely LuaJIT in the case of Neovim)
+              version = "LuaJIT",
+            },
+            -- Make the server aware of Neovim runtime files
+            workspace = {
+              checkThirdParty = false,
+              library = {
+                vim.env.VIMRUNTIME,
+                -- Depending on the usage, you might want to add additional paths here.
+                -- "${3rd}/luv/library"
+                -- "${3rd}/busted/library",
+              },
+              -- or pull in all of 'runtimepath'. NOTE: this is a lot slower and will cause issues when working on your own configuration (see https://github.com/neovim/nvim-lspconfig/issues/3189)
+              -- library = vim.api.nvim_get_runtime_file("", true)
+            },
+          }
+          client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, nvim_settings)
+        end,
       })
     end,
 
