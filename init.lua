@@ -649,14 +649,26 @@ end
 
 -- Source the set_theme scripts to initialise the Vim theme. (Tmux may not handle environment variables correctly)
 -- https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#tmux--vim
-local set_theme_path = "$HOME/.config/tinted-theming/set_theme.lua"
-local is_set_theme_file_readable = vim.fn.filereadable(vim.fn.expand(set_theme_path)) == 1 and true or false
-if is_set_theme_file_readable then
-  initialise_colorspace_vars()
-  -- TODO: Add a keyboard shortcut to source this file
-  vim.cmd("source " .. set_theme_path)
-  sync_tinted_to_base16_vars()
+local function set_theme()
+  local set_theme_path = "$HOME/.config/tinted-theming/set_theme.lua"
+  local is_set_theme_file_readable = vim.fn.filereadable(vim.fn.expand(set_theme_path)) == 1 and true or false
+  if is_set_theme_file_readable then
+    initialise_colorspace_vars()
+    vim.cmd("source " .. set_theme_path)
+    sync_tinted_to_base16_vars()
+  end
 end
+
+local function refresh_theme()
+  set_theme()
+  vim.cmd("AirlineRefresh")
+  -- NOTE: bufferline.nvim does not have a refresh command
+end
+
+vim.api.nvim_create_user_command("RefreshTheme", refresh_theme, {})
+
+-- Remember to set the theme initially
+set_theme()
 
 vim.cmd([[
 " Fix highlighting for spell checks in terminal
