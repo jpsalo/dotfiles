@@ -621,6 +621,26 @@ vim.o.termguicolors = true
 -- Statusline always and ONLY the last window
 vim.opt.laststatus = 3
 
+
+-- The BASE16_THEME environment variable (from tinted-shell) will set to your current colorscheme
+-- https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#base16-vim-users
+local function set_theme_from_env()
+  local current_theme_name = os.getenv("BASE16_THEME")
+  if current_theme_name and vim.g.colors_name ~= "base16-" .. current_theme_name then
+    vim.cmd("colorscheme base16-" .. current_theme_name)
+  end
+end
+
+-- Source the set_theme scripts to initialise the Vim theme. (Tmux may not handle environment variables correctly)
+-- https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#tmux--vim
+local function set_theme_from_script()
+  local set_theme_path = "$HOME/.config/tinted-theming/set_theme.lua"
+  local is_set_theme_file_readable = vim.fn.filereadable(vim.fn.expand(set_theme_path)) == 1 and true or false
+  if is_set_theme_file_readable then
+    vim.cmd("source " .. set_theme_path)
+  end
+end
+
 -- tinted-vim does not have base16_* variables anymore, so they are mapped manually from tinted_* variables for vim-airline
 -- Commit where the variables were removed tinted-vim: https://github.com/tinted-theming/tinted-vim/commit/1366fdf52ba6e29d466e5ffad460d19aefef4c43
 -- How they are used in vim-airline: https://github.com/vim-airline/vim-airline-themes/blob/master/autoload/airline/themes/base16_vim.vim
@@ -636,66 +656,28 @@ local function sync_tinted_to_base16_vars()
 end
 
 local function initialise_colorspace_vars()
-  vim.cmd([[
-    let g:base16colorspace=256  " For vim-airline-themes
-    let g:base16_colorspace=256 " Legacy: https://github.com/tinted-theming/tinted-vim/commit/9d50944461665124a9b93e58450718ffb1ae6a11
-    let g:tinted_colorspace=256 " Current
-  ]])
+  vim.g.base16colorspace = 256 -- For vim-airline-themes
+  vim.g.base16_colorspace = 256 -- Legacy: https://github.com/tinted-theming/tinted-vim/commit/9d50944461665124a9b93e58450718ffb1ae6a11
+  vim.g.tinted_colorspace = 256 -- Current
 end
 
--- The BASE16_THEME environment variable (from tinted-shell) will set to your current colorscheme
--- https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#base16-vim-users
-local current_theme_name = os.getenv("BASE16_THEME")
-if current_theme_name and vim.g.colors_name ~= "base16-" .. current_theme_name then
+local function set_theme()
   initialise_colorspace_vars()
-  vim.cmd("colorscheme base16-" .. current_theme_name)
+  set_theme_from_env() -- This "should" be enough but also set theme from script as a fallback
+  set_theme_from_script()
   sync_tinted_to_base16_vars()
 end
 
--- Source the set_theme scripts to initialise the Vim theme. (Tmux may not handle environment variables correctly)
--- https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#tmux--vim
-local function set_theme()
-  local set_theme_path = "$HOME/.config/tinted-theming/set_theme.lua"
-  local is_set_theme_file_readable = vim.fn.filereadable(vim.fn.expand(set_theme_path)) == 1 and true or false
-  if is_set_theme_file_readable then
-    initialise_colorspace_vars()
-    vim.cmd("source " .. set_theme_path)
-    sync_tinted_to_base16_vars()
-  end
-end
-
-local function refresh_theme()
-  set_theme()
+local function sync_theme()
+  set_theme_from_script()
+  sync_tinted_to_base16_vars()
   vim.cmd("AirlineRefresh")
-  -- NOTE: bufferline.nvim does not have a refresh command
 end
 
-vim.api.nvim_create_user_command("RefreshTheme", refresh_theme, {})
+vim.api.nvim_create_user_command("SyncTheme", sync_theme, {})
 
 -- Remember to set the theme initially
 set_theme()
-
-vim.cmd([[
-" Fix highlighting for spell checks in terminal
-" Colors: https://github.com/chriskempson/base16/blob/master/styling.md
-" Arguments: group, guifg, guibg, ctermfg, ctermbg, attr, guisp
-" https://github.com/tinted-theming/base16-vim?tab=readme-ov-file#customization
-" https://github.com/chriskempson/base16-vim/issues/182#issue-336531173
-"
-" TODO: if has(termguicolors) set ... else
-" function! s:base16_customize() abort
-"   call Base16hi("SpellBad",   "", "", g:base16_cterm08, g:base16_cterm00, "", "")
-"   call Base16hi("SpellCap",   "", "", g:base16_cterm0A, g:base16_cterm00, "", "")
-"   call Base16hi("SpellLocal", "", "", g:base16_cterm0D, g:base16_cterm00, "", "")
-"   call Base16hi("SpellRare",  "", "", g:base16_cterm0B, g:base16_cterm00, "", "")
-" endfunction
-
-" See also: https://github.com/junegunn/goyo.vim#faq
-" augroup on_change_colorschema
-"   autocmd!
-"   autocmd ColorScheme * call s:base16_customize()
-" augroup END
-]])
 
 -- Zen mode
 vim.g.goyo_width = 120 -- TODO: max line length variable from ~/.editorconfig
