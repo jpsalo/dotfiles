@@ -121,7 +121,7 @@ Plug("nvim-tree/nvim-web-devicons") -- Recommended (for coloured icons)
 Plug("akinsho/bufferline.nvim", { ["tag"] = "*" })
 
 -- Fuzzy finder & live grep with args
--- Plug('nvim-lua/plenary.nvim'
+Plug("nvim-lua/plenary.nvim")
 Plug("nvim-telescope/telescope.nvim", { ["branch"] = "0.1.x" })
 Plug("nvim-telescope/telescope-live-grep-args.nvim")
 
@@ -156,6 +156,7 @@ Plug("tinted-theming/tinted-vim")
 Plug("lukas-reineke/indent-blankline.nvim")
 
 -- Obsidian
+Plug("nvim-lua/plenary.nvim")
 Plug("epwalsh/obsidian.nvim", { ["tag"] = "*" })
 
 vim.call("plug#end")
@@ -258,6 +259,7 @@ require("nvim-treesitter.configs").setup({
     "json",
     "lua",
     "markdown",
+    "markdown_inline",
     "python",
     "tsx",
     "typescript",
