@@ -64,3 +64,5 @@ source <(ng completion script)
 # Show virtualenv in prompt
 # https://stackoverflow.com/a/42287807/7010222
 export VIRTUAL_ENV_DISABLE_PROMPT=
+
+[ -f ~/.env ] && source ~/.env
