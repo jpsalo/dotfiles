@@ -48,3 +48,5 @@ trim_trailing_whitespace = none
 indent_style = none
 indent_size = none
 
+[*.md]
+max_line_length = off

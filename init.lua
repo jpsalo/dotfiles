@@ -621,6 +621,12 @@ vim.o.termguicolors = true
 -- Statusline always and ONLY the last window
 vim.opt.laststatus = 3
 
+-- Configure smart line wrapping
+-- https://www.reddit.com/r/neovim/comments/12lmvhw/comment/jg7gjm2/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+vim.opt.wrap = true -- Wraps long lines instead of extending past the screen
+vim.opt.linebreak = true -- Wraps at word boundaries for better readability
+vim.opt.breakindent = true -- Maintains indentation on wrapped lines
+vim.opt.breakindentopt = "list:-1" -- Uses the width of a match with 'formatlistpat' for indentation
 
 -- The BASE16_THEME environment variable (from tinted-shell) will set to your current colorscheme
 -- https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#base16-vim-users
@@ -831,5 +837,8 @@ require("obsidian").setup({
       name = "Work",
       path = "~/Documents/Wault",
     },
+  },
+  ui = {
+    enable = false,
   },
 })
