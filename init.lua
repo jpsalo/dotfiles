@@ -616,7 +616,7 @@ vim.keymap.set("n", "<Leader>gr", builtin.lsp_references, {})
 
 -- Use true color
 -- https://github.com/neovim/neovim/wiki/FAQ#how-can-i-use-true-color-in-the-terminal
-vim.o.termguicolors = true
+vim.opt.termguicolors = true
 
 -- Statusline always and ONLY the last window
 vim.opt.laststatus = 3
