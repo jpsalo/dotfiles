@@ -156,8 +156,8 @@ Plug("tinted-theming/tinted-vim")
 Plug("lukas-reineke/indent-blankline.nvim")
 
 -- Obsidian
-Plug("nvim-lua/plenary.nvim")
-Plug("epwalsh/obsidian.nvim", { ["tag"] = "*" })
+Plug("MeanderingProgrammer/render-markdown.nvim")
+Plug("obsidian-nvim/obsidian.nvim", { ["tag"] = "*" })
 
 vim.call("plug#end")
 
@@ -834,12 +834,17 @@ end
 
 -- Obsidian
 require("obsidian").setup({
+  -- legacy_commands will be removed in the next major release
+  -- https://github.com/obsidian-nvim/obsidian.nvim/wiki/Commands
+  legacy_commands = false,
   workspaces = {
     {
       name = "Work",
       path = "~/Documents/Wault",
     },
   },
+  -- UI module will be removed in the future, and it is recommend to use dedicated markdown render plugins
+  -- https://github.com/orgs/obsidian-nvim/discussions/491
   ui = {
     enable = false,
   },
