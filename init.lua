@@ -122,7 +122,7 @@ Plug("akinsho/bufferline.nvim", { ["tag"] = "*" })
 
 -- Fuzzy finder & live grep with args
 Plug("nvim-lua/plenary.nvim")
-Plug("nvim-telescope/telescope.nvim", { ["branch"] = "0.1.x" })
+Plug("nvim-telescope/telescope.nvim", { ["tag"] = "*" })
 Plug("nvim-telescope/telescope-live-grep-args.nvim")
 
 -- Notification manager
