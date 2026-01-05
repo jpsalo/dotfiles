@@ -547,7 +547,7 @@ end, {
 -- Format on demand. NOTE: Visual mode does not work
 -- https://github.com/stevearc/conform.nvim/issues/40#issuecomment-1719629250
 vim.keymap.set({ "n", "x" }, "<F3>", function()
-  require("conform").format({ async = true, lsp_fallback = true })
+  conform.format({ async = true, lsp_fallback = true })
 end)
 
 -- [[ Fuzzy finder ]]
@@ -555,7 +555,7 @@ end)
 local telescope = require("telescope")
 local actions = require("telescope.actions")
 local lga_actions = require("telescope-live-grep-args.actions")
-require("telescope").setup({
+telescope.setup({
   defaults = {
     file_ignore_patterns = {
       "tags",
