@@ -81,12 +81,10 @@ Plug("neovim/nvim-lspconfig")
 Plug("williamboman/mason.nvim")
 Plug("williamboman/mason-lspconfig.nvim")
 Plug("WhoIsSethDaniel/mason-tool-installer.nvim")
-Plug("hrsh7th/nvim-cmp")
-Plug("hrsh7th/cmp-nvim-lsp")
-Plug("hrsh7th/cmp-nvim-lsp-signature-help")
-Plug("hrsh7th/cmp-buffer")
-Plug("hrsh7th/cmp-path")
-Plug("hrsh7th/cmp-cmdline")
+
+-- Completion plugin
+Plug("saghen/blink.cmp", { ["tag"] = "v1.*" })
+Plug("rafamadriz/friendly-snippets")
 
 -- Formatter
 Plug("stevearc/conform.nvim")
@@ -332,7 +330,7 @@ local non_lsp_tools = {
 
 local all_mason_tools = vim.list_extend(vim.list_extend({}, lsp_servers), non_lsp_tools)
 
-local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+local lsp_capabilities = require("blink.cmp").get_lsp_capabilities()
 
 require("mason").setup({})
 
@@ -423,83 +421,83 @@ require("mason-tool-installer").setup({
 })
 
 -- A completion plugin
-local cmp = require("cmp")
 
-cmp.setup({
-  sources = {
-    { name = "nvim_lsp", group_index = 1 },
-    { name = "nvim_lsp_signature_help" },
-    { name = "buffer" },
-    { name = "path" },
+require("blink.cmp").setup({
+  -- Keymap configuration
+  keymap = {
+    preset = "default", -- Uses C-y to accept
+    -- Custom keybindings
+    ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
+    ["<C-k>"] = { "select_prev", "fallback" },
+    ["<C-j>"] = { "select_next", "fallback" },
+    ["<CR>"] = { "accept", "fallback" },
+    ["<C-e>"] = { "hide", "fallback" },
+    ["<C-s>"] = { "show_signature", "hide_signature", "fallback" }, -- Signature help toggle
   },
-  snippet = {
-    expand = function(args)
-      vim.snippet.expand(args.body)
-    end,
+  appearance = {
+    nerd_font_variant = "mono",
   },
-  mapping = cmp.mapping.preset.insert({
-    ["<C-Space>"] = cmp.mapping(cmp.mapping.complete({}), { "i", "c" }), -- open manually in insert mode
-    ["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
-    ["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
-    ["<CR>"] = cmp.mapping.confirm({ select = true }), -- confirm without selecting the item
-  }),
-  preselect = "item",
   completion = {
-    completeopt = "menu,menuone,noinsert",
-  },
-  formatting = {
-    format = require("nvim-highlight-colors").format,
-  },
-})
-
--- https://github.com/hrsh7th/cmp-cmdline/issues/70#issuecomment-1927004734
-local cmp_cmdline_select_prev_item = {
-  c = function()
-    if cmp.visible() then
-      cmp.select_prev_item()
-    else
-      cmp.complete()
-    end
-  end,
-}
-
-local cmp_cmdline_select_next_item = {
-  c = function()
-    if cmp.visible() then
-      cmp.select_next_item()
-    else
-      cmp.complete()
-    end
-  end,
-}
-
--- `/` cmdline setup.
-cmp.setup.cmdline("/", {
-  mapping = cmp.mapping.preset.cmdline({
-    ["<C-k>"] = cmp_cmdline_select_prev_item,
-    ["<C-j>"] = cmp_cmdline_select_next_item,
-  }),
-  sources = {
-    { name = "buffer" },
-  },
-})
-
--- `:` cmdline setup.
-cmp.setup.cmdline(":", {
-  mapping = cmp.mapping.preset.cmdline({
-    ["<C-k>"] = cmp_cmdline_select_prev_item,
-    ["<C-j>"] = cmp_cmdline_select_next_item,
-  }),
-  sources = cmp.config.sources({
-    { name = "path" },
-  }, {
-    {
-      name = "cmdline",
-      option = {
-        ignore_cmds = { "Man", "!" },
+    documentation = {
+      auto_show = false, -- Manual trigger
+    },
+    menu = {
+      draw = {
+        components = {
+          -- nvim-highlight-colors integration for color preview in completion
+          -- https://github.com/brenoprata10/nvim-highlight-colors?tab=readme-ov-file#blinkcmp-integration
+          kind_icon = {
+            text = function(ctx)
+              local icon = ctx.kind_icon
+              -- If LSP source, check for color derived from documentation
+              if ctx.item.source_name == "LSP" then
+                local color_item = require("nvim-highlight-colors").format(ctx.item.documentation, { kind = ctx.kind })
+                if color_item and color_item.abbr ~= "" then
+                  icon = color_item.abbr
+                end
+              end
+              return icon .. ctx.icon_gap
+            end,
+            highlight = function(ctx)
+              local highlight = "BlinkCmpKind" .. ctx.kind
+              -- If LSP source, check for color derived from documentation
+              if ctx.item.source_name == "LSP" then
+                local color_item = require("nvim-highlight-colors").format(ctx.item.documentation, { kind = ctx.kind })
+                if color_item and color_item.abbr_hl_group then
+                  highlight = color_item.abbr_hl_group
+                end
+              end
+              return highlight
+            end,
+          },
+        },
       },
     },
-  }),
+  },
+  sources = {
+    default = { "lsp", "path", "snippets", "buffer" },
+  },
+  signature = {
+    enabled = true,
+  },
+  -- Fuzzy matching with auto-download pre-built binaries
+  fuzzy = {
+    implementation = "prefer_rust_with_warning",
+  },
+  cmdline = {
+    enabled = true,
+    keymap = {
+      preset = "cmdline",
+      -- Add C-k/C-j navigation for cmdline mode
+      ["<C-k>"] = { "select_prev", "fallback" },
+      ["<C-j>"] = { "select_next", "fallback" },
+    },
+    completion = {
+      menu = {
+        auto_show = false, -- Matches nvim default behavior
+      },
+    },
+  },
 })
 
 local conform = require("conform")
@@ -840,5 +838,9 @@ require("obsidian").setup({
   -- https://github.com/orgs/obsidian-nvim/discussions/491
   ui = {
     enable = false,
+  },
+  completion = {
+    -- Blink completion broken: https://github.com/obsidian-nvim/obsidian.nvim/issues/582
+    blink = false,
   },
 })
