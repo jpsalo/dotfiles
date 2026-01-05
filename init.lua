@@ -309,6 +309,7 @@ local lsp_servers = {
   "bashls",
   "cssls",
   "eslint",
+  "home_assistant",
   "html",
   "jsonls",
   "lua_ls",
