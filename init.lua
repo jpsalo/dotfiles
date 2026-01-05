@@ -72,9 +72,6 @@ local Plug = vim.fn["plug#"]
 
 vim.call("plug#begin")
 
--- Copilot
-Plug("zbirenbaum/copilot.lua")
-Plug("zbirenbaum/copilot-cmp")
 
 -- Treesitter
 Plug("nvim-treesitter/nvim-treesitter", { ["do"] = ":TSUpdate" })
@@ -417,20 +414,13 @@ require("mason-tool-installer").setup({
   },
 })
 
--- Copilot
-require("copilot").setup({
-  suggestion = { enabled = false },
-  panel = { enabled = false },
-  copilot_no_tab_map = true, -- Disable tab mapping
 })
-require("copilot_cmp").setup({})
 
 -- A completion plugin
 local cmp = require("cmp")
 
 cmp.setup({
   sources = {
-    { name = "copilot", group_index = 2 }, -- De-prioritize copilot suggestions
     { name = "nvim_lsp", group_index = 1 },
     { name = "nvim_lsp_signature_help" },
     { name = "buffer" },
