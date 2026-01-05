@@ -72,7 +72,6 @@ local Plug = vim.fn["plug#"]
 
 vim.call("plug#begin")
 
-
 -- Treesitter
 Plug("nvim-treesitter/nvim-treesitter", { ["do"] = ":TSUpdate" })
 
@@ -416,8 +415,6 @@ end
 -- Automatically install LSP servers and non-LSP tools (formatters, linters, etc.)
 require("mason-tool-installer").setup({
   ensure_installed = all_mason_tools,
-})
-
 })
 
 -- A completion plugin
