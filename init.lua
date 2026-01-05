@@ -303,115 +303,120 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- https://lsp-zero.netlify.app/docs/guide/migrate-from-v1-branch.html#configure-diagnostics
 vim.keymap.set("n", "<Leader>e", "<cmd>lua vim.diagnostic.open_float()<cr>")
 
+local lsp_servers = {
+  "angularls",
+  "astro",
+  "bashls",
+  "cssls",
+  "eslint",
+  "html",
+  "jsonls",
+  "lua_ls",
+  "marksman",
+  "pyright", -- NOTE: Create a pyrightconfig.json file in the root of a project for pyright
+  "ruff",
+  "tailwindcss",
+  "ts_ls",
+  "vimls",
+  "yamlls",
+}
+
+local non_lsp_tools = {
+  "prettier",
+  "prettierd",
+  "shellcheck",
+  "stylua",
+  "yamlfmt",
+}
+
+local all_mason_tools = vim.list_extend(vim.list_extend({}, lsp_servers), non_lsp_tools)
+
 local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 require("mason").setup({})
+
+-- This handles the name translation between lspconfig names (e.g., lua_ls) and Mason package names (e.g., lua-language-server)
 require("mason-lspconfig").setup({
-  handlers = {
-    function(server_name)
-      require("lspconfig")[server_name].setup({
-        capabilities = lsp_capabilities,
-      })
-    end,
+  automatic_enable = false,
+})
 
-    bashls = function()
-      require("lspconfig").bashls.setup({})
-    end,
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls
+vim.lsp.config("lua_ls", {
+  on_init = function(client)
+    if client.workspace_folders then
+      local path = client.workspace_folders[1].name
+      if
+        path ~= vim.fn.stdpath("config")
+        and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
+      then
+        return
+      end
+    end
 
-    lua_ls = function()
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls
-      -- https://lsp-zero.netlify.app/docs/guide/neovim-lua-ls.html#lua-config
-      require("lspconfig").lua_ls.setup({
-        capabilities = lsp_capabilities,
-        settings = {
-          Lua = {
-            diagnostics = {
-              globals = { "vim" },
-              -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- https://github.com/nvim-lua/kickstart.nvim/issues/543#issuecomment-1859319206
-              disable = { "missing-fields" },
-            },
-          },
+    client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most
+        -- likely LuaJIT in the case of Neovim)
+        version = "LuaJIT",
+        -- Tell the language server how to find Lua modules same way as Neovim
+        -- (see `:h lua-module-load`)
+        path = {
+          "lua/?.lua",
+          "lua/?/init.lua",
         },
-        on_init = function(client)
-          if client.workspace_folders then
-            local path = client.workspace_folders[1].name
-            if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc") then
-              return
-            end
-          end
-
-          local nvim_settings = {
-            runtime = {
-              -- Tell the language server which version of Lua you're using
-              -- (most likely LuaJIT in the case of Neovim)
-              version = "LuaJIT",
-            },
-            -- Make the server aware of Neovim runtime files
-            workspace = {
-              checkThirdParty = false,
-              library = {
-                vim.env.VIMRUNTIME,
-                -- Depending on the usage, you might want to add additional paths here.
-                -- "${3rd}/luv/library"
-                -- "${3rd}/busted/library",
-              },
-              -- or pull in all of 'runtimepath'. NOTE: this is a lot slower and will cause issues when working on your own configuration (see https://github.com/neovim/nvim-lspconfig/issues/3189)
-              -- library = vim.api.nvim_get_runtime_file("", true)
-            },
-          }
-          client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, nvim_settings)
-        end,
-      })
-    end,
-
-    -- Use Ruff exclusively for linting, formatting and organizing imports, and disable those capabilities in Pyright
-    -- https://github.com/astral-sh/ruff-lsp?tab=readme-ov-file#example-neovim
-    pyright = function()
-      require("lspconfig").pyright.setup({
-        settings = {
-          pyright = {
-            -- Using Ruff's import organizer
-            disableOrganizeImports = true,
-          },
-          python = {
-            analysis = {
-              -- Ignore all files for analysis to exclusively use Ruff for linting
-              ignore = { "*" },
-            },
-          },
+      },
+      -- Make the server aware of Neovim runtime files
+      workspace = {
+        checkThirdParty = false,
+        library = {
+          vim.env.VIMRUNTIME,
+          -- Depending on the usage, you might want to add additional paths
+          -- here.
+          -- '${3rd}/luv/library'
+          -- '${3rd}/busted/library'
         },
-      })
-    end,
+        -- Or pull in all of 'runtimepath'.
+        -- NOTE: this is a lot slower and will cause issues when working on
+        -- your own configuration.
+        -- See https://github.com/neovim/nvim-lspconfig/issues/3189
+        -- library = {
+        --   vim.api.nvim_get_runtime_file('', true),
+        -- }
+      },
+    })
+  end,
+  settings = {
+    Lua = {},
   },
 })
 
+-- Use Ruff exclusively for linting, formatting and organizing imports, and disable those capabilities in Pyright
+-- https://github.com/astral-sh/ruff-lsp?tab=readme-ov-file#example-neovim
+vim.lsp.config("pyright", {
+  settings = {
+    pyright = {
+      -- Using Ruff's import organizer
+      disableOrganizeImports = true,
+    },
+    python = {
+      analysis = {
+        -- Ignore all files for analysis to exclusively use Ruff for linting
+        ignore = { "*" },
+      },
+    },
+  },
+})
+
+for _, server_name in ipairs(lsp_servers) do
+  vim.lsp.config(server_name, {
+    capabilities = lsp_capabilities,
+  })
+  vim.lsp.enable(server_name)
+end
+
+-- Automatically install LSP servers and non-LSP tools (formatters, linters, etc.)
 require("mason-tool-installer").setup({
-  ensure_installed = {
-    "angularls",
-    "astro",
-    "bashls",
-    "cssls",
-    "eslint",
-    "html",
-    "jsonls",
-    "lua_ls",
-    "marksman",
-    "prettier",
-    "prettierd",
-    "pyright", -- NOTE: Create a pyrightconfig.json file in the root of a project for pyright
-    "ruff",
-    "shellcheck",
-    "stylua",
-    "tailwindcss",
-    "ts_ls",
-    "vimls",
-    "yamlfmt",
-    "yamlls",
-  },
-  integrations = {
-    ["mason-lspconfig"] = true,
-  },
+  ensure_installed = all_mason_tools,
 })
 
 })
