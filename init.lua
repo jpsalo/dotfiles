@@ -249,31 +249,40 @@ vim.g.gutentags_ctags_exclude = { "dist", "*-lock.json", "build", "dist", "node_
 
 -- [[ Intellisense ]]
 
-require("nvim-treesitter.configs").setup({
-  ensure_installed = {
-    "angular",
-    "astro",
-    "bash",
-    "css",
-    "html",
-    "json",
-    "lua",
-    "markdown",
-    "markdown_inline",
-    "python",
-    "tsx",
-    "typescript",
-    "vim",
-    "vimdoc",
-    "xresources",
-    "yaml",
-  },
-  -- Automatically install missing parsers when entering buffer
-  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-  auto_install = false,
-  highlight = {
-    enable = true,
-  },
+local treesitter = require("nvim-treesitter")
+
+treesitter.install({
+  -- NOTE: Commented out
+  -- https://github.com/nvim-treesitter/nvim-treesitter/blob/d3218d988f72ed34414959c9ccd802d393432d6e/runtime/queries/angular/highlights.scm#L5
+  -- https://github.com/nvim-treesitter/nvim-treesitter/pull/8312
+  "angular",
+  "astro",
+  "bash",
+  "css",
+  "html",
+  "json",
+  -- lua install is stuck at [nvim-treesitter/install/lua]: Compiling parser
+  -- "lua",
+  "markdown",
+  "markdown_inline",
+  "python",
+  "tsx",
+  "typescript",
+  "vim",
+  "vimdoc",
+  "xresources",
+  "yaml",
+})
+
+-- Enable treesitter highlighting
+-- https://github.com/nvim-treesitter/nvim-treesitter/discussions/7927#discussioncomment-14479019
+-- https://github.com/sharpchen/nix-config/blob/d357b8026930b9ec380e8cd480bbf983ed984cb0/dotfiles/nvim-config/lua/plugins/treesitter.lua#L55-L66
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function(args)
+    if vim.list_contains(treesitter.get_installed(), vim.treesitter.language.get_lang(args.match)) then
+      vim.treesitter.start(args.buf)
+    end
+  end,
 })
 
 -- LSP configuration
