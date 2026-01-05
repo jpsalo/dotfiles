@@ -141,7 +141,7 @@ Plug("abecodes/tabout.nvim")
 Plug("brenoprata10/nvim-highlight-colors")
 
 -- Distraction-free writing
-Plug("junegunn/goyo.vim")
+Plug("folke/zen-mode.nvim")
 
 -- Markdown
 Plug("godlygeek/tabular")
@@ -692,19 +692,7 @@ vim.api.nvim_create_user_command("SyncTheme", sync_theme, {})
 -- Remember to set the theme initially
 set_theme()
 
--- Zen mode
-vim.g.goyo_width = 120 -- TODO: max line length variable from ~/.editorconfig
-
--- On window resize, if goyo is active, do <c-w>= to resize the window
--- https://github.com/junegunn/goyo.vim/issues/159#issuecomment-342417487
-vim.api.nvim_create_autocmd("VimResized", {
-  pattern = "*",
-  callback = function()
-    if vim.fn.exists("#goyo") ~= 0 then
-      vim.cmd("normal <c-w>=")
-    end
-  end,
-})
+require("zen-mode").setup()
 
 -- Indent guides
 require("ibl").setup()
