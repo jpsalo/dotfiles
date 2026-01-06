@@ -5,6 +5,8 @@ colour-contrast-cli
 
 # Node.js integration for Neovim
 neovim
+# Requirement for nvim-treesitter
+tree-sitter-cli
 
 # Asks for analytics and installation fails but seems to work
 # NOTE: default_packages does not support --silent install flag
