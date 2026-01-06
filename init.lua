@@ -650,7 +650,7 @@ vim.keymap.set("n", "<Leader>fg", extensions.live_grep_args.live_grep_args, {})
 -- Print the paths with at least one match and suppress match contents.
 -- Inspiration: https://github.com/nvim-telescope/telescope.nvim/issues/647#issuecomment-1536456802
 -- NOTE: live_grep_args supports additional_args, but it doesn't work with --files-with-matches. See https://github.com/nvim-telescope/telescope-live-grep-args.nvim/issues/65#issuecomment-2093181733
-vim.keymap.set("n", "<Leader>7", function()
+vim.keymap.set("n", "<Leader>ff", function()
   builtin.live_grep({ additional_args = { "--files-with-matches" } })
 end)
 -- Live grep for the word under the cursor
