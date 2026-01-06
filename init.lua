@@ -235,6 +235,7 @@ end
 
 -- Plugin collection
 require("snacks").setup({
+  bigfile = { enabled = true }, -- Better handling of large files
   input = { enabled = true },
 })
 
