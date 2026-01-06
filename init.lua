@@ -871,6 +871,23 @@ vim.keymap.set("n", "<Leader>m", ":Neotree toggle left<CR>")
 vim.keymap.set("n", "<Leader>n", ":Neotree toggle float<CR>")
 vim.keymap.set("n", "<Leader>p", ":Neotree filesystem reveal left<CR>")
 
+-- [[ Floating windows ]]
+
+-- Configure solid borders for LSP hover windows
+-- https://neovim.io/doc/user/lsp.html#vim.lsp.buf.hover()
+-- https://github.com/NvChad/NvChad/issues/3252#issuecomment-2817030617
+-- See also: vim.opt.winborder / pumborder
+vim.keymap.set({ "n" }, "K", function()
+  vim.lsp.buf.hover({ border = "solid" })
+end, { desc = "Symbol information", silent = true })
+
+-- Configure solid borders for diagnostic floating windows
+vim.diagnostic.config({
+  float = {
+    border = "solid",
+  },
+})
+
 -- [[ Notifications ]]
 
 -- Set nvim-notify as default notify function and hide "No information available" messages from language servers.
