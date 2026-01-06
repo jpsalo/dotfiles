@@ -105,9 +105,6 @@ Plug("ludovicchabant/vim-gutentags")
 -- Automatically save changes to disk
 Plug("907th/vim-auto-save")
 
--- Close all buffers except current
-Plug("vim-scripts/BufOnly.vim")
-
 -- Status/tabline
 Plug("vim-airline/vim-airline")
 Plug("vim-airline/vim-airline-themes")
@@ -237,6 +234,7 @@ end
 require("snacks").setup({
   bigfile = { enabled = true }, -- Better handling of large files
   input = { enabled = true },
+  -- bufdelete is available by default, no need to enable explicitly
 })
 
 -- tabout
@@ -820,17 +818,26 @@ vim.keymap.set("n", "<Leader>0", function()
 end, { noremap = true, silent = true, desc = "Go to last visible buffer" })
 
 -- Delete buffer without losing the split window
--- Compatible with `set hidden`
--- http://stackoverflow.com/a/4468491/7010222
--- https://stackoverflow.com/questions/4465095/vim-delete-buffer-without-losing-the-split-window/4468491#comment42185471_4468491
--- https://vim.fandom.com/wiki/Easier_buffer_switching#Switching_to_the_previously_edited_buffer
--- TODO: sometimes goes to ghost (previously active) buffer, such as, when closing last buffer
-vim.keymap.set(
-  "n",
-  "<Leader>bd",
-  ":bd<CR>",
-  { noremap = true, silent = true, desc = "Delete buffer without losing the split window" }
-)
+-- Using Snacks.bufdelete for intelligent buffer deletion with safety prompts
+-- Preserves window layout and prompts to save if buffer has unsaved changes
+vim.keymap.set("n", "<Leader>bd", function()
+  require("snacks").bufdelete()
+end, { noremap = true, silent = true, desc = "Delete buffer (with safety prompts)" })
+
+-- Force delete buffer without prompts (discard unsaved changes)
+vim.keymap.set("n", "<Leader>bD", function()
+  require("snacks").bufdelete({ force = true })
+end, { noremap = true, silent = true, desc = "Force delete buffer (discard changes)" })
+
+-- Delete all buffers except current
+vim.keymap.set("n", "<Leader>bo", function()
+  require("snacks").bufdelete.other()
+end, { noremap = true, silent = true, desc = "Delete all buffers except current" })
+
+-- Delete all buffers
+vim.keymap.set("n", "<Leader>ba", function()
+  require("snacks").bufdelete.all()
+end, { noremap = true, silent = true, desc = "Delete all buffers" })
 
 -- [[ Lists ]]
 
