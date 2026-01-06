@@ -36,6 +36,9 @@ vim.bo.softtabstop = 2 -- Expand TABs to space
 -- Decrease update time
 vim.opt.updatetime = 500
 
+-- Required for opencode.nvim file reload events
+vim.o.autoread = true
+
 -- Python virtualenv
 -- Set static interpreter (and pynvim package) for Neovim
 -- https://neovim.io/doc/user/provider.html#python-virtualenv
@@ -71,6 +74,13 @@ endif
 local Plug = vim.fn["plug#"]
 
 vim.call("plug#begin")
+
+-- Plugin collection
+Plug("folke/snacks.nvim")
+
+-- AI assistant
+Plug("folke/snacks.nvim")
+Plug("NickvanDyke/opencode.nvim")
 
 -- Treesitter
 Plug("nvim-treesitter/nvim-treesitter", { ["do"] = ":TSUpdate" })
@@ -223,6 +233,11 @@ for _, bracket in pairs(brackets) do
   })
 end
 
+-- Plugin collection
+require("snacks").setup({
+  input = { enabled = true },
+})
+
 -- tabout
 require("tabout").setup({})
 
@@ -240,6 +255,47 @@ vim.keymap.set(
 )
 
 vim.g.gutentags_ctags_exclude = { "dist", "*-lock.json", "build", "dist", "node_modules", "xeno" }
+
+-- [[ AI assistant ]]
+
+---@type opencode.Opts
+vim.g.opencode_opts = {
+  provider = {
+    enabled = "tmux",
+    tmux = {
+      split_direction = "h", -- horizontal split below
+    },
+  },
+}
+
+-- Keymaps
+vim.keymap.set({ "n", "x" }, "<Leader>oa", function()
+  require("opencode").ask("@this: ", { submit = true })
+end, { desc = "Ask opencode" })
+
+vim.keymap.set({ "n", "x" }, "<Leader>ox", function()
+  require("opencode").select()
+end, { desc = "Execute opencode action…" })
+
+vim.keymap.set({ "n", "t" }, "<Leader>oc", function()
+  require("opencode").toggle()
+end, { desc = "Toggle opencode" })
+
+vim.keymap.set({ "n", "x" }, "<Leader>or", function()
+  return require("opencode").operator("@this ")
+end, { expr = true, desc = "Add range to opencode" })
+
+vim.keymap.set("n", "<Leader>ol", function()
+  return require("opencode").operator("@this ") .. "_"
+end, { expr = true, desc = "Add line to opencode" })
+
+vim.keymap.set("n", "<S-C-u>", function()
+  require("opencode").command("session.half.page.up")
+end, { desc = "opencode half page up" })
+
+vim.keymap.set("n", "<S-C-d>", function()
+  require("opencode").command("session.half.page.down")
+end, { desc = "opencode half page down" })
 
 -- [[ Intellisense ]]
 
