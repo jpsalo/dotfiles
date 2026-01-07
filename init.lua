@@ -106,8 +106,7 @@ Plug("ludovicchabant/vim-gutentags")
 Plug("907th/vim-auto-save")
 
 -- Status/tabline
-Plug("vim-airline/vim-airline")
-Plug("vim-airline/vim-airline-themes")
+Plug("nvim-lualine/lualine.nvim")
 
 -- Tree explorer (neo-tree)
 -- https://www.reddit.com/r/neovim/comments/tuyzch/comment/i39x42i/?utm_source=share&utm_medium=web2x&context=3aaaaa
@@ -703,32 +702,13 @@ local function set_theme_from_script()
   end
 end
 
--- tinted-vim does not have base16_* variables anymore, so they are mapped manually from tinted_* variables for vim-airline
--- Commit where the variables were removed tinted-vim: https://github.com/tinted-theming/tinted-vim/commit/1366fdf52ba6e29d466e5ffad460d19aefef4c43
--- PR where the base16_gui* variables were added to tinted-vim:
--- https://github.com/tinted-theming/tinted-vim/pull/100 and https://github.com/tinted-theming/tinted-vim/pull/101
--- How they are used in vim-airline: https://github.com/vim-airline/vim-airline-themes/blob/master/autoload/airline/themes/base16_vim.vim
-local function sync_tinted_to_base16_vars()
-  local tinted_vars = vim.fn.getcompletion("g:tinted_cterm", "var")
-  for _, var in ipairs(tinted_vars) do
-    local name = var:gsub("g:", "") -- Remove g: prefix
-    local new_name = name:gsub("^tinted_cterm", "base16_cterm")
-    if vim.g[name] ~= nil then
-      vim.g[new_name] = vim.g[name]
-    end
-  end
-end
-
 local function set_theme()
   set_theme_from_env() -- This "should" be enough but also set theme from script as a fallback
   set_theme_from_script()
-  sync_tinted_to_base16_vars()
 end
 
 local function sync_theme()
   set_theme_from_script()
-  sync_tinted_to_base16_vars()
-  vim.cmd("AirlineRefresh")
 end
 
 vim.api.nvim_create_user_command("SyncTheme", sync_theme, {})
@@ -750,30 +730,16 @@ require("nvim-highlight-colors").setup({
 
 -- [[ Statusline ]]
 
--- Use bufferline instead of tabline
-vim.g["airline#extensions#tabline#enabled"] = 0
-
--- Use straight statusline
-vim.g.airline_left_sep = ""
-vim.g.airline_right_sep = ""
-
--- Show git branch from statusline
--- https://github.com/vim-airline/vim-airline/issues/605#issue-43567680
-vim.g["airline#extensions#branch#enabled"] = 1
-
--- Disable git hunks
-vim.g["airline#extensions#hunks#enabled"] = 0
-
--- Powerline font symbols
--- https://github.com/vim-airline/vim-airline/wiki/FAQ#the-powerline-font-symbols-are-not-showing-up
-vim.g.airline_powerline_fonts = 1
-
--- This will expect sync_tinted_to_base16_vars to be called after the tinted-vim theme is set
-vim.g.airline_theme = "base16_vim"
--- More monotonic look
-vim.g.airline_base16_monotone = 1
--- Improve the contrast for the inactive statusline
-vim.g.airline_base16_improved_contrast = 1
+-- Lualine configuration
+require("lualine").setup({
+  options = {
+    theme = "base16",
+    -- Disabling separators
+    component_separators = "",
+    section_separators = "",
+    globalstatus = true, -- Global statusline
+  },
+})
 
 -- [[ Buffers ]]
 
