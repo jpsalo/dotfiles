@@ -150,7 +150,7 @@ Plug("folke/zen-mode.nvim")
 Plug("godlygeek/tabular")
 
 -- Color scheme
-Plug("tinted-theming/tinted-vim")
+Plug("tinted-theming/tinted-nvim")
 
 -- Indentation guides
 Plug("lukas-reineke/indent-blankline.nvim")
@@ -683,38 +683,21 @@ vim.opt.linebreak = true -- Wraps at word boundaries for better readability
 vim.opt.breakindent = true -- Maintains indentation on wrapped lines
 vim.opt.breakindentopt = "list:-1" -- Uses the width of a match with 'formatlistpat' for indentation
 
--- The BASE16_THEME environment variable (from tinted-shell) will set to your current colorscheme
--- https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#base16-vim-users
-local function set_theme_from_env()
-  local current_theme_name = os.getenv("BASE16_THEME")
-  if current_theme_name and vim.g.colors_name ~= "base16-" .. current_theme_name then
-    vim.cmd("colorscheme base16-" .. current_theme_name)
-  end
-end
-
--- Source the set_theme scripts to initialise the Vim theme. (Tmux may not handle environment variables correctly)
--- https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#tmux--vim
-local function set_theme_from_script()
-  local set_theme_path = "$HOME/.config/tinted-theming/set_theme.lua"
-  local is_set_theme_file_readable = vim.fn.filereadable(vim.fn.expand(set_theme_path)) == 1 and true or false
-  if is_set_theme_file_readable then
-    vim.cmd("source " .. set_theme_path)
-  end
-end
-
-local function set_theme()
-  set_theme_from_env() -- This "should" be enough but also set theme from script as a fallback
-  set_theme_from_script()
-end
-
-local function sync_theme()
-  set_theme_from_script()
-end
-
-vim.api.nvim_create_user_command("SyncTheme", sync_theme, {})
-
--- Remember to set the theme initially
-set_theme()
+-- Tinty sets the theme
+require("tinted-colorscheme").setup(nil, {
+  supports = {
+    tinty = true,
+    live_reload = true,
+  },
+  highlights = {
+    telescope = true,
+    telescope_borders = false,
+    indentblankline = true,
+    notify = true,
+    -- illuminate = true, -- TODO: https://github.com/RRethy/vim-illuminate
+    lsp_semantic = true,
+  },
+})
 
 require("zen-mode").setup()
 

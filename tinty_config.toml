@@ -1,0 +1,31 @@
+# Global settings
+shell = "zsh -c '{}'"
+default-scheme = "base24-0x96f"
+preferred-schemes = ["base24-0x96f", "base24-catppuccin-latte"]
+hooks = ["tmux source-file ~/.config/tmux/tmux.conf"]
+
+[[items]]
+path = "https://github.com/tinted-theming/tinted-terminal"
+name = "tinted-terminal"
+themes-dir = "themes/ghostty"
+# With `theme` set to "tinted-theming", this will be where Ghostty looks for the theme file:
+# NOTE: mkdir -p ~/.config/ghostty/themes
+hook = "command cp -f %f ~/.config/ghostty/themes/tinted-theming && killall -SIGUSR2 ghostty"
+supported-systems = ["base16", "base24"]
+
+# Item configurations
+[[items]]
+path = "https://github.com/tinted-theming/tinted-shell"
+name = "tinted-shell"
+themes-dir = "scripts"
+hook = ". %f"
+supported-systems = ["base16", "base24"]
+
+# NOTE: This does not set the theme at startup. Use as a tmux tpm plugin instead
+# [[items]]
+# path = "https://github.com/tinted-theming/tinted-tmux"
+# name = "tinted-tmux"
+# # Check if tmux is in use and if it is, reload the config file
+# hook = "tmux run 2> /dev/null && tmux source-file %f"
+# themes-dir = "colors"
+# supported-systems = ["base16", "base24"]

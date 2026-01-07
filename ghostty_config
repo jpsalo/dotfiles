@@ -1,0 +1,7 @@
+font-family = SauceCodePro NFM
+font-thicken = true
+cursor-style-blink = false
+shell-integration-features = no-cursor
+# Set `theme` to "tinted-theming":
+# NOTE: mkdir -p ~/.config/ghostty/themes
+theme = "tinted-theming"

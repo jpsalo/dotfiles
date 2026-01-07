@@ -23,12 +23,8 @@ plugins+=(
   virtualenv
 )
 
-# Tinted Shell (Base16 Shell)
-# https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#bashzsh
-BASE16_SHELL_PATH="$HOME/.config/tinted-theming/tinted-shell"
-[ -n "$PS1" ] && \
-  [ -s "$BASE16_SHELL_PATH/profile_helper.sh" ] && \
-    source "$BASE16_SHELL_PATH/profile_helper.sh"
+# NOTE: Tinty shell completion: https://github.com/tinted-theming/tinty/blob/main/USAGE.md#shell-completions
+# if [ -f $HOME/bin/tinty-zsh-completion.sh ]; then . $HOME/bin/tinty-zsh-completion.sh; fi
 
 ZSH_TMUX_AUTOSTART=true
 ZSH_TMUX_AUTOQUIT=false

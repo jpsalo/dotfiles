@@ -1,2 +1,3 @@
 # https://github.com/sharkdp/bat#8-bit-themes
---theme="base16"
+# https://github.com/tinted-theming/tinty/blob/main/USAGE.md#bat
+--theme="base16-256"
