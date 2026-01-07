@@ -719,14 +719,7 @@ local function sync_tinted_to_base16_vars()
   end
 end
 
-local function initialise_colorspace_vars()
-  vim.g.base16colorspace = 256 -- For vim-airline-themes
-  vim.g.base16_colorspace = 256 -- Legacy: https://github.com/tinted-theming/tinted-vim/commit/9d50944461665124a9b93e58450718ffb1ae6a11
-  vim.g.tinted_colorspace = 256 -- Current
-end
-
 local function set_theme()
-  initialise_colorspace_vars()
   set_theme_from_env() -- This "should" be enough but also set theme from script as a fallback
   set_theme_from_script()
   sync_tinted_to_base16_vars()
