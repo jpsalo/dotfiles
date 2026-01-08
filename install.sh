@@ -148,6 +148,13 @@ setup_base_configuration() {
   backup_existing_file "$HOME"/.config/bat/config
   create_symlink bat_config "$HOME"/.config/bat/config
 
+  if [[ $os == "macos" ]]; then
+    brew tap anomalyco/tap
+    install_package opencode
+  elif [[ $os == "arch_linux" ]]; then
+    pamac build opencode-bin # TODO: --no-confirm
+  fi
+
   if [[ $os == "arch_linux" ]]; then
     backup_existing_file "$HOME"/.Xresources
     create_symlink Xresources
