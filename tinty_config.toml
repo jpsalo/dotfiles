@@ -1,7 +1,7 @@
 # Global settings
 shell = "zsh -c '{}'"
-default-scheme = "base24-0x96f"
-preferred-schemes = ["base24-0x96f", "base24-catppuccin-latte"]
+default-scheme = "base24-catppuccin-macchiato"
+preferred-schemes = ["base24-0x96f", "base24-catppuccin-latte", "base24-catppuccin-macchiato"]
 hooks = ["tmux source-file ~/.config/tmux/tmux.conf"]
 
 [[items]]
