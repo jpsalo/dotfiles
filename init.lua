@@ -155,6 +155,9 @@ Plug("tinted-theming/tinted-nvim")
 -- Indentation guides
 Plug("lukas-reineke/indent-blankline.nvim")
 
+-- Highlighting other uses of the word under the cursor
+Plug("https://github.com/RRethy/vim-illuminate")
+
 -- Obsidian
 Plug("MeanderingProgrammer/render-markdown.nvim")
 Plug("obsidian-nvim/obsidian.nvim", { ["tag"] = "*" })
