@@ -29,3 +29,9 @@ supported-systems = ["base16", "base24"]
 # hook = "tmux run 2> /dev/null && tmux source-file %f"
 # themes-dir = "colors"
 # supported-systems = ["base16", "base24"]
+
+[[items]]
+path = "https://github.com/tinted-theming/tinted-fzf"
+name = "tinted-fzf"
+hook = ". %f"
+themes-dir = "sh"
