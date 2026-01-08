@@ -697,7 +697,7 @@ require("tinted-colorscheme").setup(nil, {
     telescope_borders = false,
     indentblankline = true,
     notify = true,
-    -- illuminate = true, -- TODO: https://github.com/RRethy/vim-illuminate
+    illuminate = true,
     lsp_semantic = true,
   },
 })
