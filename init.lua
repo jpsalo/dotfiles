@@ -725,6 +725,15 @@ require("lualine").setup({
     section_separators = "",
     globalstatus = true, -- Global statusline
   },
+  sections = {
+    lualine_x = {
+      "lsp_status",
+      -- Check current defaults here: https://github.com/nvim-lualine/lualine.nvim
+      "encoding",
+      "fileformat",
+      "filetype",
+    },
+  },
 })
 
 -- [[ Buffers ]]
