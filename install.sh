@@ -161,29 +161,14 @@ setup_base_configuration() {
 
 setup_terminal() {
   if [[ $os == "macos" ]]; then
-    is_iterm_installed=false
-    if brew list iterm2 &>/dev/null; then
-      is_iterm_installed=true
-    fi
-
-    install_cask_package iterm2
-
-    validate_directory "$HOME"/.config/iterm
-    backup_existing_file "$HOME"/.config/iterm/com.googlecode.iterm2.plist
-    create_symlink com.googlecode.iterm2.plist "$HOME"/.config/iterm/com.googlecode.iterm2.plist
-
-    if [ "$is_iterm_installed" = false ] ; then
-      # It looks like apps need to be run before the settings can be persisted.
-      # Do not do this if iTerm2 is already installed.
-      echo iTerm2 will now open. Please quit it to continue the installation. If it does not open automatically, then run it manually.
-      open -W -a iTerm
-    fi
-
-    # Specify the preferences directory
-    defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "~/.config/iterm/"
-    # Tell iTerm2 to use the custom preferences in the directory
-    defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
+    install_cask_package ghostty
+  elif [[ $os == "arch_linux" ]]; then
+    install_package ghostty
   fi
+  validate_directory "$HOME"/.config/ghostty
+  validate_directory "$HOME"/.config/ghostty/themes
+  backup_existing_file "$HOME"/.config/ghostty/config
+  create_symlink ghostty_config "$HOME"/.config/ghostty/config
 }
 
 setup_zsh() {
@@ -201,7 +186,6 @@ setup_zsh() {
 }
 
 setup_python() {
-
   if [[ $os == "arch_linux" ]]; then
     install_package python
   elif [[ $os == "macos" ]]; then
@@ -273,10 +257,25 @@ setup_neovim() {
 }
 
 setup_ui() {
-  # https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#installation
-  git clone https://github.com/tinted-theming/tinted-shell.git "$HOME"/.config/tinted-theming/tinted-shell
-  "$HOME"/scripts/theme.sh dark
+  # Install tinty theme manager
+  if [[ $os == "macos" ]]; then
+    # https://github.com/tinted-theming/tinty?tab=readme-ov-file#homebrew
+    brew tap tinted-theming/tinted
+    install_package tinty
+  elif [[ $os == "arch_linux" ]]; then
+    # https://aur.archlinux.org/packages/tinty-git
+    pamac build tinty-git # TODO: --no-confirm
+  fi
 
+  # Setup tinty configuration
+  validate_directory "$HOME"/.config/tinted-theming/tinty
+  backup_existing_file "$HOME"/.config/tinted-theming/tinty/config.toml
+  create_symlink tinty_config.toml "$HOME"/.config/tinted-theming/tinty/config.toml
+
+  # Initialize tinty (downloads schemes and templates)
+  tinty sync
+
+  # Install fonts
   if [[ $os == "arch_linux" ]]; then
     linux_fonts=ttf-sourcecodepro-nerd
     linux_fonts_fallback=ttf-dejavu-nerd
