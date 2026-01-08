@@ -117,10 +117,18 @@ setup_base_configuration() {
 
   validate_directory "$HOME"/scripts
   create_symlink theme.sh "$HOME"/scripts/theme.sh
+
   install_package tmux
   validate_directory "$HOME"/.config/tmux
   backup_existing_file "$HOME"/.config/tmux/tmux.conf
   create_symlink tmux.conf "$HOME"/.config/tmux/tmux.conf
+
+  # Install tpm (tmux plugin manager)
+  if [[ $os == "macos" ]]; then
+    install_package tpm
+  elif [[ $os == "arch_linux" ]]; then
+    pamac build tmux-plugin-manager # TODO: --no-confirm
+  fi
 
   install_package fzf
 
@@ -135,8 +143,8 @@ setup_base_configuration() {
   backup_existing_file "$HOME"/.config/tig/config
   create_symlink tigrc "$HOME"/.config/tig/config
 
-  validate_directory "$HOME"/.config/bat
   install_package bat
+  validate_directory "$HOME"/.config/bat
   backup_existing_file "$HOME"/.config/bat/config
   create_symlink bat_config "$HOME"/.config/bat/config
 

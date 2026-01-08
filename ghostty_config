@@ -3,5 +3,5 @@ font-thicken = true
 cursor-style-blink = false
 shell-integration-features = no-cursor
 # Set `theme` to "tinted-theming":
-# NOTE: mkdir -p ~/.config/ghostty/themes
+# NOTE: make sure ~/.config/ghostty/themes exists
 theme = "tinted-theming"
