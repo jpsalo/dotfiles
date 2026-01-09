@@ -615,6 +615,7 @@ local actions = require("telescope.actions")
 local lga_actions = require("telescope-live-grep-args.actions")
 telescope.setup({
   defaults = {
+    path_display = { "smart" }, -- Smart path shortening: shows filename only when unique, adds parent dir for duplicates
     file_ignore_patterns = {
       "tags",
     },
@@ -809,13 +810,23 @@ vim.api.nvim_create_autocmd("FileType", {
 -- [[ Tree explorer ]]
 
 require("neo-tree").setup({
-  window = {
-    -- Size of floating window
-    -- https://github.com/nvim-neo-tree/neo-tree.nvim/issues/533#issuecomment-1287950467
-    -- TODO: dimension variables
-    popup = { -- settings that apply to float position only
-      size = { height = "60%", width = "90%" },
-      position = "50%", -- 50% means center it
+  popup_border_style = "", -- "" to use 'winborder' on Neovim v0.11+
+  default_component_configs = {
+    -- If you don't want to use these columns, you can set `enabled = false` for each of them individually
+    file_size = {
+      enabled = false,
+    },
+    type = {
+      enabled = false,
+    },
+    last_modified = {
+      enabled = false,
+    },
+    created = {
+      enabled = false,
+    },
+    symlink_target = {
+      enabled = false,
     },
   },
 })
