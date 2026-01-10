@@ -668,8 +668,14 @@ vim.keymap.set("n", "<Leader>fg", extensions.live_grep_args.live_grep_args, {})
 vim.keymap.set("n", "<Leader>ff", function()
   builtin.live_grep({ additional_args = { "--files-with-matches" } })
 end)
--- Live grep for the word under the cursor
-vim.keymap.set("n", "<Leader>gc", live_grep_args_shortcuts.grep_word_under_cursor)
+vim.keymap.set(
+  "n",
+  "<Leader>gc",
+  live_grep_args_shortcuts.grep_word_under_cursor,
+  { desc = "Live grep for the word under the cursor" }
+)
+
+vim.keymap.set("n", "<Leader>q", builtin.diagnostics, { desc = "Diagnostics" })
 
 -- Vim pickers
 vim.keymap.set("n", "<Leader>b", builtin.buffers, {})
@@ -808,9 +814,6 @@ vim.keymap.set("n", "<Leader>ba", function()
 end, { noremap = true, silent = true, desc = "Delete all buffers" })
 
 -- [[ Lists ]]
-
--- Diagnostic keymaps
-vim.keymap.set("n", "<Leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
 -- Close quickfix menu after selecting choice
 -- https://stackoverflow.com/a/75039844/7010222
