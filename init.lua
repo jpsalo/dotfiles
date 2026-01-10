@@ -93,6 +93,9 @@ vim.call("plug#begin")
 -- Plugin collection
 Plug("folke/snacks.nvim")
 
+-- Keymap management and discovery
+Plug("folke/which-key.nvim")
+
 -- AI assistant
 Plug("folke/snacks.nvim")
 Plug("NickvanDyke/opencode.nvim")
@@ -179,20 +182,43 @@ Plug("obsidian-nvim/obsidian.nvim", { ["tag"] = "*" })
 
 vim.call("plug#end")
 
+-- [[ Keymap Management ]]
+
+local which_key = require("which-key")
+which_key.setup({
+  preset = "modern",
+  delay = 200, -- Time in ms to show which-key popup
+  icons = {
+    mappings = true, -- Use icons from nvim-web-devicons
+  },
+})
+
+-- Define keymap groups
+which_key.add({
+  { "<Leader>f", group = "Find/Files" },
+  { "<Leader>l", group = "LSP" },
+  { "<Leader>lg", group = "LSP Goto" },
+  { "<Leader>g", group = "Git" },
+  { "<Leader>b", group = "Buffers" },
+  { "<Leader>o", group = "OpenCode" },
+  { "<Leader>t", group = "Tree" },
+  { "<Leader>s", group = "Search" },
+})
+
 -- [[ Settings ]]
 
 -- Map ctrl-c to Esc to trigger InsertLeave
 -- https://github.com/neoclide/coc.nvim/issues/1197#issuecomment-534361825
-vim.keymap.set("i", "<C-c>", "<Esc>")
+vim.keymap.set("i", "<C-c>", "<Esc>", { desc = "Escape to normal mode" })
 
 -- Clear highlights on search when pressing Enter in normal mode
 --  See `:help hlsearch`
-vim.keymap.set("n", "<CR>", "<cmd>nohlsearch<CR>")
+vim.keymap.set("n", "<CR>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
 
--- Visually select the word then double tap // to search what’s been selected
+-- Visually select the word then double tap // to search what's been selected
 -- https://www.reddit.com/r/vim/comments/10k690h/comment/j5qz9j0/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
 -- http://vim.wikia.com/wiki/Search_for_visually_selected_text#Simple
-vim.keymap.set("v", "//", 'y/\\V<C-R>"<CR>')
+vim.keymap.set("v", "//", 'y/\\V<C-R>"<CR>', { desc = "Search selected text" })
 
 -- Autopairs
 local npairs = require("nvim-autopairs")
@@ -359,16 +385,26 @@ vim.api.nvim_create_autocmd("LspAttach", {
   desc = "LSP actions",
   callback = function(event)
     local opts = { buffer = event.buf }
-    vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
     -- vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<CR>", opts) -- Use conform.nvim instead
-    vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+    vim.keymap.set(
+      "n",
+      "<Leader>lr",
+      "<cmd>lua vim.lsp.buf.rename()<CR>",
+      vim.tbl_extend("force", opts, { desc = "Rename symbol" })
+    )
+    vim.keymap.set(
+      "n",
+      "<Leader>la",
+      "<cmd>lua vim.lsp.buf.code_action()<CR>",
+      vim.tbl_extend("force", opts, { desc = "Code action" })
+    )
   end,
 })
 
 -- Show line diagnostics
 -- NOTE: diagnostics are not exclusive to lsp servers so these can be global keybindings
 -- https://lsp-zero.netlify.app/docs/guide/migrate-from-v1-branch.html#configure-diagnostics
-vim.keymap.set("n", "<Leader>e", "<cmd>lua vim.diagnostic.open_float()<cr>")
+vim.keymap.set("n", "<Leader>le", "<cmd>lua vim.diagnostic.open_float()<cr>", { desc = "Show line diagnostics" })
 
 local lsp_servers = {
   "angularls",
@@ -618,7 +654,7 @@ end, {
 -- https://github.com/stevearc/conform.nvim/issues/40#issuecomment-1719629250
 vim.keymap.set({ "n", "x" }, "<F3>", function()
   conform.format({ async = true, lsp_fallback = true })
-end)
+end, { desc = "Format buffer" })
 
 -- [[ Fuzzy finder ]]
 
@@ -659,35 +695,31 @@ local builtin = require("telescope.builtin")
 local extensions = require("telescope").extensions
 local live_grep_args_shortcuts = require("telescope-live-grep-args.shortcuts")
 
--- File pickers
-vim.keymap.set("n", "<Leader><Leader>", builtin.find_files, {})
-vim.keymap.set("n", "<Leader>fg", extensions.live_grep_args.live_grep_args, {})
+-- Find/Files group
+vim.keymap.set("n", "<Leader><Leader>", builtin.find_files, { desc = "Find files" })
+vim.keymap.set("n", "<Leader>fg", extensions.live_grep_args.live_grep_args, { desc = "Live grep with args" })
 -- Print the paths with at least one match and suppress match contents.
 -- Inspiration: https://github.com/nvim-telescope/telescope.nvim/issues/647#issuecomment-1536456802
 -- NOTE: live_grep_args supports additional_args, but it doesn't work with --files-with-matches. See https://github.com/nvim-telescope/telescope-live-grep-args.nvim/issues/65#issuecomment-2093181733
 vim.keymap.set("n", "<Leader>ff", function()
   builtin.live_grep({ additional_args = { "--files-with-matches" } })
-end)
-vim.keymap.set(
-  "n",
-  "<Leader>gc",
-  live_grep_args_shortcuts.grep_word_under_cursor,
-  { desc = "Live grep for the word under the cursor" }
-)
+end, { desc = "Find files with matches" })
+vim.keymap.set("n", "<Leader>fc", live_grep_args_shortcuts.grep_word_under_cursor, { desc = "Grep word under cursor" })
 
-vim.keymap.set("n", "<Leader>q", builtin.diagnostics, { desc = "Diagnostics" })
+-- LSP group
+vim.keymap.set("n", "<Leader>ld", builtin.diagnostics, { desc = "Diagnostics" })
+vim.keymap.set("n", "<Leader>lgd", builtin.lsp_definitions, { desc = "Go to definitions" })
+vim.keymap.set("n", "<Leader>lgi", builtin.lsp_implementations, { desc = "Go to implementations" })
+vim.keymap.set("n", "<Leader>lgo", builtin.lsp_type_definitions, { desc = "Go to type definitions" })
+vim.keymap.set("n", "<Leader>lgr", builtin.lsp_references, { desc = "Go to references" })
 
--- Vim pickers
-vim.keymap.set("n", "<Leader>b", builtin.buffers, {})
-vim.keymap.set("n", "<Leader>t", builtin.help_tags, {})
-vim.keymap.set("n", "<Leader>c", builtin.command_history, {})
-vim.keymap.set("n", "<Leader>h", builtin.search_history, {})
+-- Buffer group
+vim.keymap.set("n", "<Leader>b", builtin.buffers, { desc = "List buffers" })
 
--- LSP pickers
-vim.keymap.set("n", "<Leader>gd", builtin.lsp_definitions, {})
-vim.keymap.set("n", "<Leader>gi", builtin.lsp_implementations, {})
-vim.keymap.set("n", "<Leader>go", builtin.lsp_type_definitions, {})
-vim.keymap.set("n", "<Leader>gr", builtin.lsp_references, {})
+-- Search group
+vim.keymap.set("n", "<Leader>sc", builtin.command_history, { desc = "Command history" })
+vim.keymap.set("n", "<Leader>sh", builtin.search_history, { desc = "Search history" })
+vim.keymap.set("n", "<Leader>st", builtin.help_tags, { desc = "Search help tags" })
 
 -- [[ UI and theme ]]
 
@@ -783,30 +815,30 @@ vim.keymap.set("n", "<S-Tab>", ":BufferLineCyclePrev<CR>", { noremap = true, sil
 for i = 1, 9 do
   vim.keymap.set("n", "<Leader>" .. i, function()
     bufferline.go_to(i, true)
-  end, { noremap = true, silent = true, desc = "Go to buffer in position " .. i })
+  end, { noremap = true, silent = true, desc = "Go to buffer " .. i })
 end
 
 -- Go to last visible buffer
 vim.keymap.set("n", "<Leader>0", function()
   bufferline.go_to(-1, true)
-end, { noremap = true, silent = true, desc = "Go to last visible buffer" })
+end, { noremap = true, silent = true, desc = "Go to last buffer" })
 
 -- Delete buffer without losing the split window
 -- Using Snacks.bufdelete for intelligent buffer deletion with safety prompts
 -- Preserves window layout and prompts to save if buffer has unsaved changes
 vim.keymap.set("n", "<Leader>bd", function()
   require("snacks").bufdelete()
-end, { noremap = true, silent = true, desc = "Delete buffer (with safety prompts)" })
+end, { noremap = true, silent = true, desc = "Delete buffer" })
 
 -- Force delete buffer without prompts (discard unsaved changes)
 vim.keymap.set("n", "<Leader>bD", function()
   require("snacks").bufdelete({ force = true })
-end, { noremap = true, silent = true, desc = "Force delete buffer (discard changes)" })
+end, { noremap = true, silent = true, desc = "Force delete buffer" })
 
 -- Delete all buffers except current
 vim.keymap.set("n", "<Leader>bo", function()
   require("snacks").bufdelete.other()
-end, { noremap = true, silent = true, desc = "Delete all buffers except current" })
+end, { noremap = true, silent = true, desc = "Delete other buffers" })
 
 -- Delete all buffers
 vim.keymap.set("n", "<Leader>ba", function()
@@ -847,9 +879,9 @@ require("neo-tree").setup({
 })
 
 -- Toggle, reveal file in Neo-tree
-vim.keymap.set("n", "<Leader>m", ":Neotree toggle left<CR>")
-vim.keymap.set("n", "<Leader>n", ":Neotree toggle float<CR>")
-vim.keymap.set("n", "<Leader>p", ":Neotree filesystem reveal left<CR>")
+vim.keymap.set("n", "<Leader>tt", ":Neotree toggle left<CR>", { desc = "Toggle tree (left)" })
+vim.keymap.set("n", "<Leader>tf", ":Neotree toggle float<CR>", { desc = "Toggle tree (float)" })
+vim.keymap.set("n", "<Leader>tr", ":Neotree filesystem reveal left<CR>", { desc = "Reveal file in tree" })
 
 -- [[ Notifications ]]
 
