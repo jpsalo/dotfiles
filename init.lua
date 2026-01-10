@@ -39,19 +39,34 @@ vim.opt.updatetime = 500
 -- Required for opencode.nvim file reload events
 vim.o.autoread = true
 
+-- Scroll behavior
+vim.opt.scrolloff = 8 -- Keep 8 lines above/below cursor
+vim.opt.sidescrolloff = 8 -- Keep 8 columns left/right of cursor
+vim.opt.smoothscroll = true -- Scroll by screen line
+
+-- Undo persistence
+vim.opt.undofile = true -- Save undo history across sessions
+
+-- Completion menu
+vim.opt.pumheight = 10 -- Limit popup menu height
+
+-- Better diff algorithm
+vim.opt.diffopt:append("linematch:60")
+
+-- Quality of life improvements
+vim.opt.confirm = true -- Ask to save instead of failing
+vim.opt.splitkeep = "screen" -- Keep text on screen when opening splits
+vim.opt.jumpoptions = "view" -- Restore view when jumping
+
+-- Reserve space in gutter for signs (git, diagnostics, etc.)
+vim.opt.signcolumn = "yes"
+
 -- Python virtualenv
 -- Set static interpreter (and pynvim package) for Neovim
 -- https://neovim.io/doc/user/provider.html#python-virtualenv
 vim.g.python3_host_prog = "$NVIM_PYTHON_VIRTUALENV_PATH/bin/python3"
 
 vim.cmd([[
-" Hide buffers instead of closing them
-" Works good with buffer tags and tabline
-" set hidden
-
-" Ignore case on file and directory completion
-" set wildignorecase
-
 " NOTE:
 " g:node_host_prog is handled by neovim npm package (from `npm root -g`)
 " https://neovim.io/doc/user/provider.html#g:node_host_prog
@@ -338,9 +353,6 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- LSP configuration
-
--- Reserve a space in the gutter (note that vim-gitgutter will occupy the gutter)
-vim.opt.signcolumn = "yes"
 
 -- This is where you enable features that only work if there is a language server active in the file
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -810,7 +822,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- [[ Tree explorer ]]
 
 require("neo-tree").setup({
-  popup_border_style = "", -- "" to use 'winborder' on Neovim v0.11+
+  popup_border_style = "", -- "" to use 'winborder'
   default_component_configs = {
     -- If you don't want to use these columns, you can set `enabled = false` for each of them individually
     file_size = {
