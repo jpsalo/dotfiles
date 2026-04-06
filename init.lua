@@ -149,8 +149,8 @@ Plug("rcarriga/nvim-notify")
 -- Toggle, display and navigate marks
 Plug("kshenoy/vim-signature")
 
--- Git gutter
-Plug("airblade/vim-gitgutter")
+-- Git signs
+Plug("lewis6991/gitsigns.nvim")
 
 -- Auto-close brackets
 Plug("windwp/nvim-autopairs")
@@ -283,18 +283,35 @@ require("snacks").setup({
 -- tabout
 require("tabout").setup({})
 
-vim.keymap.set(
-  "n",
-  "<Leader>gn",
-  "<Plug>(GitGutterNextHunk)",
-  { noremap = true, silent = true, desc = "Next git hunk" }
-)
-vim.keymap.set(
-  "n",
-  "<Leader>gp",
-  "<Plug>(GitGutterPrevHunk)",
-  { noremap = true, silent = true, desc = "Previous git hunk" }
-)
+-- Git signs
+require("gitsigns").setup({
+  on_attach = function(bufnr)
+    local gitsigns = require("gitsigns")
+
+    local function map(mode, lhs, rhs, opts)
+      opts = opts or {}
+      opts.buffer = bufnr
+      vim.keymap.set(mode, lhs, rhs, opts)
+    end
+
+    -- Navigation
+    map("n", "<Leader>gn", function()
+      if vim.wo.diff then
+        vim.cmd.normal({ "<Leader>gn", bang = true })
+      else
+        gitsigns.nav_hunk("next")
+      end
+    end, { desc = "Next git hunk" })
+
+    map("n", "<Leader>gp", function()
+      if vim.wo.diff then
+        vim.cmd.normal({ "<Leader>gp", bang = true })
+      else
+        gitsigns.nav_hunk("prev")
+      end
+    end, { desc = "Previous git hunk" })
+  end,
+})
 
 vim.g.gutentags_ctags_exclude = { "dist", "*-lock.json", "build", "dist", "node_modules", "xeno" }
 
