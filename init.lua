@@ -369,9 +369,6 @@ require("minuet").setup({
 local treesitter = require("nvim-treesitter")
 
 treesitter.install({
-  -- NOTE: Commented out
-  -- https://github.com/nvim-treesitter/nvim-treesitter/blob/d3218d988f72ed34414959c9ccd802d393432d6e/runtime/queries/angular/highlights.scm#L5
-  -- https://github.com/nvim-treesitter/nvim-treesitter/pull/8312
   "angular",
   "astro",
   "bash",
@@ -432,6 +429,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- https://lsp-zero.netlify.app/docs/guide/migrate-from-v1-branch.html#configure-diagnostics
 vim.keymap.set("n", "<Leader>le", "<cmd>lua vim.diagnostic.open_float()<cr>", { desc = "Show line diagnostics" })
 
+-- TODO: vimdoc_ls (https://github.com/neovim/nvim-lspconfig/pull/4347)
 local lsp_servers = {
   "angularls",
   "astro",
