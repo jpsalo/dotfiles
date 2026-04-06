@@ -796,6 +796,7 @@ require("lualine").setup({
 local bufferline = require("bufferline")
 bufferline.setup({
   options = {
+    move_wraps_at_ends = true, -- allow wrapping when moving buffers
     -- Sidebar offsets
     -- https://github.com/akinsho/bufferline.nvim#sidebar-offsets
     offsets = {
@@ -825,6 +826,20 @@ end
 vim.keymap.set("n", "<Leader>0", function()
   bufferline.go_to(-1, true)
 end, { noremap = true, silent = true, desc = "Go to last buffer" })
+
+-- Move buffer left or right in bufferline
+vim.keymap.set(
+  "n",
+  "<Leader>bp",
+  ":BufferLineMovePrev<CR>",
+  { noremap = true, silent = true, desc = "Move buffer left" }
+)
+vim.keymap.set(
+  "n",
+  "<Leader>bn",
+  ":BufferLineMoveNext<CR>",
+  { noremap = true, silent = true, desc = "Move buffer right" }
+)
 
 -- Delete buffer without losing the split window
 -- Using Snacks.bufdelete for intelligent buffer deletion with safety prompts
