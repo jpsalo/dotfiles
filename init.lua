@@ -924,6 +924,10 @@ vim.notify = function(msg, ...)
   return require("notify")(msg, ...)
 end
 
+require("render-markdown").setup({
+  enabled = false,
+})
+
 -- Obsidian
 require("obsidian").setup({
   -- legacy_commands will be removed in the next major release
