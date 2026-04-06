@@ -717,7 +717,7 @@ vim.keymap.set("n", "<Leader>lgo", builtin.lsp_type_definitions, { desc = "Go to
 vim.keymap.set("n", "<Leader>lgr", builtin.lsp_references, { desc = "Go to references" })
 
 -- Buffer group
-vim.keymap.set("n", "<Leader>b", builtin.buffers, { desc = "List buffers" })
+vim.keymap.set("n", "<Leader>bb", builtin.buffers, { desc = "List buffers" })
 
 -- Search group
 vim.keymap.set("n", "<Leader>sc", builtin.command_history, { desc = "Command history" })
