@@ -365,6 +365,7 @@ treesitter.install({
   "vimdoc",
   "xresources",
   "yaml",
+  "zsh",
 })
 
 -- Enable treesitter highlighting
