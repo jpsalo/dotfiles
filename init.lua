@@ -98,7 +98,8 @@ Plug("folke/which-key.nvim")
 
 -- AI assistant
 Plug("folke/snacks.nvim")
-Plug("NickvanDyke/opencode.nvim")
+Plug("folke/sidekick.nvim")
+Plug("milanglacier/minuet-ai.nvim")
 
 -- Treesitter
 Plug("nvim-treesitter/nvim-treesitter", { ["do"] = ":TSUpdate" })
@@ -200,7 +201,7 @@ which_key.add({
   { "<Leader>lg", group = "LSP Goto" },
   { "<Leader>g", group = "Git" },
   { "<Leader>b", group = "Buffers" },
-  { "<Leader>o", group = "OpenCode" },
+  { "<Leader>a", group = "AI" },
   { "<Leader>t", group = "Tree" },
   { "<Leader>s", group = "Search" },
 })
@@ -317,44 +318,51 @@ vim.g.gutentags_ctags_exclude = { "dist", "*-lock.json", "build", "dist", "node_
 
 -- [[ AI assistant ]]
 
----@type opencode.Opts
-vim.g.opencode_opts = {
-  provider = {
-    enabled = "tmux",
-    tmux = {
-      split_direction = "h", -- horizontal split below
+require("sidekick").setup({
+  nes = { enabled = false }, -- CLI only, no Copilot NES
+  cli = {
+    mux = {
+      backend = "tmux",
+      enabled = true,
+      create = "window",
+    },
+    win = {
+      layout = "right",
     },
   },
-}
+  picker = "snacks",
+})
 
 -- Keymaps
-vim.keymap.set({ "n", "x" }, "<Leader>oa", function()
-  require("opencode").ask("@this: ", { submit = true })
-end, { desc = "Ask opencode" })
+vim.keymap.set({ "n", "x" }, "<Leader>at", function()
+  require("sidekick.cli").send({ msg = "{this}" })
+end, { desc = "Send this" })
 
-vim.keymap.set({ "n", "x" }, "<Leader>ox", function()
-  require("opencode").select()
-end, { desc = "Execute opencode action…" })
+vim.keymap.set({ "n", "x" }, "<Leader>av", function()
+  require("sidekick.cli").send({ msg = "{selection}" })
+end, { desc = "Send visual selection" })
 
-vim.keymap.set({ "n", "t" }, "<Leader>oc", function()
-  require("opencode").toggle()
+vim.keymap.set("n", "<Leader>af", function()
+  require("sidekick.cli").send({ msg = "{file}" })
+end, { desc = "Send file" })
+
+vim.keymap.set({ "n", "t" }, "<Leader>ac", function()
+  require("sidekick.cli").toggle({ name = "opencode", focus = true })
 end, { desc = "Toggle opencode" })
 
-vim.keymap.set({ "n", "x" }, "<Leader>or", function()
-  return require("opencode").operator("@this ")
-end, { expr = true, desc = "Add range to opencode" })
+vim.keymap.set("n", "<Leader>ap", function()
+  require("sidekick.cli").prompt()
+end, { desc = "Select AI prompt" })
 
-vim.keymap.set("n", "<Leader>ol", function()
-  return require("opencode").operator("@this ") .. "_"
-end, { expr = true, desc = "Add line to opencode" })
+vim.keymap.set("n", "<Leader>as", function()
+  require("sidekick.cli").select()
+end, { desc = "Select AI tool" })
 
-vim.keymap.set("n", "<S-C-u>", function()
-  require("opencode").command("session.half.page.up")
-end, { desc = "opencode half page up" })
+-- [[ AI Code Completion ]]
 
-vim.keymap.set("n", "<S-C-d>", function()
-  require("opencode").command("session.half.page.down")
-end, { desc = "opencode half page down" })
+require("minuet").setup({
+  provider = "claude",
+})
 
 -- [[ Intellisense ]]
 
@@ -555,11 +563,13 @@ require("blink.cmp").setup({
     ["<CR>"] = { "accept", "fallback" },
     ["<C-e>"] = { "hide", "fallback" },
     ["<C-s>"] = { "show_signature", "hide_signature", "fallback" }, -- Signature help toggle
+    ["<A-y>"] = require("minuet").make_blink_map(), -- Manually invoke minuet completion.
   },
   appearance = {
     nerd_font_variant = "mono",
   },
   completion = {
+    trigger = { prefetch_on_insert = false }, -- Avoid unnecessary requests (minuet)
     documentation = {
       auto_show = false, -- Manual trigger
     },
@@ -597,7 +607,18 @@ require("blink.cmp").setup({
     },
   },
   sources = {
-    default = { "lsp", "path", "snippets", "buffer" },
+    default = { "lsp", "path", "snippets", "buffer", "minuet" },
+    providers = {
+      minuet = {
+        name = "minuet",
+        module = "minuet.blink",
+        async = true,
+        -- Should match minuet.config.request_timeout * 1000,
+        -- since minuet.config.request_timeout is in seconds
+        timeout_ms = 3000,
+        score_offset = 50, -- Gives minuet higher priority among suggestions
+      },
+    },
   },
   signature = {
     enabled = true,
