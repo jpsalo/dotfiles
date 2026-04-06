@@ -741,18 +741,28 @@ vim.opt.breakindent = true -- Maintains indentation on wrapped lines
 vim.opt.breakindentopt = "list:-1" -- Uses the width of a match with 'formatlistpat' for indentation
 
 -- Tinty sets the theme
-require("tinted-colorscheme").setup(nil, {
-  supports = {
-    tinty = true,
-    live_reload = true,
+require("tinted-nvim").setup({
+  -- Compile schemes for faster startup
+  compile = true,
+
+  -- Use tinty's selector to automatically load themes
+  selector = {
+    enabled = true,
+    mode = "file",
+    -- Tinty writes current scheme name here
+    path = "~/.local/share/tinted-theming/tinty/current_scheme",
+    -- Auto-reload when tinty changes theme
+    watch = true,
   },
+
+  -- Plugin integrations
   highlights = {
-    telescope = true,
-    telescope_borders = false,
-    indentblankline = true,
-    notify = true,
-    illuminate = true,
-    lsp_semantic = true,
+    integrations = {
+      telescope = true,
+      notify = true,
+      blink = true,
+      lualine = true,
+    },
   },
 })
 
@@ -773,7 +783,6 @@ require("nvim-highlight-colors").setup({
 -- Lualine configuration
 require("lualine").setup({
   options = {
-    theme = "base16",
     -- Disabling separators
     component_separators = "",
     section_separators = "",
