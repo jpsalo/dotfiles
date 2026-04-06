@@ -420,6 +420,7 @@ local lsp_servers = {
   "marksman",
   "pyright", -- NOTE: Create a pyrightconfig.json file in the root of a project for pyright
   "ruff",
+  "somesass_ls",
   "tailwindcss",
   "ts_ls",
   "vimls",
@@ -612,6 +613,7 @@ conform.setup({
   formatters_by_ft = {
     astro = prettier_formatters,
     css = { "prettier" }, --NOTE: prettierd does not seem to work
+    scss = prettier_formatters,
     javascript = prettier_formatters,
     json = prettier_formatters,
     lua = { "stylua" }, -- Basic settings are defined in ~/.editorconfig
