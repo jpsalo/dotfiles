@@ -716,13 +716,14 @@ telescope.setup({
   },
   extensions = {
     live_grep_args = {
+      -- NOTE: https://github.com/nvim-telescope/telescope-live-grep-args.nvim/issues/83
       auto_quoting = true, -- enable/disable auto-quoting
       mappings = {
         i = {
           -- Quote prompt and add -t. Example: foo → "foo" -t
           ["<C-t>"] = lga_actions.quote_prompt({ postfix = " -t" }),
           -- freeze the current list and start a fuzzy search in the frozen list
-          ["<C-Space>"] = actions.to_fuzzy_refine,
+          ["<C-Space>"] = lga_actions.to_fuzzy_refine,
         },
       },
     },
