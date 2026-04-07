@@ -75,113 +75,93 @@ vim.cmd([[
 
 -- [[ Plugins ]]
 
-vim.cmd([[
-" https://github.com/junegunn/vim-plug
-" Automatic installation
-" https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-]])
+-- Handle post-install hooks
+vim.api.nvim_create_autocmd("PackChanged", {
+  callback = function(ev)
+    local name, kind = ev.data.spec.name, ev.data.kind
+    if name == "nvim-treesitter" and (kind == "install" or kind == "update") then
+      if not ev.data.active then
+        vim.cmd.packadd("nvim-treesitter")
+      end
+      vim.cmd("TSUpdate")
+    end
+  end,
+})
 
-local Plug = vim.fn["plug#"]
+vim.pack.add({
+  -- Dependencies (install these first)
+  "https://github.com/nvim-lua/plenary.nvim", -- required by: telescope, neo-tree, gitsigns
+  "https://github.com/MunifTanjim/nui.nvim", -- required by: neo-tree
+  "https://github.com/nvim-tree/nvim-web-devicons", -- required by: neo-tree, bufferline, lualine
+  "https://github.com/rafamadriz/friendly-snippets", -- required by: blink.cmp
 
-vim.call("plug#begin")
+  -- Core functionality
+  "https://github.com/folke/snacks.nvim",
+  "https://github.com/folke/which-key.nvim",
+  "https://github.com/folke/sidekick.nvim",
+  "https://github.com/milanglacier/minuet-ai.nvim",
 
--- Plugin collection
-Plug("folke/snacks.nvim")
+  -- Language features
+  "https://github.com/nvim-treesitter/nvim-treesitter",
+  "https://github.com/neovim/nvim-lspconfig",
+  "https://github.com/williamboman/mason.nvim",
+  "https://github.com/williamboman/mason-lspconfig.nvim",
+  "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
 
--- Keymap management and discovery
-Plug("folke/which-key.nvim")
+  -- Completion and snippets
+  {
+    src = "https://github.com/saghen/blink.cmp",
+    version = vim.version.range("1.*"),
+  },
 
--- AI assistant
-Plug("folke/snacks.nvim")
-Plug("folke/sidekick.nvim")
-Plug("milanglacier/minuet-ai.nvim")
+  -- Editing
+  "https://github.com/stevearc/conform.nvim",
+  "https://github.com/ludovicchabant/vim-gutentags",
+  "https://github.com/907th/vim-auto-save",
+  "https://github.com/windwp/nvim-autopairs",
+  "https://github.com/abecodes/tabout.nvim",
 
--- Treesitter
-Plug("nvim-treesitter/nvim-treesitter", { ["do"] = ":TSUpdate" })
+  -- UI Components
+  "https://github.com/nvim-lualine/lualine.nvim",
+  {
+    src = "https://github.com/nvim-neo-tree/neo-tree.nvim",
+    version = vim.version.range("3"),
+  },
+  {
+    src = "https://github.com/akinsho/bufferline.nvim",
+    version = vim.version.range("*"),
+  },
 
--- LSP & Mason
-Plug("neovim/nvim-lspconfig")
-Plug("williamboman/mason.nvim")
-Plug("williamboman/mason-lspconfig.nvim")
-Plug("WhoIsSethDaniel/mason-tool-installer.nvim")
+  -- Fuzzy finding
+  {
+    src = "https://github.com/nvim-telescope/telescope.nvim",
+    version = vim.version.range("0.2.*"), -- Pin v0.2.* for now, see https://github.com/nvim-telescope/telescope.nvim/issues/3635
+  },
+  "https://github.com/nvim-telescope/telescope-live-grep-args.nvim",
 
--- Completion plugin
-Plug("saghen/blink.cmp", { ["tag"] = "v1.*" })
-Plug("rafamadriz/friendly-snippets")
+  -- Notifications and visual feedback
+  "https://github.com/rcarriga/nvim-notify",
+  "https://github.com/kshenoy/vim-signature",
+  "https://github.com/lewis6991/gitsigns.nvim",
+  "https://github.com/brenoprata10/nvim-highlight-colors",
+  "https://github.com/lukas-reineke/indent-blankline.nvim",
+  "https://github.com/RRethy/vim-illuminate",
 
--- Formatter
-Plug("stevearc/conform.nvim")
+  -- Writing and notes
+  "https://github.com/folke/zen-mode.nvim",
+  "https://github.com/godlygeek/tabular",
+  "https://github.com/tinted-theming/tinted-nvim",
+  "https://github.com/MeanderingProgrammer/render-markdown.nvim",
+  {
+    src = "https://github.com/obsidian-nvim/obsidian.nvim",
+    version = vim.version.range("*"),
+  },
+})
 
--- Management of tags files
--- NOTE: requires ctags
-Plug("ludovicchabant/vim-gutentags")
-
--- Automatically save changes to disk
-Plug("907th/vim-auto-save")
-
--- Status/tabline
-Plug("nvim-lualine/lualine.nvim")
-
--- Tree explorer (neo-tree)
--- https://www.reddit.com/r/neovim/comments/tuyzch/comment/i39x42i/?utm_source=share&utm_medium=web2x&context=3aaaaa
-Plug("nvim-lua/plenary.nvim")
-Plug("nvim-tree/nvim-web-devicons")
-Plug("MunifTanjim/nui.nvim")
-Plug("nvim-neo-tree/neo-tree.nvim", { ["branch"] = "v3.x" })
-
--- Bufferline (with tabpage integration)
-Plug("nvim-tree/nvim-web-devicons") -- Recommended (for coloured icons)
--- Plug('ryanoasis/vim-devicons' Icons without colours
-Plug("akinsho/bufferline.nvim", { ["tag"] = "*" })
-
--- Fuzzy finder & live grep with args
-Plug("nvim-lua/plenary.nvim")
-Plug("nvim-telescope/telescope.nvim", { ["tag"] = "*" })
-Plug("nvim-telescope/telescope-live-grep-args.nvim")
-
--- Notification manager
-Plug("rcarriga/nvim-notify")
-
--- Toggle, display and navigate marks
-Plug("kshenoy/vim-signature")
-
--- Git signs
-Plug("lewis6991/gitsigns.nvim")
-
--- Auto-close brackets
-Plug("windwp/nvim-autopairs")
-
--- tabout
-Plug("abecodes/tabout.nvim")
-
--- CSS colors
-Plug("brenoprata10/nvim-highlight-colors")
-
--- Distraction-free writing
-Plug("folke/zen-mode.nvim")
-
--- Markdown
-Plug("godlygeek/tabular")
-
--- Color scheme
-Plug("tinted-theming/tinted-nvim")
-
--- Indentation guides
-Plug("lukas-reineke/indent-blankline.nvim")
-
--- Highlighting other uses of the word under the cursor
-Plug("https://github.com/RRethy/vim-illuminate")
-
--- Obsidian
-Plug("MeanderingProgrammer/render-markdown.nvim")
-Plug("obsidian-nvim/obsidian.nvim", { ["tag"] = "*" })
-
-vim.call("plug#end")
+-- Helper command for package updates
+vim.api.nvim_create_user_command("PackUpdate", function()
+  vim.pack.update()
+end, { desc = "Update plugins via vim.pack" })
 
 -- [[ Keymap Management ]]
 

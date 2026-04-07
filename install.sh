@@ -267,6 +267,9 @@ setup_neovim() {
   backup_existing_file "$HOME"/.config/nvim/init.lua
   create_symlink init.lua "$HOME"/.config/nvim/init.lua
 
+  backup_existing_file "$HOME"/.config/nvim/nvim-pack-lock.json
+  create_symlink nvim-pack-lock.json "$HOME"/.config/nvim/nvim-pack-lock.json
+
   backup_existing_file "$HOME"/.editorconfig
   create_symlink editorconfig
 }
