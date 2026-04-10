@@ -696,7 +696,6 @@ telescope.setup({
   },
   extensions = {
     live_grep_args = {
-      -- NOTE: https://github.com/nvim-telescope/telescope-live-grep-args.nvim/issues/83
       auto_quoting = true, -- enable/disable auto-quoting
       mappings = {
         i = {
