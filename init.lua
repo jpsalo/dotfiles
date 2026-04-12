@@ -925,6 +925,19 @@ require("neo-tree").setup({
 vim.keymap.set("n", "<Leader>tt", ":Neotree toggle left<CR>", { desc = "Toggle tree (left)" })
 vim.keymap.set("n", "<Leader>tf", ":Neotree toggle float<CR>", { desc = "Toggle tree (float)" })
 vim.keymap.set("n", "<Leader>tr", ":Neotree filesystem reveal left<CR>", { desc = "Reveal file in tree" })
+vim.keymap.set("n", "<Leader>ts", function()
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    if vim.api.nvim_get_option_value("filetype", { buf = buf }) == "neo-tree" then
+      local is_float = vim.api.nvim_win_get_config(win).relative ~= ""
+      vim.cmd("Neotree close")
+      vim.schedule(function()
+        vim.cmd(is_float and "Neotree toggle left" or "Neotree toggle float")
+      end)
+      return
+    end
+  end
+end, { desc = "Switch tree (left/float)" })
 
 -- [[ Notifications ]]
 
