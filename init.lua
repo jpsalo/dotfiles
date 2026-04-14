@@ -143,7 +143,6 @@ vim.pack.add({
   "https://github.com/rcarriga/nvim-notify",
   "https://github.com/kshenoy/vim-signature",
   "https://github.com/lewis6991/gitsigns.nvim",
-  "https://github.com/brenoprata10/nvim-highlight-colors",
   "https://github.com/lukas-reineke/indent-blankline.nvim",
   "https://github.com/RRethy/vim-illuminate",
 
@@ -551,38 +550,6 @@ require("blink.cmp").setup({
     documentation = {
       auto_show = false, -- Manual trigger
     },
-    menu = {
-      draw = {
-        components = {
-          -- nvim-highlight-colors integration for color preview in completion
-          -- https://github.com/brenoprata10/nvim-highlight-colors?tab=readme-ov-file#blinkcmp-integration
-          kind_icon = {
-            text = function(ctx)
-              local icon = ctx.kind_icon
-              -- If LSP source, check for color derived from documentation
-              if ctx.item.source_name == "LSP" then
-                local color_item = require("nvim-highlight-colors").format(ctx.item.documentation, { kind = ctx.kind })
-                if color_item and color_item.abbr ~= "" then
-                  icon = color_item.abbr
-                end
-              end
-              return icon .. ctx.icon_gap
-            end,
-            highlight = function(ctx)
-              local highlight = "BlinkCmpKind" .. ctx.kind
-              -- If LSP source, check for color derived from documentation
-              if ctx.item.source_name == "LSP" then
-                local color_item = require("nvim-highlight-colors").format(ctx.item.documentation, { kind = ctx.kind })
-                if color_item and color_item.abbr_hl_group then
-                  highlight = color_item.abbr_hl_group
-                end
-              end
-              return highlight
-            end,
-          },
-        },
-      },
-    },
   },
   sources = {
     default = { "lsp", "path", "snippets", "buffer", "minuet" },
@@ -786,13 +753,6 @@ require("zen-mode").setup()
 
 -- Indent guides
 require("ibl").setup()
-
--- Highlight colors
-require("nvim-highlight-colors").setup({
-  -- Render style
-  -- @usage 'background'|'foreground'|'virtual'
-  render = "background",
-})
 
 -- [[ Statusline ]]
 
