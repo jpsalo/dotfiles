@@ -579,6 +579,7 @@ require("blink.cmp").setup({
       -- Add C-k/C-j navigation for cmdline mode
       ["<C-k>"] = { "select_prev", "fallback" },
       ["<C-j>"] = { "select_next", "fallback" },
+      ["<CR>"] = { "accept", "fallback" },
     },
     completion = {
       menu = {
