@@ -43,7 +43,7 @@
       "src": "https://github.com/williamboman/mason.nvim"
     },
     "minuet-ai.nvim": {
-      "rev": "2babbbdc3a01ad59edc0446a4011673f9168a83b",
+      "rev": "fbd2f59ec334b277ae27c4cd9587533c6e3eafd7",
       "src": "https://github.com/milanglacier/minuet-ai.nvim"
     },
     "neo-tree.nvim": {
@@ -60,7 +60,7 @@
       "src": "https://github.com/windwp/nvim-autopairs"
     },
     "nvim-lspconfig": {
-      "rev": "8a9378a822719346a0288fa004dab302ca3c0a8f",
+      "rev": "d10ce09e42bb0ca8600fd610c3bb58676e61208d",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-notify": {
@@ -120,10 +120,6 @@
     "vim-auto-save": {
       "rev": "2e3e54ea4c0fc946c21b0a4ee4c1c295ba736ee8",
       "src": "https://github.com/907th/vim-auto-save"
-    },
-    "vim-gutentags": {
-      "rev": "aa47c5e29c37c52176c44e61c780032dfacef3dd",
-      "src": "https://github.com/ludovicchabant/vim-gutentags"
     },
     "vim-illuminate": {
       "rev": "0d1e93684da00ab7c057410fecfc24f434698898",

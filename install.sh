@@ -243,26 +243,6 @@ setup_neovim() {
   python3 -m pip install pynvim
   deactivate
 
-  if [[ $os == "arch_linux" ]]; then
-    if ! is_package_installed ctags; then
-      # https://github.com/universal-ctags/ctags/blob/master/docs/autotools.rst
-      # TODO: check if package is installed
-      install_package python-docutils
-      validate_directory "$HOME"/bin
-      validate_directory "$HOME"/lib
-      git clone https://github.com/universal-ctags/ctags.git "$HOME"/lib/universal-ctags
-      (
-        cd "$HOME"/lib/universal-ctags || exit
-        ./autogen.sh
-        ./configure --prefix="$HOME"
-        make
-        make install
-      )
-    fi
-  elif [[ $os == "macos" ]]; then
-    brew install universal-ctags
-  fi
-
   validate_directory "$HOME"/.config/nvim
   backup_existing_file "$HOME"/.config/nvim/init.lua
   create_symlink init.lua "$HOME"/.config/nvim/init.lua

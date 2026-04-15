@@ -116,7 +116,6 @@ vim.pack.add({
 
   -- Editing
   "https://github.com/stevearc/conform.nvim",
-  "https://github.com/ludovicchabant/vim-gutentags",
   "https://github.com/907th/vim-auto-save",
   "https://github.com/windwp/nvim-autopairs",
   "https://github.com/abecodes/tabout.nvim",
@@ -292,8 +291,6 @@ require("gitsigns").setup({
     end, { desc = "Previous git hunk" })
   end,
 })
-
-vim.g.gutentags_ctags_exclude = { "dist", "*-lock.json", "build", "dist", "node_modules", "xeno" }
 
 -- [[ AI assistant ]]
 
@@ -651,9 +648,6 @@ local lga_actions = require("telescope-live-grep-args.actions")
 telescope.setup({
   defaults = {
     path_display = { "smart" }, -- Smart path shortening: shows filename only when unique, adds parent dir for duplicates
-    file_ignore_patterns = {
-      "tags",
-    },
     mappings = {
       i = {
         ["<Esc>"] = actions.close,
