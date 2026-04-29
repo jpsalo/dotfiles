@@ -61,4 +61,7 @@ source <(ng completion script)
 # https://stackoverflow.com/a/42287807/7010222
 export VIRTUAL_ENV_DISABLE_PROMPT=
 
+# Opening changed and untracked files in Neovim
+alias gdnvim='nvim $(git diff --name-only --relative; git ls-files --others --exclude-standard)'
+
 [ -f ~/.env ] && source ~/.env
