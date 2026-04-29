@@ -48,6 +48,7 @@ vim.opt.smoothscroll = true -- Scroll by screen line
 vim.opt.undofile = true -- Save undo history across sessions
 
 -- Completion menu
+vim.o.winborder = "rounded"
 vim.opt.pumheight = 10 -- Limit popup menu height
 
 -- Better diff algorithm
