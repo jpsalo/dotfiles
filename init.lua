@@ -120,7 +120,7 @@ vim.pack.add({
   "https://github.com/folke/snacks.nvim",
   "https://github.com/folke/which-key.nvim",
   "https://github.com/folke/sidekick.nvim",
-  "https://github.com/milanglacier/minuet-ai.nvim",
+  "https://github.com/zbirenbaum/copilot.lua",
 
   -- Language features
   "https://github.com/nvim-treesitter/nvim-treesitter",
@@ -279,6 +279,7 @@ end
 require("snacks").setup({
   bigfile = { enabled = true }, -- Better handling of large files
   input = { enabled = true },
+  picker = { enabled = true },
   -- bufdelete is available by default, no need to enable explicitly
 })
 
@@ -330,7 +331,7 @@ require("scrollbar.handlers.gitsigns").setup()
 -- [[ AI assistant ]]
 
 require("sidekick").setup({
-  nes = { enabled = false }, -- CLI only, no Copilot NES
+  nes = { enabled = true }, -- Enable Copilot NES
   cli = {
     mux = {
       backend = "tmux",
@@ -369,10 +370,49 @@ vim.keymap.set("n", "<Leader>as", function()
   require("sidekick.cli").select()
 end, { desc = "Select AI tool" })
 
--- [[ AI Code Completion ]]
+-- NES jump/apply:
+--   Insert mode: <Tab> in blink.cmp's keymap pipeline (snippet → NES → fallback to Copilot)
+--   Normal mode: <Leader>ay
 
-require("minuet").setup({
-  provider = "claude",
+vim.keymap.set("n", "<Leader>an", function()
+  require("sidekick.nes").clear()
+end, { desc = "NES: Clear suggestions" })
+
+vim.keymap.set("n", "<Leader>ay", function()
+  require("sidekick").nes_jump_or_apply()
+end, { desc = "NES: Accept/apply suggestion" })
+
+-- [[ GitHub Copilot ]]
+
+require("copilot").setup({
+  panel = {
+    enabled = false, -- Disable panel feature (not used)
+  },
+  suggestion = {
+    enabled = true,
+    auto_trigger = true,
+    keymap = {
+      accept = "<Tab>", -- Tab to accept in insert mode (part of blink.cmp Tab chain)
+      next = "<C-j>", -- Ctrl+j for next
+      prev = "<C-k>", -- Ctrl+k for previous
+      dismiss = "<C-e>", -- Ctrl+e to dismiss
+    },
+  },
+})
+
+-- Hide copilot when blink.cmp menu is open
+vim.api.nvim_create_autocmd("User", {
+  pattern = "BlinkCmpMenuOpen",
+  callback = function()
+    vim.b.copilot_suggestion_hidden = true
+  end,
+})
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "BlinkCmpMenuClose",
+  callback = function()
+    vim.b.copilot_suggestion_hidden = false
+  end,
 })
 
 -- [[ Intellisense ]]
@@ -572,30 +612,27 @@ require("blink.cmp").setup({
     ["<CR>"] = { "accept", "fallback" },
     ["<C-e>"] = { "hide", "fallback" },
     ["<C-s>"] = { "show_signature", "hide_signature", "fallback" }, -- Signature help toggle
-    ["<A-y>"] = require("minuet").make_blink_map(), -- Manually invoke minuet completion.
+    -- Tab: snippet forward → NES jump/apply → fallback (copilot accept)
+    -- Note: In normal mode, use <Leader>ay for NES (Tab is for buffer navigation)
+    ["<Tab>"] = {
+      "snippet_forward",
+      function()
+        return require("sidekick").nes_jump_or_apply()
+      end,
+      "fallback",
+    },
+    ["<S-Tab>"] = { "snippet_backward", "fallback" },
   },
   appearance = {
     nerd_font_variant = "mono",
   },
   completion = {
-    trigger = { prefetch_on_insert = false }, -- Avoid unnecessary requests (minuet)
     documentation = {
       auto_show = false, -- Manual trigger
     },
   },
   sources = {
-    default = { "lsp", "path", "snippets", "buffer", "minuet" },
-    providers = {
-      minuet = {
-        name = "minuet",
-        module = "minuet.blink",
-        async = true,
-        -- Should match minuet.config.request_timeout * 1000,
-        -- since minuet.config.request_timeout is in seconds
-        timeout_ms = 3000,
-        score_offset = 50, -- Gives minuet higher priority among suggestions
-      },
-    },
+    default = { "lsp", "path", "snippets", "buffer" },
   },
   signature = {
     enabled = true,
