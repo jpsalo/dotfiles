@@ -80,11 +80,31 @@ vim.cmd([[
 vim.api.nvim_create_autocmd("PackChanged", {
   callback = function(ev)
     local name, kind = ev.data.spec.name, ev.data.kind
+
+    -- Handle nvim-treesitter post-install
     if name == "nvim-treesitter" and (kind == "install" or kind == "update") then
       if not ev.data.active then
         vim.cmd.packadd("nvim-treesitter")
       end
       vim.cmd("TSUpdate")
+    end
+
+    -- Handle telescope-fzf-native post-install build
+    if name == "telescope-fzf-native.nvim" and (kind == "install" or kind == "update") then
+      local plugin_path = vim.fn.stdpath("data") .. "/site/pack/core/opt/telescope-fzf-native.nvim"
+      vim.notify("Building telescope-fzf-native.nvim...", vim.log.levels.INFO)
+      vim.fn.jobstart({ "make", "-C", plugin_path }, {
+        on_exit = function(_, code)
+          if code == 0 then
+            vim.notify("telescope-fzf-native.nvim built successfully!", vim.log.levels.INFO)
+          else
+            vim.notify(
+              "Failed to build telescope-fzf-native.nvim. Run 'make' manually in " .. plugin_path,
+              vim.log.levels.ERROR
+            )
+          end
+        end,
+      })
     end
   end,
 })
@@ -138,6 +158,7 @@ vim.pack.add({
     version = vim.version.range("0.2.*"), -- Pin v0.2.* for now, see https://github.com/nvim-telescope/telescope.nvim/issues/3635
   },
   "https://github.com/nvim-telescope/telescope-live-grep-args.nvim",
+  "https://github.com/nvim-telescope/telescope-fzf-native.nvim",
 
   -- Notifications and visual feedback
   "https://github.com/rcarriga/nvim-notify",
@@ -671,6 +692,12 @@ telescope.setup({
     },
   },
   extensions = {
+    fzf = {
+      fuzzy = true, -- Enables fuzzy matching with spaces
+      override_generic_sorter = true, -- Use fzf for all pickers
+      override_file_sorter = true, -- Use fzf for file finding
+      case_mode = "smart_case", -- Case-insensitive unless uppercase typed
+    },
     live_grep_args = {
       auto_quoting = true, -- enable/disable auto-quoting
       mappings = {
@@ -685,6 +712,7 @@ telescope.setup({
   },
 })
 telescope.load_extension("live_grep_args")
+telescope.load_extension("fzf")
 
 local builtin = require("telescope.builtin")
 local extensions = require("telescope").extensions
