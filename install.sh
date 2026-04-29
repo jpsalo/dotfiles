@@ -235,6 +235,7 @@ setup_node() {
 
 setup_neovim() {
   install_package neovim nvim
+  install_package yazi
 
   # Configure Python for Neovim
   # https://neovim.io/doc/user/provider.html#python-virtualenv

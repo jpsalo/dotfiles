@@ -88,32 +88,13 @@ vim.api.nvim_create_autocmd("PackChanged", {
       end
       vim.cmd("TSUpdate")
     end
-
-    -- Handle telescope-fzf-native post-install build
-    if name == "telescope-fzf-native.nvim" and (kind == "install" or kind == "update") then
-      local plugin_path = vim.fn.stdpath("data") .. "/site/pack/core/opt/telescope-fzf-native.nvim"
-      vim.notify("Building telescope-fzf-native.nvim...", vim.log.levels.INFO)
-      vim.fn.jobstart({ "make", "-C", plugin_path }, {
-        on_exit = function(_, code)
-          if code == 0 then
-            vim.notify("telescope-fzf-native.nvim built successfully!", vim.log.levels.INFO)
-          else
-            vim.notify(
-              "Failed to build telescope-fzf-native.nvim. Run 'make' manually in " .. plugin_path,
-              vim.log.levels.ERROR
-            )
-          end
-        end,
-      })
-    end
   end,
 })
 
 vim.pack.add({
   -- Dependencies (install these first)
-  "https://github.com/nvim-lua/plenary.nvim", -- required by: telescope, neo-tree, gitsigns
-  "https://github.com/MunifTanjim/nui.nvim", -- required by: neo-tree
-  "https://github.com/nvim-tree/nvim-web-devicons", -- required by: neo-tree, bufferline, lualine
+  "https://github.com/nvim-lua/plenary.nvim", -- required by: gitsigns, obsidian
+  "https://github.com/nvim-tree/nvim-web-devicons", -- required by: bufferline, lualine
   "https://github.com/rafamadriz/friendly-snippets", -- required by: blink.cmp
 
   -- Core functionality
@@ -121,6 +102,8 @@ vim.pack.add({
   "https://github.com/folke/which-key.nvim",
   "https://github.com/folke/sidekick.nvim",
   "https://github.com/zbirenbaum/copilot.lua",
+  { src = "https://github.com/ThePrimeagen/harpoon", version = "harpoon2" },
+  "https://github.com/mikavilpas/yazi.nvim",
 
   -- Language features
   "https://github.com/nvim-treesitter/nvim-treesitter",
@@ -144,21 +127,9 @@ vim.pack.add({
   -- UI Components
   "https://github.com/nvim-lualine/lualine.nvim",
   {
-    src = "https://github.com/nvim-neo-tree/neo-tree.nvim",
-    version = vim.version.range("3"),
-  },
-  {
     src = "https://github.com/akinsho/bufferline.nvim",
     version = vim.version.range("*"),
   },
-
-  -- Fuzzy finding
-  {
-    src = "https://github.com/nvim-telescope/telescope.nvim",
-    version = vim.version.range("0.2.*"), -- Pin v0.2.* for now, see https://github.com/nvim-telescope/telescope.nvim/issues/3635
-  },
-  "https://github.com/nvim-telescope/telescope-live-grep-args.nvim",
-  "https://github.com/nvim-telescope/telescope-fzf-native.nvim",
 
   -- Notifications and visual feedback
   "https://github.com/rcarriga/nvim-notify",
@@ -197,13 +168,13 @@ which_key.setup({
 
 -- Define keymap groups
 which_key.add({
-  { "<Leader>f", group = "Find/Files" },
   { "<Leader>l", group = "LSP" },
   { "<Leader>lg", group = "LSP Goto" },
   { "<Leader>g", group = "Git" },
   { "<Leader>b", group = "Buffers" },
+  { "<Leader>h", group = "Harpoon" },
   { "<Leader>a", group = "AI" },
-  { "<Leader>t", group = "Tree" },
+  { "<Leader>t", group = "Explorer" },
   { "<Leader>s", group = "Search" },
 })
 
@@ -277,10 +248,74 @@ end
 
 -- Plugin collection
 require("snacks").setup({
-  bigfile = { enabled = true }, -- Better handling of large files
+  bigfile = { enabled = true },
   input = { enabled = true },
-  picker = { enabled = true },
-  -- bufdelete is available by default, no need to enable explicitly
+  explorer = { enabled = true },
+  picker = {
+    enabled = true,
+    sources = {
+      harpoon = {
+        finder = function()
+          local files = {}
+          local cwd = vim.loop.cwd()
+          for idx, item in ipairs(require("harpoon"):list().items) do
+            table.insert(files, {
+              cwd = cwd,
+              text = item.value,
+              file = item.value,
+              idx = idx,
+            })
+          end
+          return files
+        end,
+        format = "text",
+        preview = "file",
+        confirm = "jump",
+        win = {
+          input = {
+            keys = {
+              -- ["dd"] = { "harpoon_delete", mode = { "n", "x" } },
+              ["<C-d>"] = { "harpoon_delete", mode = { "i", "n", "x" } },
+            },
+          },
+          list = {
+            keys = {
+              -- ["dd"] = { "harpoon_delete", mode = { "n", "x" } },
+              ["<C-d>"] = { "harpoon_delete", mode = { "i", "n", "x" } },
+            },
+          },
+        },
+        actions = {
+          harpoon_delete = function(picker, item)
+            local to_remove = item or picker:selected()
+            if not to_remove then
+              return
+            end
+            require("harpoon"):list():remove({ value = to_remove.text })
+            -- Normalize list: harpoon leaves nil holes after remove()
+            local items = require("harpoon"):list().items
+            local normalized = {}
+            for _, v in pairs(items) do
+              if v ~= nil then
+                table.insert(normalized, v)
+              end
+            end
+            require("harpoon"):list().items = normalized
+            picker:find({ refresh = true })
+          end,
+        },
+      },
+    },
+    win = {
+      input = {
+        keys = {
+          ["<Esc>"] = { "close", mode = { "i", "n" } },
+          ["<C-j>"] = { "list_down", mode = "i" },
+          ["<C-k>"] = { "list_up", mode = "i" },
+        },
+      },
+    },
+  },
 })
 
 -- tabout
@@ -319,7 +354,7 @@ require("gitsigns").setup({
 -- Visual scrollbar with git integration
 require("scrollbar").setup({
   excluded_filetypes = {
-    "neo-tree",
+    "snacks_layout_box",
   },
   handlers = {
     cursor = false,
@@ -714,72 +749,49 @@ end, { desc = "Format buffer" })
 
 -- [[ Fuzzy finder ]]
 
-local telescope = require("telescope")
-local actions = require("telescope.actions")
-local lga_actions = require("telescope-live-grep-args.actions")
-telescope.setup({
-  defaults = {
-    path_display = { "smart" }, -- Smart path shortening: shows filename only when unique, adds parent dir for duplicates
-    mappings = {
-      i = {
-        ["<Esc>"] = actions.close,
-        ["<C-j>"] = actions.move_selection_next,
-        ["<C-k>"] = actions.move_selection_previous,
-      },
-    },
-  },
-  extensions = {
-    fzf = {
-      fuzzy = true, -- Enables fuzzy matching with spaces
-      override_generic_sorter = true, -- Use fzf for all pickers
-      override_file_sorter = true, -- Use fzf for file finding
-      case_mode = "smart_case", -- Case-insensitive unless uppercase typed
-    },
-    live_grep_args = {
-      auto_quoting = true, -- enable/disable auto-quoting
-      mappings = {
-        i = {
-          -- Quote prompt and add -t. Example: foo → "foo" -t
-          ["<C-t>"] = lga_actions.quote_prompt({ postfix = " -t" }),
-          -- freeze the current list and start a fuzzy search in the frozen list
-          ["<C-Space>"] = lga_actions.to_fuzzy_refine,
-        },
-      },
-    },
-  },
-})
-telescope.load_extension("live_grep_args")
-telescope.load_extension("fzf")
-
-local builtin = require("telescope.builtin")
-local extensions = require("telescope").extensions
-local live_grep_args_shortcuts = require("telescope-live-grep-args.shortcuts")
-
 -- Find/Files group
-vim.keymap.set("n", "<Leader><Leader>", builtin.find_files, { desc = "Find files" })
-vim.keymap.set("n", "<Leader>fg", extensions.live_grep_args.live_grep_args, { desc = "Live grep with args" })
--- Print the paths with at least one match and suppress match contents.
--- Inspiration: https://github.com/nvim-telescope/telescope.nvim/issues/647#issuecomment-1536456802
--- NOTE: live_grep_args supports additional_args, but it doesn't work with --files-with-matches. See https://github.com/nvim-telescope/telescope-live-grep-args.nvim/issues/65#issuecomment-2093181733
-vim.keymap.set("n", "<Leader>ff", function()
-  builtin.live_grep({ additional_args = { "--files-with-matches" } })
-end, { desc = "Find files with matches" })
-vim.keymap.set("n", "<Leader>fc", live_grep_args_shortcuts.grep_word_under_cursor, { desc = "Grep word under cursor" })
+vim.keymap.set("n", "<Leader><Leader>", function()
+  Snacks.picker.files()
+end, { desc = "Find files" })
+vim.keymap.set("n", "<Leader>fg", function()
+  Snacks.picker.grep()
+end, { desc = "Live grep" })
+vim.keymap.set("n", "<Leader>fc", function()
+  Snacks.picker.grep_word()
+end, { desc = "Grep word under cursor" })
 
 -- LSP group
-vim.keymap.set("n", "<Leader>ld", builtin.diagnostics, { desc = "Diagnostics" })
-vim.keymap.set("n", "<Leader>lgd", builtin.lsp_definitions, { desc = "Go to definitions" })
-vim.keymap.set("n", "<Leader>lgi", builtin.lsp_implementations, { desc = "Go to implementations" })
-vim.keymap.set("n", "<Leader>lgo", builtin.lsp_type_definitions, { desc = "Go to type definitions" })
-vim.keymap.set("n", "<Leader>lgr", builtin.lsp_references, { desc = "Go to references" })
+vim.keymap.set("n", "<Leader>ld", function()
+  Snacks.picker.diagnostics()
+end, { desc = "Diagnostics" })
+vim.keymap.set("n", "<Leader>lgd", function()
+  Snacks.picker.lsp_definitions()
+end, { desc = "Go to definitions" })
+vim.keymap.set("n", "<Leader>lgi", function()
+  Snacks.picker.lsp_implementations()
+end, { desc = "Go to implementations" })
+vim.keymap.set("n", "<Leader>lgo", function()
+  Snacks.picker.lsp_type_definitions()
+end, { desc = "Go to type definitions" })
+vim.keymap.set("n", "<Leader>lgr", function()
+  Snacks.picker.lsp_references()
+end, { desc = "Go to references" })
 
 -- Buffer group
-vim.keymap.set("n", "<Leader>bb", builtin.buffers, { desc = "List buffers" })
+vim.keymap.set("n", "<Leader>bb", function()
+  Snacks.picker.buffers()
+end, { desc = "List buffers" })
 
 -- Search group
-vim.keymap.set("n", "<Leader>sc", builtin.command_history, { desc = "Command history" })
-vim.keymap.set("n", "<Leader>sh", builtin.search_history, { desc = "Search history" })
-vim.keymap.set("n", "<Leader>st", builtin.help_tags, { desc = "Search help tags" })
+vim.keymap.set("n", "<Leader>sc", function()
+  Snacks.picker.command_history()
+end, { desc = "Command history" })
+vim.keymap.set("n", "<Leader>sh", function()
+  Snacks.picker.search_history()
+end, { desc = "Search history" })
+vim.keymap.set("n", "<Leader>st", function()
+  Snacks.picker.help()
+end, { desc = "Help tags" })
 
 -- [[ UI and theme ]]
 
@@ -815,7 +827,6 @@ require("tinted-nvim").setup({
   -- Plugin integrations
   highlights = {
     integrations = {
-      telescope = true,
       notify = true,
       blink = true,
       lualine = true,
@@ -849,21 +860,38 @@ require("lualine").setup({
   },
 })
 
+-- [[ Harpoon ]]
+
+local harpoon = require("harpoon")
+harpoon:setup()
+
+vim.keymap.set("n", "<Leader>ha", function()
+  harpoon:list():add()
+end, { desc = "Add to harpoon" })
+vim.keymap.set("n", "<Leader>hh", function()
+  Snacks.picker.pick("harpoon")
+end, { desc = "Harpoon picker" })
+
+vim.keymap.set("n", "<Leader>hp", function()
+  harpoon:list():prev()
+end, { desc = "Harpoon prev" })
+vim.keymap.set("n", "<Leader>hn", function()
+  harpoon:list():next()
+end, { desc = "Harpoon next" })
+
 -- [[ Buffers ]]
 
 -- bufferline.nvim requires termguicolors and colorscheme to be set
 local bufferline = require("bufferline")
 bufferline.setup({
   options = {
-    move_wraps_at_ends = true, -- allow wrapping when moving buffers
-    -- Sidebar offsets
-    -- https://github.com/akinsho/bufferline.nvim#sidebar-offsets
+    move_wraps_at_ends = true,
     offsets = {
       {
-        filetype = "neo-tree",
+        filetype = "snacks_layout_box",
         text = "File Explorer",
         highlight = "Directory",
-        separator = true, -- use a "true" to enable the default, or set your own character
+        separator = true,
       },
     },
   },
@@ -873,18 +901,6 @@ bufferline.setup({
 -- BufferLineCycleNext and BufferLineCyclePrev commands will traverse the bufferline bufferlist in order
 vim.keymap.set("n", "<Tab>", ":BufferLineCycleNext<CR>", { noremap = true, silent = true, desc = "Next buffer" })
 vim.keymap.set("n", "<S-Tab>", ":BufferLineCyclePrev<CR>", { noremap = true, silent = true, desc = "Previous buffer" })
-
--- Go to buffer in position
-for i = 1, 9 do
-  vim.keymap.set("n", "<Leader>" .. i, function()
-    bufferline.go_to(i, true)
-  end, { noremap = true, silent = true, desc = "Go to buffer " .. i })
-end
-
--- Go to last visible buffer
-vim.keymap.set("n", "<Leader>0", function()
-  bufferline.go_to(-1, true)
-end, { noremap = true, silent = true, desc = "Go to last buffer" })
 
 -- Move buffer left or right in bufferline
 vim.keymap.set(
@@ -931,47 +947,22 @@ vim.api.nvim_create_autocmd("FileType", {
   command = [[nnoremap <buffer> <CR> <CR>:cclose<CR>]],
 })
 
--- [[ Tree explorer ]]
+-- [[ Explorer ]]
 
-require("neo-tree").setup({
-  popup_border_style = "", -- "" to use 'winborder'
-  default_component_configs = {
-    -- If you don't want to use these columns, you can set `enabled = false` for each of them individually
-    file_size = {
-      enabled = false,
-    },
-    type = {
-      enabled = false,
-    },
-    last_modified = {
-      enabled = false,
-    },
-    created = {
-      enabled = false,
-    },
-    symlink_target = {
-      enabled = false,
-    },
-  },
+vim.keymap.set("n", "<Leader>tt", function()
+  Snacks.explorer()
+end, { desc = "Toggle explorer" })
+vim.keymap.set("n", "<Leader>tr", function()
+  Snacks.explorer({ reveal = true })
+end, { desc = "Reveal in explorer" })
+
+require("yazi").setup({
+  open_for_directories = false,
+  floating_window_scaling_factor = 0.9,
+  yazi_floating_window_border = "rounded",
 })
 
--- Toggle, reveal file in Neo-tree
-vim.keymap.set("n", "<Leader>tt", ":Neotree toggle left<CR>", { desc = "Toggle tree (left)" })
-vim.keymap.set("n", "<Leader>tf", ":Neotree toggle float<CR>", { desc = "Toggle tree (float)" })
-vim.keymap.set("n", "<Leader>tr", ":Neotree filesystem reveal left<CR>", { desc = "Reveal file in tree" })
-vim.keymap.set("n", "<Leader>ts", function()
-  for _, win in ipairs(vim.api.nvim_list_wins()) do
-    local buf = vim.api.nvim_win_get_buf(win)
-    if vim.api.nvim_get_option_value("filetype", { buf = buf }) == "neo-tree" then
-      local is_float = vim.api.nvim_win_get_config(win).relative ~= ""
-      vim.cmd("Neotree close")
-      vim.schedule(function()
-        vim.cmd(is_float and "Neotree toggle left" or "Neotree toggle float")
-      end)
-      return
-    end
-  end
-end, { desc = "Switch tree (left/float)" })
+vim.keymap.set("n", "<Leader>tf", "<cmd>Yazi<CR>", { desc = "Open yazi" })
 
 -- [[ Notifications ]]
 
