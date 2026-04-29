@@ -132,15 +132,11 @@ vim.pack.add({
   },
 
   -- Notifications and visual feedback
-  "https://github.com/rcarriga/nvim-notify",
   "https://github.com/kshenoy/vim-signature",
   "https://github.com/lewis6991/gitsigns.nvim",
-  "https://github.com/lukas-reineke/indent-blankline.nvim",
-  "https://github.com/RRethy/vim-illuminate",
   "https://github.com/petertriho/nvim-scrollbar",
 
   -- Writing and notes
-  "https://github.com/folke/zen-mode.nvim",
   "https://github.com/godlygeek/tabular",
   "https://github.com/tinted-theming/tinted-nvim",
   "https://github.com/MeanderingProgrammer/render-markdown.nvim",
@@ -251,6 +247,11 @@ require("snacks").setup({
   bigfile = { enabled = true },
   input = { enabled = true },
   explorer = { enabled = true },
+  notifier = { enabled = true },
+  zen = { enabled = true },
+  words = { enabled = true },
+  indent = { enabled = true },
+  scope = { enabled = true },
   picker = {
     enabled = true,
     sources = {
@@ -776,6 +777,12 @@ end, { desc = "Go to type definitions" })
 vim.keymap.set("n", "<Leader>lgr", function()
   Snacks.picker.lsp_references()
 end, { desc = "Go to references" })
+vim.keymap.set("n", "<Leader>ln", function()
+  Snacks.words.jump(vim.v.count1)
+end, { desc = "Next reference" })
+vim.keymap.set("n", "<Leader>lp", function()
+  Snacks.words.jump(-vim.v.count1)
+end, { desc = "Prev reference" })
 
 -- Buffer group
 vim.keymap.set("n", "<Leader>bb", function()
@@ -827,17 +834,12 @@ require("tinted-nvim").setup({
   -- Plugin integrations
   highlights = {
     integrations = {
-      notify = true,
+      notify = false,
       blink = true,
       lualine = true,
     },
   },
 })
-
-require("zen-mode").setup()
-
--- Indent guides
-require("ibl").setup()
 
 -- [[ Statusline ]]
 
@@ -963,20 +965,9 @@ require("yazi").setup({
 })
 
 vim.keymap.set("n", "<Leader>tf", "<cmd>Yazi<CR>", { desc = "Open yazi" })
-
--- [[ Notifications ]]
-
--- Set nvim-notify as default notify function and hide "No information available" messages from language servers.
--- https://github.com/neovim/nvim-lspconfig/issues/1931#issuecomment-1297599534
-local banned_messages = { "No information available" }
-vim.notify = function(msg, ...)
-  for _, banned in ipairs(banned_messages) do
-    if msg == banned then
-      return
-    end
-  end
-  return require("notify")(msg, ...)
-end
+vim.keymap.set("n", "<Leader>z", function()
+  Snacks.zen()
+end, { desc = "Toggle zen mode" })
 
 require("render-markdown").setup({
   enabled = false,
