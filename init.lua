@@ -145,6 +145,7 @@ vim.pack.add({
   "https://github.com/lewis6991/gitsigns.nvim",
   "https://github.com/lukas-reineke/indent-blankline.nvim",
   "https://github.com/RRethy/vim-illuminate",
+  "https://github.com/petertriho/nvim-scrollbar",
 
   -- Writing and notes
   "https://github.com/folke/zen-mode.nvim",
@@ -292,6 +293,18 @@ require("gitsigns").setup({
     end, { desc = "Previous git hunk" })
   end,
 })
+
+-- Visual scrollbar with git integration
+require("scrollbar").setup({
+  excluded_filetypes = {
+    "neo-tree",
+  },
+  handlers = {
+    cursor = false,
+    gitsigns = true,
+  },
+})
+require("scrollbar.handlers.gitsigns").setup()
 
 -- [[ AI assistant ]]
 
