@@ -875,10 +875,10 @@ vim.keymap.set("n", "<Leader>hh", function()
 end, { desc = "Harpoon picker" })
 
 vim.keymap.set("n", "<Leader>hp", function()
-  harpoon:list():prev()
+  harpoon:list():prev({ ui_nav_wrap = true })
 end, { desc = "Harpoon prev" })
 vim.keymap.set("n", "<Leader>hn", function()
-  harpoon:list():next()
+  harpoon:list():next({ ui_nav_wrap = true })
 end, { desc = "Harpoon next" })
 
 -- [[ Buffers ]]
