@@ -104,6 +104,7 @@ vim.pack.add({
   "https://github.com/zbirenbaum/copilot.lua",
   { src = "https://github.com/ThePrimeagen/harpoon", version = "harpoon2" },
   "https://github.com/mikavilpas/yazi.nvim",
+  "https://github.com/dlyongemallo/diffview.nvim",
 
   -- Language features
   "https://github.com/nvim-treesitter/nvim-treesitter",
@@ -973,6 +974,13 @@ require("yazi").setup({
 
 vim.keymap.set("n", "<Leader>tf", "<cmd>Yazi<CR>", { desc = "Open yazi" })
 Snacks.toggle.zen():map("<Leader>z")
+
+-- [[ Diff ]]
+require("diffview").setup({
+  view = {
+    merge_tool = { layout = "diff3_mixed" },
+  },
+})
 
 require("render-markdown").setup({
   enabled = false,
