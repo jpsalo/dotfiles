@@ -245,6 +245,7 @@ end
 -- Plugin collection
 require("snacks").setup({
   bigfile = { enabled = true },
+  toggle = { enabled = true },
   input = { enabled = true },
   explorer = { enabled = true },
   notifier = { enabled = true },
@@ -724,23 +725,29 @@ conform.setup({
   end,
 })
 
-vim.api.nvim_create_user_command("FormatDisable", function(args)
-  if args.bang then
-    -- FormatDisable! will disable formatting just for this buffer
-    vim.b.disable_autoformat = true
-  else
-    vim.g.disable_autoformat = true
-  end
-end, {
-  desc = "Disable autoformat-on-save",
-  bang = true,
-})
-vim.api.nvim_create_user_command("FormatEnable", function()
-  vim.b.disable_autoformat = false
-  vim.g.disable_autoformat = false
-end, {
-  desc = "Re-enable autoformat-on-save",
-})
+-- Buffer-local autoformat toggle
+Snacks.toggle({
+  id = "autoformat_buffer",
+  name = "Auto Format (buffer)",
+  get = function()
+    return not vim.b.disable_autoformat
+  end,
+  set = function(state)
+    vim.b.disable_autoformat = not state
+  end,
+}):map("<Leader>lf")
+
+-- Global autoformat toggle
+Snacks.toggle({
+  id = "autoformat_global",
+  name = "Auto Format",
+  get = function()
+    return not vim.g.disable_autoformat
+  end,
+  set = function(state)
+    vim.g.disable_autoformat = not state
+  end,
+}):map("<Leader>lF")
 
 -- Format on demand. NOTE: Visual mode does not work
 -- https://github.com/stevearc/conform.nvim/issues/40#issuecomment-1719629250
@@ -965,9 +972,7 @@ require("yazi").setup({
 })
 
 vim.keymap.set("n", "<Leader>tf", "<cmd>Yazi<CR>", { desc = "Open yazi" })
-vim.keymap.set("n", "<Leader>z", function()
-  Snacks.zen()
-end, { desc = "Toggle zen mode" })
+Snacks.toggle.zen():map("<Leader>z")
 
 require("render-markdown").setup({
   enabled = false,
