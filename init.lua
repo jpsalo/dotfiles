@@ -122,6 +122,7 @@ vim.pack.add({
   -- Editing
   "https://github.com/stevearc/conform.nvim",
   "https://github.com/907th/vim-auto-save",
+  "https://github.com/folke/persistence.nvim",
   "https://github.com/windwp/nvim-autopairs",
   "https://github.com/abecodes/tabout.nvim",
 
@@ -172,6 +173,7 @@ which_key.add({
   { "<Leader>h", group = "Harpoon" },
   { "<Leader>a", group = "AI" },
   { "<Leader>t", group = "Explorer" },
+  { "<Leader>q", group = "Session" },
   { "<Leader>s", group = "Search" },
 })
 
@@ -981,6 +983,32 @@ require("diffview").setup({
     merge_tool = { layout = "diff3_mixed" },
   },
 })
+
+-- [[ Session management ]]
+require("persistence").setup()
+
+vim.keymap.set("n", "<Leader>qs", function()
+  require("persistence").load()
+end, { desc = "Restore session" })
+vim.keymap.set("n", "<Leader>qS", function()
+  require("persistence").select()
+end, { desc = "Select session" })
+vim.keymap.set("n", "<Leader>ql", function()
+  require("persistence").load({ last = true })
+end, { desc = "Restore last session" })
+Snacks.toggle({
+  name = "Session",
+  get = function()
+    return require("persistence").active()
+  end,
+  set = function(state)
+    if state then
+      require("persistence").start()
+    else
+      require("persistence").stop()
+    end
+  end,
+}):map("<Leader>qt")
 
 require("render-markdown").setup({
   enabled = false,
