@@ -166,15 +166,16 @@ which_key.setup({
 
 -- Define keymap groups
 which_key.add({
+  { "<Leader>a", group = "AI" },
+  { "<Leader>b", group = "Buffers" },
+  { "<Leader>f", group = "Find" },
+  { "<Leader>g", group = "Git" },
+  { "<Leader>h", group = "Harpoon" },
   { "<Leader>l", group = "LSP" },
   { "<Leader>lg", group = "LSP Goto" },
-  { "<Leader>g", group = "Git" },
-  { "<Leader>b", group = "Buffers" },
-  { "<Leader>h", group = "Harpoon" },
-  { "<Leader>a", group = "AI" },
-  { "<Leader>t", group = "Explorer" },
   { "<Leader>q", group = "Session" },
   { "<Leader>s", group = "Search" },
+  { "<Leader>t", group = "Explorer" },
 })
 
 -- [[ Settings ]]
