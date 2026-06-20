@@ -104,7 +104,7 @@ vim.pack.add({
   "https://github.com/zbirenbaum/copilot.lua",
   { src = "https://github.com/ThePrimeagen/harpoon", version = "harpoon2" },
   "https://github.com/mikavilpas/yazi.nvim",
-  "https://github.com/dlyongemallo/diffview.nvim",
+  "https://github.com/dlyongemallo/diffview-plus.nvim",
 
   -- Language features
   "https://github.com/nvim-treesitter/nvim-treesitter",
