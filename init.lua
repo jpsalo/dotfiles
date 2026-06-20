@@ -93,7 +93,10 @@ vim.api.nvim_create_autocmd("PackChanged", {
 
 vim.pack.add({
   -- Dependencies (install these first)
-  "https://github.com/nvim-lua/plenary.nvim", -- required by: gitsigns, obsidian
+  -- NOTE: plenary is no longer maintained, remove it when plugins have moved off it
+  -- harpoon: https://github.com/ThePrimeagen/harpoon/issues/712
+  -- yazi.nvim: https://github.com/mikavilpas/yazi.nvim/pull/1801
+  "https://github.com/nvim-lua/plenary.nvim", -- required by: harpoon, yazi
   "https://github.com/nvim-tree/nvim-web-devicons", -- required by: bufferline, lualine
   "https://github.com/rafamadriz/friendly-snippets", -- required by: blink.cmp
 
