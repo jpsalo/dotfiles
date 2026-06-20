@@ -1031,8 +1031,4 @@ require("obsidian").setup({
   ui = {
     enable = false,
   },
-  completion = {
-    -- Blink completion broken: https://github.com/obsidian-nvim/obsidian.nvim/issues/582
-    blink = false,
-  },
 })
