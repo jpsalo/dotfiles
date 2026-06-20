@@ -1,9 +1,14 @@
 # Global settings
 shell = "zsh -c '{}'"
-default-scheme = "base24-catppuccin-macchiato"
-preferred-schemes = ["base24-0x96f", "base24-catppuccin-latte", "base24-catppuccin-macchiato"]
 hooks = ["tmux source-file ~/.config/tmux/tmux.conf"]
+default-scheme = "base24-catppuccin-macchiato"
+default-cycle-ring = "default"
 
+[[rings]]
+name = "default"
+schemes = ["base24-0x96f", "base24-catppuccin-latte", "base24-catppuccin-macchiato"]
+
+# Item configurations
 [[items]]
 path = "https://github.com/tinted-theming/tinted-terminal"
 name = "tinted-terminal"
@@ -13,7 +18,6 @@ themes-dir = "themes/ghostty"
 hook = "command cp -f %f ~/.config/ghostty/themes/tinted-theming && killall -SIGUSR2 ghostty"
 supported-systems = ["base16", "base24"]
 
-# Item configurations
 [[items]]
 path = "https://github.com/tinted-theming/tinted-shell"
 name = "tinted-shell"
