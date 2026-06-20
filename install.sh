@@ -132,6 +132,8 @@ setup_base_configuration() {
 
   install_package fzf
 
+  install_package fd
+
   install_package ripgrep rg
 
   install_package the_silver_searcher ag
@@ -153,6 +155,15 @@ setup_base_configuration() {
     install_package opencode
   elif [[ $os == "arch_linux" ]]; then
     pamac build opencode-bin # TODO: --no-confirm
+  fi
+
+  install_package jq
+  install_package lazygit
+
+  if [[ $os == "macos" ]]; then
+    install_package bitwarden-cli
+  elif [[ $os == "arch_linux" ]]; then
+    pamac build bitwarden-cli # TODO: --no-confirm
   fi
 
   if [[ $os == "arch_linux" ]]; then
