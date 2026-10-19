@@ -642,7 +642,7 @@ vim.lsp.config("lua_ls", {
 })
 
 -- Use Ruff exclusively for linting, formatting and organizing imports, and disable those capabilities in Pyright
--- https://github.com/astral-sh/ruff-lsp?tab=readme-ov-file#example-neovim
+-- https://docs.astral.sh/ruff/editors/setup/#neovim
 vim.lsp.config("pyright", {
   settings = {
     pyright = {
