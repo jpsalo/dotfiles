@@ -263,7 +263,7 @@ require("snacks").setup({
       harpoon = {
         finder = function()
           local files = {}
-          local cwd = vim.loop.cwd()
+          local cwd = vim.uv.cwd()
           for idx, item in ipairs(require("harpoon"):list().items) do
             table.insert(files, {
               cwd = cwd,
@@ -756,7 +756,7 @@ Snacks.toggle({
 -- Format on demand. NOTE: Visual mode does not work
 -- https://github.com/stevearc/conform.nvim/issues/40#issuecomment-1719629250
 vim.keymap.set({ "n", "x" }, "<F3>", function()
-  conform.format({ async = true, lsp_fallback = true })
+  conform.format({ async = true, lsp_format = "fallback" })
 end, { desc = "Format buffer" })
 
 -- [[ Fuzzy finder ]]
