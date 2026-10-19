@@ -121,7 +121,6 @@ vim.pack.add({
 
   -- Editing
   "https://github.com/stevearc/conform.nvim",
-  "https://github.com/907th/vim-auto-save",
   "https://github.com/folke/persistence.nvim",
   "https://github.com/windwp/nvim-autopairs",
   "https://github.com/abecodes/tabout.nvim",
@@ -139,7 +138,6 @@ vim.pack.add({
   "https://github.com/petertriho/nvim-scrollbar",
 
   -- Writing and notes
-  "https://github.com/godlygeek/tabular",
   "https://github.com/tinted-theming/tinted-nvim",
   "https://github.com/MeanderingProgrammer/render-markdown.nvim",
   {
