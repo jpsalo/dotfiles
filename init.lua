@@ -647,10 +647,11 @@ vim.lsp.config("pyright", {
   },
 })
 
+vim.lsp.config("*", {
+  capabilities = lsp_capabilities,
+})
+
 for _, server_name in ipairs(lsp_servers) do
-  vim.lsp.config(server_name, {
-    capabilities = lsp_capabilities,
-  })
   vim.lsp.enable(server_name)
 end
 
@@ -726,14 +727,16 @@ conform.setup({
   formatters_by_ft = {
     astro = prettier_formatters,
     css = { "prettier" }, --NOTE: prettierd does not seem to work
+    html = prettier_formatters,
+    htmlangular = prettier_formatters,
     scss = prettier_formatters,
     javascript = prettier_formatters,
+    javascriptreact = prettier_formatters,
     json = prettier_formatters,
     lua = { "stylua" }, -- Basic settings are defined in ~/.editorconfig
     markdown = prettier_formatters,
     python = { "ruff_fix", "ruff_format" },
     sh = { "shellcheck" },
-    tailwind = prettier_formatters,
     typescript = prettier_formatters,
     typescriptreact = prettier_formatters,
     yaml = { "yamlfmt" },
