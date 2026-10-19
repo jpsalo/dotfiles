@@ -1078,6 +1078,9 @@ require("obsidian").setup({
   -- legacy_commands will be removed in the next major release
   -- https://github.com/obsidian-nvim/obsidian.nvim/wiki/Commands
   legacy_commands = false,
+  picker = {
+    name = "snacks.picker",
+  },
   workspaces = {
     {
       name = "Work",
