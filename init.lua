@@ -25,13 +25,10 @@ vim.opt.smartcase = true
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
-vim.opt.tabstop = 2 -- The width of a TAB is set to 4.
--- Still it is a \t. It is just that
--- Vim will interpret it to be having
--- a width of 2.
+vim.opt.tabstop = 2 -- A literal TAB character is displayed with a width of 2
 vim.opt.shiftwidth = 2 -- Indents will have a width of 2
-vim.opt.expandtab = true -- Sets the number of columns for a TAB
-vim.bo.softtabstop = 2 -- Expand TABs to space
+vim.opt.expandtab = true -- Insert spaces instead of TABs
+vim.opt.softtabstop = 2 -- <Tab>/<BS> in insert mode move by 2 columns
 
 -- Decrease update time
 vim.opt.updatetime = 500
