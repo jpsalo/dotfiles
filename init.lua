@@ -109,6 +109,7 @@ vim.pack.add({
   -- Language features
   "https://github.com/nvim-treesitter/nvim-treesitter",
   "https://github.com/neovim/nvim-lspconfig",
+  "https://github.com/joeveiga/ng.nvim",
   "https://github.com/mason-org/mason.nvim",
   "https://github.com/mason-org/mason-lspconfig.nvim",
   "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -514,6 +515,23 @@ vim.api.nvim_create_autocmd("LspAttach", {
       "<cmd>lua vim.lsp.buf.code_action()<CR>",
       vim.tbl_extend("force", opts, { desc = "Code action" })
     )
+
+    local client = vim.lsp.get_client_by_id(event.data.client_id)
+    if client and client.name == "angularls" then
+      local ng = require("ng")
+      vim.keymap.set(
+        "n",
+        "<Leader>lgt",
+        ng.goto_template_for_component,
+        vim.tbl_extend("force", opts, { desc = "Go to Angular template" })
+      )
+      vim.keymap.set(
+        "n",
+        "<Leader>lgc",
+        ng.goto_component_with_template_file,
+        vim.tbl_extend("force", opts, { desc = "Go to Angular component" })
+      )
+    end
   end,
 })
 
