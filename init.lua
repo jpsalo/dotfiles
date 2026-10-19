@@ -310,6 +310,17 @@ require("snacks").setup({
           end,
         },
       },
+      git_status = {
+        win = {
+          input = {
+            keys = {
+              -- Override: Restore default Tab behavior for multi-select
+              ["<Tab>"] = { "select_and_next", mode = { "i", "n" } },
+              ["<S-Tab>"] = { "select_and_prev", mode = { "i", "n" } },
+            },
+          },
+        },
+      },
     },
     win = {
       input = {
@@ -805,6 +816,11 @@ end, { desc = "Grep in open buffers" })
 vim.keymap.set("n", "<Leader>fB", function()
   Snacks.picker.grep_buffers({ group_by = "filename" })
 end, { desc = "Grep in open buffers (grouped by file)" })
+
+-- Git group
+vim.keymap.set("n", "<Leader>gs", function()
+  Snacks.picker.git_status()
+end, { desc = "Git status" })
 
 -- LSP group
 vim.keymap.set("n", "<Leader>ld", function()
