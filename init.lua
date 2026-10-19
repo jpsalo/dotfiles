@@ -901,6 +901,7 @@ require("tinted-nvim").setup({
       notify = false,
       blink = true,
       lualine = true,
+      snacks = true,
     },
   },
 })
@@ -910,6 +911,10 @@ require("tinted-nvim").setup({
 -- Lualine configuration
 require("lualine").setup({
   options = {
+    -- Theme is provided by tinted-nvim (lua/lualine/themes/tinted.lua), not bundled with lualine
+    -- Requires highlights.integrations.lualine = true in the tinted-nvim setup
+    -- https://github.com/tinted-theming/tinted-nvim#lualinenvim
+    theme = "tinted",
     -- Disabling separators
     component_separators = "",
     section_separators = "",
