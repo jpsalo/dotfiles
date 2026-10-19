@@ -133,7 +133,7 @@ vim.pack.add({
   },
 
   -- Notifications and visual feedback
-  "https://github.com/kshenoy/vim-signature",
+  "https://github.com/chentoast/marks.nvim",
   "https://github.com/lewis6991/gitsigns.nvim",
   "https://github.com/petertriho/nvim-scrollbar",
 
@@ -354,6 +354,9 @@ require("gitsigns").setup({
     end, { desc = "Previous git hunk" })
   end,
 })
+
+-- Marks in the sign column
+require("marks").setup({})
 
 -- Visual scrollbar with git integration
 require("scrollbar").setup({
@@ -817,6 +820,9 @@ end, { desc = "Command history" })
 vim.keymap.set("n", "<Leader>sh", function()
   Snacks.picker.search_history()
 end, { desc = "Search history" })
+vim.keymap.set("n", "<Leader>sm", function()
+  Snacks.picker.marks()
+end, { desc = "Marks" })
 vim.keymap.set("n", "<Leader>st", function()
   Snacks.picker.help()
 end, { desc = "Help tags" })
