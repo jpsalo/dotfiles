@@ -2,7 +2,6 @@ export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/bin"
 export PATH="$PATH:$HOME/scripts"
 
-export PATH="$PATH:$HOME/bin/mongodb/bin"
 export PATH="$PATH:$HOME/bin/splunk/bin"
 export PATH="$PATH:/Applications/Sketch.app/Contents/Resources/sketchtool/bin"
 export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin/"

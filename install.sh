@@ -34,11 +34,6 @@ install_package() {
   fi
 }
 
-install_cask_package() {
-  package=$1
-  brew install --cask "$package"
-}
-
 validate_directory() {
   node=$1
   mkdir -p "$node"
@@ -99,6 +94,7 @@ configure_os_settings() {
   elif [[ $os == "macos" ]]; then
     echo Install Homebrew...
     install_brew
+    brew bundle --file="$HOME"/dotfiles/Brewfile
     install_command="brew install"
   fi
 }
@@ -124,9 +120,7 @@ setup_base_configuration() {
   create_symlink tmux.conf "$HOME"/.config/tmux/tmux.conf
 
   # Install tpm (tmux plugin manager)
-  if [[ $os == "macos" ]]; then
-    install_package tpm
-  elif [[ $os == "arch_linux" ]]; then
+  if [[ $os == "arch_linux" ]]; then
     pamac build tmux-plugin-manager # TODO: --no-confirm
   fi
 
@@ -150,19 +144,14 @@ setup_base_configuration() {
   backup_existing_file "$HOME"/.config/bat/config
   create_symlink bat_config "$HOME"/.config/bat/config
 
-  if [[ $os == "macos" ]]; then
-    brew tap anomalyco/tap
-    install_package opencode
-  elif [[ $os == "arch_linux" ]]; then
+  if [[ $os == "arch_linux" ]]; then
     pamac build opencode-bin # TODO: --no-confirm
   fi
 
   install_package jq
   install_package lazygit
 
-  if [[ $os == "macos" ]]; then
-    install_package bitwarden-cli
-  elif [[ $os == "arch_linux" ]]; then
+  if [[ $os == "arch_linux" ]]; then
     pamac build bitwarden-cli # TODO: --no-confirm
   fi
 
@@ -186,9 +175,7 @@ setup_base_configuration() {
 }
 
 setup_terminal() {
-  if [[ $os == "macos" ]]; then
-    install_cask_package ghostty
-  elif [[ $os == "arch_linux" ]]; then
+  if [[ $os == "arch_linux" ]]; then
     install_package ghostty
   fi
   validate_directory "$HOME"/.config/ghostty
@@ -214,10 +201,6 @@ setup_zsh() {
 setup_python() {
   if [[ $os == "arch_linux" ]]; then
     install_package python
-  elif [[ $os == "macos" ]]; then
-    # TODO: as is_package_installed custom check
-    # TODO: as custom install_command for install_package
-    brew list python || brew install python
   fi
 }
 
@@ -268,11 +251,7 @@ setup_neovim() {
 
 setup_ui() {
   # Install tinty theme manager
-  if [[ $os == "macos" ]]; then
-    # https://github.com/tinted-theming/tinty?tab=readme-ov-file#homebrew
-    brew tap tinted-theming/tinted
-    install_package tinty
-  elif [[ $os == "arch_linux" ]]; then
+  if [[ $os == "arch_linux" ]]; then
     # https://aur.archlinux.org/packages/tinty-git
     pamac build tinty-git # TODO: --no-confirm
   fi
@@ -306,8 +285,6 @@ setup_ui() {
       pamac build "$linux_fonts_fallback"  # TODO: --no-confirm
     fi
 
-  elif [[ $os == "macos" ]]; then
-    install_cask_package font-sauce-code-pro-nerd-font
   fi
 }
 
