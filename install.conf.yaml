@@ -1,0 +1,45 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+      backup: true
+
+- clean: ["~"]
+
+- create:
+    ~/.ssh:
+      mode: 0700
+    ~/.config/ghostty/themes:
+
+- link:
+    ~/.ssh/config: ssh_config
+    ~/.config/git/config: gitconfig
+    # Probably best leave it here for root directory lookup
+    ~/.gitignore: gitignore
+    ~/.ignore: ignore
+    ~/.editorconfig: editorconfig
+    ~/scripts/get_operating_system.sh: get_operating_system.sh
+    ~/scripts/theme.sh: theme.sh
+    ~/.config/tmux/tmux.conf: tmux.conf
+    ~/.config/bat/config: bat_config
+    ~/.config/ghostty/config: ghostty_config
+    ~/.config/tinted-theming/tinty/config.toml: tinty_config.toml
+    ~/.config/nvim/init.lua: init.lua
+    ~/.config/nvim/nvim-pack-lock.json: nvim-pack-lock.json
+    ~/.zshrc: zshrc
+    ~/.zshenv: zshenv
+    ~/.zprofile: zprofile
+
+- link:
+    ~/.Xresources:
+      path: Xresources
+      if: '[ "$(uname)" = Linux ]'
+    ~/.config/i3/config:
+      path: i3_config
+      if: '[ "$(uname)" = Linux ]'
+    ~/.config/i3status/config:
+      path: i3status_config
+      if: '[ "$(uname)" = Linux ]'
+    ~/.config/redshift/redshift.conf:
+      path: redshift.conf
+      if: '[ "$(uname)" = Linux ]'
