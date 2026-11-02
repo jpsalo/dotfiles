@@ -1,5 +1,13 @@
 [core]
   excludesfile = ~/.gitignore
+  pager = delta
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  navigate = true
+  syntax-theme = base16-256
+[merge]
+  conflictStyle = zdiff3
 [user]
 	name = jps
 	email = jpsalo@zoho.com

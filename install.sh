@@ -134,10 +134,7 @@ setup_base_configuration() {
   backup_existing_file "$HOME"/.ignore
   create_symlink ignore
 
-  install_package tig
-  validate_directory "$HOME"/.config/tig
-  backup_existing_file "$HOME"/.config/tig/config
-  create_symlink tigrc "$HOME"/.config/tig/config
+  install_package git-delta delta
 
   install_package bat
   validate_directory "$HOME"/.config/bat

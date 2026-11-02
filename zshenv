@@ -9,6 +9,7 @@ export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin/"
 export EDITOR='nvim'
 export BROWSER=/usr/bin/chromium
 export NVIM_PYTHON_VIRTUALENV_PATH="$HOME/.config/nvim/.py3nvim"
+export BAT_THEME=base16-256
 
 # export LANG=en_FI.UTF-8
 # # Setting for the new UTF-8 terminal support in Lion
