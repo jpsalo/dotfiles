@@ -78,7 +78,7 @@ install_packages() {
 }
 
 link_dotfiles() {
-  dotbot -d "$dotfiles_dir" -c "$dotfiles_dir"/install.conf.yaml
+  dotbot -d "$dotfiles_dir" -c "$dotfiles_dir"/install.conf.yaml || exit 1
 }
 
 setup_oh_my_zsh() {

@@ -4,7 +4,10 @@
       relink: true
       backup: true
 
-- clean: ["~"]
+- clean:
+    "~": {}
+    ~/.config:
+      recursive: true
 
 - create:
     ~/.ssh:
