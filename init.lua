@@ -448,6 +448,7 @@ require("copilot").setup({
       "/%.storage/",
       "%.env$",
       "/%.env%.",
+      "/%.npmrc$",
     }
     for _, pattern in ipairs(secret_patterns) do
       if bufname:match(pattern) then
