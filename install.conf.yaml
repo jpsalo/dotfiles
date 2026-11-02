@@ -19,7 +19,6 @@
     ~/.ignore: ignore
     ~/.editorconfig: editorconfig
     ~/scripts/get_operating_system.sh: get_operating_system.sh
-    ~/scripts/theme.sh: theme.sh
     ~/.config/tmux/tmux.conf: tmux.conf
     ~/.config/bat/config: bat_config
     ~/.config/ghostty/config: ghostty_config
@@ -31,6 +30,9 @@
     ~/.zprofile: zprofile
 
 - link:
+    ~/scripts/theme.sh:
+      path: theme.sh
+      if: '[ "$(uname)" = Linux ]'
     ~/.Xresources:
       path: Xresources
       if: '[ "$(uname)" = Linux ]'

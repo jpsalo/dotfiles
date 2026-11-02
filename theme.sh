@@ -1,12 +1,13 @@
 #!/bin/bash
 
-# Setting themes from within bash scripts
-# https://github.com/chriskempson/base16-shell/issues/126#issuecomment-409990674
-# https://web.archive.org/web/20210111200639/https://github.com/chriskempson/base16-shell/issues/126
-# https://github.com/tinted-theming/tinted-shell/blob/main/USAGE.md#bashzsh
-BASE16_SHELL_PATH="$HOME/.config/tinted-theming/tinted-shell"
-  [ -s "$BASE16_SHELL_PATH/profile_helper.sh" ] && \
-    source "$BASE16_SHELL_PATH/profile_helper.sh"
+# Linux only (X11/i3) theming. Shell, terminal, tmux and fzf colors are handled by tinty.
+# Usage: theme.sh [default|dark|light|<base16 scheme name>]
+# TODO: Replace with tinty items/hooks when they support base24 (see tinty_config.toml)
+
+if ! command -v xrdb > /dev/null 2>&1; then
+  echo >&2 "xrdb not found, this script is for X11 only"
+  exit 1
+fi
 
 DEFAULT="default-dark"
 DEFAULT_DARK="material"
@@ -27,6 +28,7 @@ set_theme_fn() {
     theme=$1
   fi
 
+  # TODO: Replace with the tinted-xresources tinty item
   # https://github.com/tinted-theming/base16-xresources
   xresources_theme="https://raw.githubusercontent.com/tinted-theming/tinted-xresources/main/xresources/base16-${theme}.Xresources"
   mkdir -p ~/.Xresources.d
@@ -41,6 +43,7 @@ set_theme_fn() {
     sed --in-place --follow-symlinks '/color_good /s/=.*$/= "'"$color_good"'"/' "$HOME"/.config/i3status/config
     sed --in-place --follow-symlinks '/color_bad /s/=.*$/= "'"$color_bad"'"/'   "$HOME"/.config/i3status/config
 
+    # TODO: Derive dark/light from the active tinty scheme instead of the argument
     if [ -f ~/.config/gtk-3.0/settings.ini ]; then
       if [ "$1" = "dark" ]; then
         sed --in-place 's/gtk-application-prefer-dark-theme=.*/gtk-application-prefer-dark-theme=true/' ~/.config/gtk-3.0/settings.ini
@@ -51,10 +54,9 @@ set_theme_fn() {
 
     i3-msg reload
   fi
-
-  set_theme "$theme"
 }
 
+# TODO: Hard-coded resolution (#7)
 set_wallpaper() {
   bg=$(xrdb -query | grep "*background" | cut -f 2)
 
