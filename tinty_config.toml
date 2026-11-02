@@ -39,3 +39,18 @@ path = "https://github.com/tinted-theming/tinted-fzf"
 name = "tinted-fzf"
 hook = ". %f"
 themes-dir = "sh"
+
+# NOTE: Waiting for base24 support. Would replace the Xresources part of theme.sh
+# [[items]]
+# path = "https://github.com/tinted-theming/tinted-xresources"
+# name = "tinted-xresources"
+# themes-dir = "xresources"
+# hook = "cp -f %f ~/.Xresources.d/colors && xrdb -load -I$HOME ~/.Xresources"
+# supported-systems = ["base16"]
+
+# NOTE: Requires an include of tinted-delta-configs-file.gitconfig in gitconfig
+[[items]]
+path = "https://github.com/tinted-theming/tinted-delta"
+name = "tinted-delta"
+themes-dir = "configs"
+supported-systems = ["base16", "base24"]
