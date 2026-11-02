@@ -3,6 +3,7 @@ tap "tinted-theming/tinted"
 
 brew "bat"
 brew "bitwarden-cli"
+brew "dotbot"
 brew "fd"
 brew "fzf"
 brew "git-delta"

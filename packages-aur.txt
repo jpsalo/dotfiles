@@ -1,0 +1,7 @@
+dotbot
+tmux-plugin-manager
+opencode-bin
+bitwarden-cli
+tinty-git
+ttf-sourcecodepro-nerd
+ttf-dejavu-nerd

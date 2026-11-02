@@ -1,0 +1,16 @@
+bat
+fd
+fzf
+git-delta
+jq
+lazygit
+neovim
+nodejs
+npm
+python
+redshift
+ripgrep
+the_silver_searcher
+tmux
+yazi
+ghostty
