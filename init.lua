@@ -439,6 +439,23 @@ end, { desc = "NES: Accept/apply suggestion" })
 -- [[ GitHub Copilot ]]
 
 require("copilot").setup({
+  should_attach = function(_, bufname)
+    if not vim.bo.buflisted or vim.bo.buftype ~= "" then
+      return false
+    end
+    local secret_patterns = {
+      "/secrets%.yaml$",
+      "/%.storage/",
+      "%.env$",
+      "/%.env%.",
+    }
+    for _, pattern in ipairs(secret_patterns) do
+      if bufname:match(pattern) then
+        return false
+      end
+    end
+    return true
+  end,
   panel = {
     enabled = false, -- Disable panel feature (not used)
   },

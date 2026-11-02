@@ -1,6 +1,7 @@
-.gutctags
-tags
+.env
+.env.*
+!.env.example
 xeno
 .xeno
-AGENTS.MD
 .claude
+AGENTS.md
